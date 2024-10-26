@@ -41,6 +41,7 @@ string longestCommonPrefix(vector<string>& strs) {
 }
 
 // This is O(NM) TC and O(1) SC
+// It checks if the assumed prefix is matching or not, if not we will reduce the prefix by length 1
 
 class Solution {
 public:
