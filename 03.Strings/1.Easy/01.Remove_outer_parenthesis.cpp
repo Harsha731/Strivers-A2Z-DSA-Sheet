@@ -7,6 +7,9 @@ Approach:
 - Whenever we encounter an opening parenthesis, if the count of open parentheses is greater than 0, we append it to the result string.
 - When we encounter a closing parenthesis, we decrement the count of open parentheses and append it to the result string only if the count is greater than 1.
 
+- We assume that the string is valid
+- We add the '(' if there is atleast alreasy 1 open bracket , We add the ')' if there is atleast 2 open brackets. Note the >0 and >1
+
 Code:
 */
 string removeOuterParentheses(string s) {
