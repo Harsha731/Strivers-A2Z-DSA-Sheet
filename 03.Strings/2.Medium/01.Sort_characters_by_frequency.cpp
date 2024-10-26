@@ -36,3 +36,28 @@ string frequencySort(string s) {
 Time Complexity: O(n log n), where n is the length of the string. Building the frequency map takes O(n) time, and the priority queue operations take O(n log n) time.
 Space Complexity: O(n), where n is the length of the string. The space is used to store the frequency map and the priority queue.
 */
+
+// Bucket Sort
+// TC : O(N) and SC : O(N)
+// SC compromised for TC
+
+// We create a vector of n+1 size and push all the characters having that particular frequency
+
+class Solution {
+public:
+    string frequencySort(const string& s) {
+        int n = s.size();
+        unordered_map<char, int> cnt;
+        for (char c : s)  cnt[c] += 1;
+        
+        vector<vector<char>> bucket(n+1);
+        for (auto [c, f] : cnt)
+            bucket[f].push_back(c);
+        
+        string ans;
+        for (int freq = n; freq >= 1; --freq)
+            for (char c : bucket[freq]) 
+                ans.append(freq, c);
+        return ans;
+    }
+};
