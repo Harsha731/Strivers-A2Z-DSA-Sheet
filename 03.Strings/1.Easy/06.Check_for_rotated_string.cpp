@@ -28,6 +28,6 @@ bool rotateString(string s, string goal) {
 }
 
 /*
-Time Complexity: The time complexity of this approach is O(N^2), where N is the length of the input strings `s` and `goal`. This is because the `find` function is used to search for the substring `goal` within the concatenated string, which has a time complexity of O(N^2).
+Time Complexity: The time complexity of this approach is O(N), where N is the length of the input strings `s` and `goal`. This is because the `find` function is used to search for the substring `goal` within the concatenated string, which has a time complexity of O(N^2).
 Space Complexity: The space complexity is O(N), where N is the length of the input string `s`. This is because we create a new string `concat` by concatenating `s` with itself.
 */
