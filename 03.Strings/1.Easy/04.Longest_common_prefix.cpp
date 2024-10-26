@@ -39,3 +39,18 @@ string longestCommonPrefix(vector<string>& strs) {
 
     return strs[first].substr(0, len);
 }
+
+// This is O(NM) TC and O(1) SC
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty()) return "";
+        string prefix = strs[0];
+        for (string s : strs)
+            while (s.find(prefix) != 0)
+                prefix = prefix.substr(0, prefix.length() - 1);
+        return prefix;
+    }
+};
+
