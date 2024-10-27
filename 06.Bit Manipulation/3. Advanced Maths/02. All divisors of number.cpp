@@ -58,11 +58,11 @@ int divideTwoInteger(int dividend, int divisor) {
 
     while (a >= b) {
         // at each stage we will find the greatest power of 2 which is smaller than the dividend
-int q = 1;
-while (a > (b << q))
-	q++;
-ans += (1 << (q - 1));
-a -= (b << (q - 1));
+	int q = 1;
+	while (a > (b << q))
+		q++;
+	ans += (1 << (q - 1));
+	a -= (b << (q - 1));
     }
 
     return (isNegative) ? -ans : ans;
