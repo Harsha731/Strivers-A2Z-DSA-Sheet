@@ -33,5 +33,40 @@ void print_divisors(int n) {
         cout << it << " ";
 }
 
+sum = 0, cnt = 0
+while (sum + divisor <= dividend) {
+	cnt = cnt + 1;
+	sum += divisor;
+}
+return cnt;
+
+TLE will come
+
+TC is O(log2N * log2N)
+
+-2^31, when we write abs(-2^31), it will give error, so, we write long long
+
+int divideTwoInteger(int dividend, int divisor) {
+    if (dividend == divisor)
+        return 1;
+
+    bool isNegative = ((dividend < 0 && divisor >= 0) || (dividend >= 0 && divisor < 0));
+
+    int ans = 0;
+    int a = abs(dividend);
+    int b = abs(divisor);
+
+    while (a >= b) {
+        // at each stage we will find the greatest power of 2 which is smaller than the dividend
+int q = 1;
+while (a > (b << q))
+	q++;
+ans += (1 << (q - 1));
+a -= (b << (q - 1));
+    }
+
+    return (isNegative) ? -ans : ans;
+}
+
 // Time Complexity: O(sqrt(N))
 // Space Complexity: O(sqrt(N)) (excluding the space required for the output vector)
