@@ -1,0 +1,19 @@
+power set
+
+any number like 110 or 6, signifies don't take 0th bit and take 1st and 2nd bits
+
+TC is O(N * 2^N) and SC is also same
+
+vector<vector<int>> subsets(vector<int>& nums) {
+    vector<vector<int>> ans;
+    int n = nums.size();
+    int subsets = 1 << n;
+    for(int num=0;num<subsets;num++){
+        vector<int> v;
+        for(int i=0;i<n;i++){
+            if(num & (1<<i)) v.push_back(nums[i]);
+        }
+        ans.push_back(v);
+    }
+    return ans;
+}
