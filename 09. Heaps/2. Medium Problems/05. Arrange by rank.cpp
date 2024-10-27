@@ -21,6 +21,8 @@ SPACE COMPLEXITY:
 The space complexity is O(N) as we need to store N elements in the min-heap and the result array.
 */
 
+// Don't use sort, instead use PQ with (value, index) and pop one by one and keep value in index
+
 vector<int> arrayRankTransform(vector<int>& arr) {
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
     for (int i = 0; i < arr.size(); i++) {
