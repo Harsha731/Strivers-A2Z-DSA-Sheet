@@ -18,6 +18,8 @@ SPACE COMPLEXITY:
 The space complexity is O(K) as we need to store K elements in the min-heap.
 */
 
+// We are maintaining k elements at max in the PQ, so that logK will be the TC everytime
+
 typedef pair<int, pair<int, int>> triplet;
 
 vector<int> mergeKArrays(vector<vector<int>>& arr, int K) {
