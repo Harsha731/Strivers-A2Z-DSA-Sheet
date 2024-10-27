@@ -1,0 +1,127 @@
+Remove outer parenthesis
+
+We assume that the string is valid
+We add the '(' if there is atleast alreasy 1 open bracket , We add the ')' if there is atleast 2 open brackets. Note the >0 and >1
+________________________________________
+
+Reverse words in string
+
+We extract each word by using i, j pointers and reverse it and use ' ' and append them to ans 
+string temp = s.substr(start,end-start);
+banana__apple
+_ananab_elppa
+We again reverse it 
+apple_banana 
+This may have starting and ending spaces, so extract using i ,j and keep in ans again
+________________________________________
+
+Largest odd number in a string
+
+Start from the end and stop when the number is odd
+________________________________________
+
+Longest common prefix
+
+NlogN * M -> sort all the N strings and use i, j pointer from start and end. Check each letter and keep increasing 1 length at a time
+NM -> Assume 1st string is prefix, check for other strings if it is not a prefix using s.find(), then shorten it by 1 length
+________________________________________
+
+Isomorphic Strings
+
+Use 2 umaps and add to umap if mps.find(s[i]) == mps.end() && mpt.find(t[i]) == mpt.end()
+map s[i] -> t[i] and vice versa
+Else if (mps[s[i]] != t[i] || mpt[t[i]] != s[i])
+Then return false
+________________________________________
+
+Rotate String
+
+TC is O(N)
+    if ((s + s).find(goal) == string::npos)
+Concatanate itself and use npos
+________________________________________
+
+Valid Anagrams
+
+Use a ump, increase its value by traversing in s
+Then, decrease by traversing in t. If not found, return false. 
+________________________________________
+
+Sort character by frequency
+
+Count using a ump and use a PQ
+now ans.append(char, count);
+
+Bucket sort also helps by creating a vector for frequencies of size n+1. SC - TC tradeoff
+This is O(N) TC while above is O(NlogN)
+________________________________________
+
+Maximum Nesting Depth of the Parentheses
+
+Use a opened count and store the max
+________________________________________
+
+Roman to Integer
+
+I, V, X, L, C, D, M
+store all the possibilities in ump and 2 cases are there, s[i] > s[i-1], <= case
+Do, -2*s[i-1] + s[i]
+________________________________________
+
+Integer to Roman
+
+string symbols = "MDCLXVI";
+int values[7] = {1000,500,100,50,10,5,1};		// i is this
+
+Now, we start from M, we divide n / values[i], we have many cases
+q = 0, q <= 3, q = 4, q = 5, q <= 8, q = 9
+________________________________________
+
+Sum of Beauty of All Substrings
+
+Generate each substring with O(N^2) TC and writing a seperate function to calculate the Max-Min
+______________________________________
+
+Longest Palindromic Substring (without DP)
+
+For odd length and even length
+        expandFromCenter(s, i, i, ans_start, ans_end, maxLen);
+        expandFromCenter(s, i - 1, i, ans_start, ans_end, maxLen);
+The ans_Start, ans_end, maxLen will be global variables or can be written using '&'
+At the end, (maxLen == 0) ? "" : s.substr(ans_start, ans_end - ans_start + 1);
+______________________________________
+
+    while(s[i]==' ') i++
+    if(i==s.size()) return ""
+
+    if (s[i] == '-')  
+	i++;        sign = false;
+    else if (s[i] == '+')    i++;
+
+    Use long ans to get ans > INT_MAX and at the end use (int)ans
+
+    if (ans > INT_MAX && sign)  return INT_MAX;
+    else if (ans > INT_MAX)  return INT_MIN;
+______________________________________
+
+Count and say
+
+We use prev and curr("") string
+We count the occureneces of s[i]=s[i+1] and do cur += to_string(count) + prev[i];
+atlast, prev=curr
+______________________________________
+
+Longest happy prefix
+
+Calculate the LPS and return s.substr(0, length);
+where length is lps[n-1]
+______________________________________
+
+Shortest Palindrome
+
+a b a a c $ c a a b a
+We append the reverse of the str with $ in between 
+We get the prefix which is palindrome, here a b a  is satisfying as palindrome
+This can be obtained by LPS vector as a b a (prefix) is matching with a b a (suffix) 
+string toAdd = s.substr(lps.back());	// This gives the length=3 and s.substr(3) means string from index=3
+reverse(toAdd.begin(), toAdd.end());	// We reverse that and add it at start to get a palindrome
