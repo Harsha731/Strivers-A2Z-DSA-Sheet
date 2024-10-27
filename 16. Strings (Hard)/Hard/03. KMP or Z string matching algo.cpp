@@ -8,13 +8,6 @@ Output: 0
 Explanation: "sad" occurs at index 0 and 6.
 The first occurrence is at index 0, so we return 0.
 
-Approach:
-- We can solve this problem using the KMP (Knuth-Morris-Pratt) string matching algorithm.
-- First, we calculate the LPS (Longest Prefix Suffix) array for the needle string.
-- Then, we create a new string by concatenating needle, a special character (not present in either needle or haystack), and haystack.
-- We iterate through the new string and compare characters using the LPS array to determine if there is a match.
-- If the LPS value becomes equal to the length of the needle, it means we have found a match, and we return the starting index of the match in the haystack string.
-
 Complexity Analysis:
 - The time complexity of this solution is O(m + n), where m is the length of the needle and n is the length of the haystack.
 - The space complexity is O(m + n) but can be reduced to O(n), where m is the length of the needle.
@@ -22,32 +15,77 @@ Complexity Analysis:
 CODE:
 */
 
-vector<int> lps(string& s){
-    int n = s.size();
-    vector<int> pi(n);
-    for(int i = 1; i < n; i++){
-        int j = pi[i - 1];
-        while(j > 0 && s[j] != s[i]) {
-            j = pi[j - 1];
+// The KMP algorithm uses a preprocessing step to build a partial match table (also known as the "prefix" table), 
+// which helps in skipping unnecessary comparisons when a mismatch occurs.
+
+// TC : O(M+N) and SC : O(1)
+
+// a b c d e a b f a b c
+// 0 0 0 0 0 1 2 0 1 2 3
+
+// a a a a b a a c d
+// 0 1 2 3 0 1 2 0 0 
+
+// Abdul Bari example : a b a b c a b c a b a b a b d
+
+// a b a b d
+// 0 0 1 2 0
+
+// If string was not matching at d, we don't go to first a
+// instead, we go second a
+// It is because this suffix have a number assigned to it, so it is also a prefix, we can try from there
+// Even if it fails, we go to the start
+
+// Abdul bari tells to compare i and j+1, but here we do i and j
+
+// a a b a a a c  is the pattern
+// 0 1 0 1 2 2 0
+// Here, check the last 'a', it is not matching with the 'b', so we do len=lps[j-1], we check if this suffix is already present or not, if present we will go there
+// 
+
+// ** The intution is that, what if this suffix in pattern becomes a prefix for a new one in LPS array calculation
+
+// Function to compute the prefix table (also called the longest prefix-suffix table)
+void computeLPS(const string& pattern, int lps[]) {
+    int length = 0;  // Length of the previous longest prefix suffix
+    lps[0] = 0;      // lps[0] is always 0
+
+    for (int i = 1; i < pattern.size(); i++) {
+        while (length > 0 && pattern[i] != pattern[length]) {
+            length = lps[length - 1]; // Fall back in the pattern.  Here the same j = lps[j-1] is happening which is another function too
         }
-        if(s[j] == s[i]) {
-            j++;
+        if (pattern[i] == pattern[length]) {
+            length++;
         }
-        pi[i] = j;
+        lps[i] = length; // Set the length for the current index
     }
-    return pi;
 }
 
-int strStr(string haystack, string needle) {
-    if(needle.empty()) {
-        return 0;
-    }
-    string temp = needle + '$' + haystack;
-    vector<int> lpsArray = lps(temp);
-    for(int i = 0; i < lpsArray.size(); i++) {
-        if(lpsArray[i] == needle.size()) {
-            return i - 2 * needle.size();
+// KMP search function
+int strStr(const string& text, const string& pattern) {
+    int n = text.size();
+    int m = pattern.size();
+    if (m == 0) return 0; // Edge case
+
+    int lps[m]; // Longest Prefix Suffix array
+    computeLPS(pattern, lps); // Preprocess the pattern
+
+    int i = 0; // Index for text - bigger one
+    int j = 0; // Index for pattern - smaller one
+    while (i < n) {
+        if (pattern[j] == text[i]) {
+            i++;
+            j++;
+        }
+        if (j == m) {
+            return i - j; // Match found
+        } else if (i < n && pattern[j] != text[i]) {
+            if (j != 0) {
+                j = lps[j - 1]; // Fall back in the pattern
+            } else {
+                i++; // Move to the next character in text
+            }
         }
     }
-    return -1;
+    return -1; // Pattern not found
 }
