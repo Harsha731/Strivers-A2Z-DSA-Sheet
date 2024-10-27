@@ -1,3 +1,4 @@
+```cpp
 // This is called as Rolling hash function
 // TC : O(N+M) and SC : O(1)
 
@@ -45,3 +46,4 @@ int strStr(string text, string pattern) {
     }
     return -1; // Pattern not found
 }
+```
