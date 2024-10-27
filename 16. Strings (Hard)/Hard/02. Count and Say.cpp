@@ -28,18 +28,19 @@ CODE:
 */
 
 string countAndSay(int n) {
-    if(n == 1) {
-        return "1";
-    }
-    string prev = countAndSay(n - 1);
-    string ans = "";
-    for(int i = 0; i < prev.size(); i++) {
-        int j = i + 1;
-        while(j < prev.size() && prev[j - 1] == prev[j]) {
-            j++;
+    if (n == 0) return "";
+    string prev = "1";
+    while (--n) {
+        string cur = "";
+        for (int i = 0; i < prev.size(); i++) {
+            int count = 1;
+             while ((i + 1 < prev.size()) && (prev[i] == prev[i + 1])){
+                count++;    
+                i++;
+            }
+            cur += to_string(count) + prev[i];
         }
-        ans += to_string(j - i) + prev[i];
-        i = j - 1;
+        prev = cur;
     }
-    return ans;
+    return prev;
 }
