@@ -22,6 +22,19 @@ To divide two integers without using multiplication, division, and mod operator,
 
 CODE:*/
 
+sum = 0, cnt = 0
+while (sum + divisor <= dividend) {
+	cnt = cnt + 1;
+	sum += divisor;
+}
+return cnt;
+
+TLE will come
+
+TC is O(log2N * log2N)
+
+-2^31, when we write abs(-2^31), it will give error, so, we write long long
+
 int divideTwoInteger(int dividend, int divisor) {
     if (dividend == divisor)
         return 1;
@@ -43,7 +56,6 @@ int divideTwoInteger(int dividend, int divisor) {
 
     return (isNegative) ? -ans : ans;
 }
-
 // Time Complexity: O(log n), where n is the absolute value of the dividend
 // Space Complexity: O(1)
 
