@@ -31,6 +31,45 @@ int countPrimes(int n) {
     return cnt;
 }
 
+	2*i  -->  i*i
+for good TC
+
+i max is root(N)
+as j=i*i will be out of bound
+
+we can also written as i*i<=N instead i<root(N)
+
+TC is N + N*log(log(N)) + N
+prime harmonic series - derivation is hard - just remember it
+SC is N 
+______________________________
+
+// No need
+
+prime[n+1];
+for(i=2;i<=n;i++) prime[i]=1;
+for(i=2;i<=n;i++){
+    if(prime[i]==1){
+        for(j=2*i;j<=N;j+=i){
+            prime[j]=0;
+        }
+    }
+}
+
+// Important
+
+prime[n+1];
+for(i=2;i<=n;i++) prime[i]=1;
+for(i=2;i<=root(n);i++){        //root(n)
+    if(prime[i]==1){
+        for(j=i*i;j<=N;j+=i){    //i*i
+            prime[j]=0;
+        }
+    }
+}
+
+
+
 // Time Complexity: O(n log log n)
 // Space Complexity: O(n)
 
