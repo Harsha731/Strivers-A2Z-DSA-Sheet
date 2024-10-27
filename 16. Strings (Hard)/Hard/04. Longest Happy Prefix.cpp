@@ -21,26 +21,32 @@ Complexity Analysis:
 
 CODE:
 */
+class Solution {
+public:
+vector<int> computeLPS(const string& pattern) {
+    int n = pattern.size();
+    vector<int> lps(n);
+    int length = 0;  // Length of the previous longest prefix suffix
+    lps[0] = 0;      // lps[0] is always 0
 
-vector<int> kmp(string& s){
-    int n = s.size();
-    vector<int> pi(n);
-    for(int i = 1; i < n; i++){
-        int j = pi[i - 1];
-        while(j > 0 && s[i] != s[j]) {
-            j = pi[j - 1];
+    for (int i = 1; i < n; i++) {
+        while (length > 0 && pattern[i] != pattern[length]) {
+            length = lps[length - 1]; // Fall back in the pattern
         }
-        if(s[i] == s[j]) {
-            j++;
+        if (pattern[i] == pattern[length]) {
+            length++;
         }
-        pi[i] = j;
+        lps[i] = length; // Set the length for the current index
     }
-    return pi;
+    return lps;
 }
+
 
 string longestPrefix(string s) {
     int n = s.size();
-    vector<int> lps = kmp(s);
+    vector<int> lps = computeLPS(s);
     int length = lps[n - 1]; // Length of the longest prefix that is also a suffix
     return s.substr(0, length);
 }
+};
+
