@@ -20,32 +20,53 @@ Input: asteroids = [5,10,-5]
 Output: [5,10]
 Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
 
+We have 4 cases
+3 ->   4 ->
+3 ->   <- 4
+<- 3   <- 4
+<- 3   4->
+
+case 1,4 :- In the cases where current is right or stack is empty, we don't have a problem. We push it directly into stack
+case 2 :-   But, if stack is positive and current is bigger negative, we pop all the st.top elements
+Sp case :-  If both are equal, we pop it without pushing the new one
+Now, if stack is empty (after popping the stack elements) or it is case 3, we push the current element into stack
+
+* (int) is used for using size of vector
+
 CODE:
 */
 
-vector<int> asteroidCollision(vector<int>& asteroids) {
-    stack<int> st;
-    for (int i = 0; i < asteroids.size(); i++) {
-        int siz = abs(asteroids[i]);
-        while (!st.empty() && (st.top() > 0 && asteroids[i] < 0) && (st.top() < siz)) {
-            st.pop();
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& ast) {
+        int n = ast.size();
+        stack<int> s;
+        for(int i = 0; i < n; i++) {
+            if(ast[i] > 0 || s.empty()) {
+                s.push(ast[i]);
+            }
+            else {
+                while(!s.empty() and s.top() > 0 and s.top() < abs(ast[i])) {
+                    s.pop();
+                }
+                if(!s.empty() and s.top() == abs(ast[i])) {
+                    s.pop();
+                }
+                else {
+                    if(s.empty() || s.top() < 0) {
+                        s.push(ast[i]);
+                    }
+                }
+            }
         }
-        // Check if same size asteroids collide
-        if (!st.empty() && (st.top() > 0 && asteroids[i] < 0) && st.top() == siz) {
-            st.pop();
+        vector<int> res(s.size());
+        for(int i = (int)s.size() - 1; i >= 0; i--) {
+            res[i] = s.top();
+            s.pop();
         }
-        else if (st.empty() || !(st.top() > 0 && asteroids[i] < 0)) {
-            st.push(asteroids[i]);
-        }
+        return res;
     }
-    vector<int> ans;
-    while (!st.empty()) {
-        ans.push_back(st.top());
-        st.pop();
-    }
-    reverse(ans.begin(), ans.end());
-    return ans;
-}
+};
 
 /*
 COMPLEXITY ANALYSIS:
