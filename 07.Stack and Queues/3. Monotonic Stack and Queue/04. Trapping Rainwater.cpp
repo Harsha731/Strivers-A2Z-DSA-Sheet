@@ -18,6 +18,11 @@ To calculate the trapped water, we can use the two-pointer approach. We initiali
         - Decrement `right` by 1.
 5. Return the final value of `ans`.
 
+-> We need to focus on the height[left] if it is height[left] < height[right] , now if the leftMax < hegiht[left]. So, height[left] can store leftMax - height[left]
+-> If height[left] < height[right] and height[left] < leftMax, then leftMax < height[right] for sure
+    Because, we did left++ only if the pastHeight < 
+-> left will be pointing 
+
 CODE:*/
 int trap(vector<int>& height) {
     int leftMax = INT_MIN;
