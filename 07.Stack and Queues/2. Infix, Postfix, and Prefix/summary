@@ -1,0 +1,46 @@
+https://leetcode.com/discuss/interview-question/5281339/Stack-Every-Possible-Conversion-(INFIXPREFIXPOSTFIX)-with-explanation/
+
+Prefix : Polish Notation
+opposite for Postfix
+
+Infix to postfix :
+
+1. If we get any char then we straight up insert as all +- symbols go at the end
+2. If we get any opening bracket then we insert it
+3. If we get any closing bracket we pop all the bw of opening and closing bracket
+4. If we encounter any operators then we see the precedence and
+	if PRECEDENCE of ch <= st.top() then we pop else insert
+	eg. * < + this is not true hence stack + *
+	eg. + < * this is true hence stack +
+5. While stack is not empty empty the stack and get the ans
+
+Infix to prefix :
+
+a + b + c => ab+c+ is postfix,		abc++ is prefix
+So, when we do reverse and pstfix for the prefix, we need to pop only higher precedence and not the ones with same precedence
+The difference is due to the fact that (ab+) + c gives abc+c+.
+But the other one, (+ab)+c gives ++abc
+____________________________________________
+
+-> We will push the alphaNum to the stack, so come from the place alphaNum are present
+
+prefix to infix
+*-A/BC-/AKL		((A-(B/C))*((A/K)-L))
+Come from end and if alphanum, push 'alphanum' to stack 
+if operator, pop 2 and push the ( + a + op + b + ) into stack
+
+postfix to infix
+ab*c+ 			((a*b)+c)
+come from begining and if alphanum, push to stack 
+if operator, pop 2 and push the ( + a + op + b + ) into stack
+
+prefix to postfix
+*-A/BC-/AKL		ABC/-AK/L-*
+Come from end and if alphanum, push 'alphanum' to stack 
+if operator, pop 2 and push the a + b + op into stack
+
+postfix to prefix 
+ABC/-AK/L-*		*-A/BC-/AKL
+come from beginning and if alphanum, push 'alphanum' to stack 
+if operator, pop 2 and push the op + a + b into stack, no brackets are involved
+
