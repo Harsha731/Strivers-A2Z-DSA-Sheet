@@ -17,35 +17,28 @@ APPROACH:
 - If the character is an operator, we pop two operands from the stack, concatenate them with the operator, and push the result back onto the stack.
 - After iterating through all characters, the top of the stack will contain the final postfix expression.
 
+1 - start from end as operators opening mai honge
+2 - if any operand then push in stack
++ab ko ab+
+stack | b a + op1 op2 operator ;
+
 CODE:
 */
-
-bool isAlphaNumeric(char ch) {
-    return ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z') || ('0' <= ch && ch <= '9');
-}
-
-string preToPost(string pre_exp) {
+string PREFIX_POSTFIX(const string& s) {
     stack<string> st;
-    
-    for (int i = pre_exp.size() - 1; i >= 0; i--) {
-        char ch = pre_exp[i];
-        
-        if (isAlphaNumeric(ch)) {
-            string temp = "";
-            temp += ch;
-            st.push(temp);
+
+    for (int i = s.size() - 1; i >= 0; i--) {  // Iterate from the end
+        char ch = s[i];
+        if (isalnum(ch)) {  // Check if the character is alphanumeric
+            st.push(string(1, ch));
         } else {
-            string a = st.top();
-            st.pop();
-            string b = st.top();
-            st.pop();
-            
-            string temp = a + b + ch;
-            st.push(temp);
+            string op1 = st.top(); st.pop();
+            string op2 = st.top(); st.pop();
+            st.push(op1 + op2 + ch);  // Construct postfix expression
         }
     }
-    
-    return st.top();
+
+    return st.top();  // Return the final expression directly
 }
 
 /*
