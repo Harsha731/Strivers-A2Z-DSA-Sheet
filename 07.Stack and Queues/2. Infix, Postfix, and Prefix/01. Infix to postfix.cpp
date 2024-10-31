@@ -20,6 +20,18 @@ APPROACH:
 - If the character is a closing parenthesis ')', we pop elements from the stack and append them to the output string until we encounter an opening parenthesis. We also discard the opening parenthesis from the stack.
 - If the character is an operator, we compare its precedence with the top element of the stack. If the top element has higher precedence, we pop it and append it to the output string. We repeat this process until we find an operator with lower precedence or an opening parenthesis. Then we push the current operator onto the stack.
 - After iterating through all characters, we pop any remaining elements from the stack and append them to the output string.
+_____________________________________________________________________
+
+( ^ ) >  ( * , / )  > ( + , - )		=>  Precedence
+
+Any expression like a + b ^ c - d / e
+We do ^ and / first, so a + bc^ - de /
+Then we do remaining, abc^+ de/-
+We can observe that ^ is pushed first into answer instead of +
+
+a ^ b + c - d / e
+We do ^ first compared to +, so if the precedence is increasing we keep in the stack, else we pop out and add them to answer
+
 
 CODE:
 */
