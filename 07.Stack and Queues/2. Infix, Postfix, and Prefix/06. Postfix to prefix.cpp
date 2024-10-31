@@ -17,36 +17,31 @@ APPROACH:
 - If the character is an operator, we pop two operands from the stack, concatenate them with the operator in the proper order (operator + operand2 + operand1), and push the result back onto the stack.
 - After iterating through all characters, the top of the stack will contain the final prefix expression.
 
+1- start from beginning as operators end mai honge
+2- if any operand then push in stack
+ab+ ko a+b
+stack - | a b + op2 + op1
+3- op2 operator op1 when op1 = first element of stack and op2 = second element of stack
+
 CODE:
 */
 
-bool isAlphaNumeric(char ch) {
-    return ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z') || ('0' <= ch && ch <= '9');
-}
-
-string postToPre(string post_exp) {
+string POSTFIX_PREFIX(const string& s) {
     stack<string> st;
-    
-    for (int i = 0; i < post_exp.size(); i++) {
-        char ch = post_exp[i];
-        
-        if (isAlphaNumeric(ch)) {
-            string temp = "";
-            temp += ch;
-            st.push(temp);
+
+    for (char ch : s) {  // Use range-based for loop for clarity
+        if (isalnum(ch)) {  // Check if the character is alphanumeric
+            st.push(string(1, ch));
         } else {
-            string a = st.top();
-            st.pop();
-            string b = st.top();
-            st.pop();
-            
-            string temp = ch + b + a;
-            st.push(temp);
+            string op1 = st.top(); st.pop();
+            string op2 = st.top(); st.pop();
+            st.push(ch + op2 + op1);  // Construct prefix expression
         }
     }
-    
+
     return st.top();
 }
+
 
 /*
 COMPLEXITY ANALYSIS:
