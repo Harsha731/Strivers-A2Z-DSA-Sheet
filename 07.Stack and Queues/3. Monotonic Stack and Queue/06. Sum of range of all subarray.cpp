@@ -97,3 +97,25 @@ COMPLEXITY ANALYSIS:
 - The space complexity is O(N) as we use additional space to store the previous smaller, next smaller, previous greater, and next greater elements.
 */
 
+// TC : O(N^2) and SC : O(1)
+
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        long long ans = 0;
+        int n = nums.size();
+
+        for (int i = 0; i < n; i++) {
+            int mx = nums[i], mn = nums[i];
+            for (int j = i + 1; j < n; j++) {
+                mx = max(mx, nums[j]);
+                mn = min(mn, nums[j]);
+                ans += (mx - mn);
+            }
+        }
+        return ans;
+    }
+};
+
+
+
