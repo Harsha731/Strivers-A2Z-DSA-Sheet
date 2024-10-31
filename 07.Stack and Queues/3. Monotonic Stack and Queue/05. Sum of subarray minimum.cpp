@@ -62,3 +62,25 @@ COMPLEXITY ANALYSIS:
 - The time complexity of this approach is O(N), where N is the number of elements in the array `arr`. We iterate through the array twice to calculate the previous smaller and next smaller elements.
 - The space complexity is O(N) as we use additional space to store the previous smaller and next smaller elements.
 */
+
+
+// TC : O(N^2) and SC : O(1)
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int n = arr.size();
+        long long ans = 0;
+        int mod = 1e9 + 7;
+
+        for (int i = 0; i < n; i++) {
+            int minVal = arr[i];
+            for (int j = i; j < n; j++) {
+                minVal = min(minVal, arr[j]); // Update the minimum in the subarray [i, j]
+                ans = (ans + minVal) % mod;   // Add the minimum to the answer
+            }
+        }
+
+        return (int)ans;
+    }
+};
