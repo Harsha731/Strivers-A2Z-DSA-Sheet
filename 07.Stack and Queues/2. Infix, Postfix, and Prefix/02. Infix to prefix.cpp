@@ -1,6 +1,6 @@
 /*
 QUESTION:
-Given an infix expression in the form of string str. Convert this infix expression to postfix expression.
+Given an infix expression in the form of string str. Convert this infix expression to prefix expression.
 
 Infix expression: The expression of the form a op b. When an operator is in-between every pair of operands.
 Postfix expression: The expression of the form a b op. When an operator is followed for every pair of operands.
@@ -12,57 +12,49 @@ Output: "*-A/BC-/AKL"
 Explanation:
 After converting the infix expression into prefix expression, the resultant expression will be *-A/BC-/AKL.
 
-APPROACH:
-- We can use a stack to convert the infix expression to postfix.
-- We iterate through each character of the input string from right to left.
-- If the character is an alphanumeric character, we append it to the output string.
-- If the character is an closing parenthesis '(', we push it onto the stack.
-- If the character is a opening parenthesis ')', we pop operators from the stack and append them to the output string until we encounter an closing parenthesis '('.
-- If the character is an operator, we compare its precedence with the top of the stack and pop operators with higher or equal precedence and append them to the output string. Then we push the current operator onto the stack.
-- After iterating through all characters, we pop any remaining operators from the stack and append them to the output string.
-
+1-We reverse the string and change the brackets direction
+2- Apply inifx to postfix with
+3- One changed condition PRECEDENCE of ch < st.top()
+4- Reverse the ans
 CODE:
 */
 
-string infixToPostfix(string s) {
-    string ans = "";
-    unordered_map<char, int> precedence;
-    precedence['^'] = 3;
-    precedence['*'] = 2;
-    precedence['/'] = 2;
-    precedence['+'] = 1;
-    precedence['-'] = 1;
+string INFIX_PREFIX(string s) {
+    reverse(s.begin(), s.end());
+    for (char &ch : s) {
+        if (ch == '(') ch = ')';
+        else if (ch == ')') ch = '(';
+    }
 
     stack<char> st;
+    string ans;
 
-    for (int i = s.size() - 1; i >= 0; i--) {
-        if (('a' <= s[i] && s[i] <= 'z') || ('A' <= s[i] && s[i] <= 'Z') || ('0' <= s[i] && s[i] <= '9')) {
-            ans.push_back(s[i]);
-        } else if (s[i] == ')') {
-            st.push(s[i]);
-        } else if (s[i] == '(') {
-            while (!st.empty() && st.top() != ')') {
-                ans.push_back(st.top());
-                st.pop();
+    for (char ch : s) {
+        if (isalnum(ch)) {
+            ans += ch;
+        } else if (ch == '(') {
+            st.push(ch);
+        } else if (ch == ')') {
+            while (st.top() != '(') {
+                ans += st.top(); st.pop();
             }
-            st.pop(); // Pop the closing parenthesis ')'
+            st.pop();
         } else {
-            while (!st.empty() && st.top() != ')' && precedence[st.top()] >= precedence[s[i]]) {
-                ans.push_back(st.top());
-                st.pop();
+            while (!st.empty() && precedence(ch) < precedence(st.top())) {
+                ans += st.top(); st.pop();
             }
-            st.push(s[i]);
+            st.push(ch);
         }
     }
 
     while (!st.empty()) {
-        ans.push_back(st.top());
-        st.pop();
+        ans += st.top(); st.pop();
     }
 
     reverse(ans.begin(), ans.end());
     return ans;
 }
+
 
 /*
 COMPLEXITY ANALYSIS:
