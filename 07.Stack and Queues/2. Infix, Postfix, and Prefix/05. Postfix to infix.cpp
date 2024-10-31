@@ -20,33 +20,21 @@ APPROACH:
 CODE:
 */
 
-bool isAlphaNumeric(char ch) {
-    return ('A' <= ch && ch <= 'Z') || ('a' <= ch && ch <= 'z') || ('0' <= ch && ch <= '9');
-}
-
-string postToInfix(string exp) {
+string POSTFIX_INFIX(const string& s) {
     stack<string> st;
-    
-    for (int i = 0; i < exp.size(); i++) {
-        char ch = exp[i];
-        
-        if (isAlphaNumeric(ch)) {
-            string temp = "";
-            temp += ch;
-            st.push(temp);
+
+    for (char ch : s) {
+        if (isalnum(ch) ) {  // Check if the character is alphanumeric
+            st.push(string(1, ch));
         } else {
-            string a = st.top();
-            st.pop();
-            string b = st.top();
-            st.pop();
-            
-            st.push("(" + b + ch + a + ")");
+            string op1 = st.top(); st.pop();
+            string op2 = st.top(); st.pop();
+            st.push("(" + op2 + ch + op1 + ")");
         }
     }
-    
+
     return st.top();
 }
-
 /*
 COMPLEXITY ANALYSIS:
 - The time complexity of the postToInfix function is O(N), where N is the length of the input string.
