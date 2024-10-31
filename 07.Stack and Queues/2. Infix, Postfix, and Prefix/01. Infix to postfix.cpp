@@ -2,6 +2,14 @@
 QUESTION:
 Given an infix expression in the form of string str, convert it to a postfix expression.
 
+1-If we get any char then we straight up insert as all +- symbols go at the end
+2-IF we get any opening bracket then we insert it
+3-If we get any closing bracket we pop all the bw of opening and closing bracket
+4-If we encounter any operators then we see the precedence and
+if PRECEDENCE of ch <= st.top() then we pop else insert
+example * < + this is not true hence stack + *
+example + < * this is true hence stack +
+5- While stack is not empty empty the stack and get the ans
 
 _____________________________________________________________________
 
