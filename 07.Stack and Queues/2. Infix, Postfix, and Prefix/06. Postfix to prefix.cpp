@@ -17,11 +17,10 @@ APPROACH:
 - If the character is an operator, we pop two operands from the stack, concatenate them with the operator in the proper order (operator + operand2 + operand1), and push the result back onto the stack.
 - After iterating through all characters, the top of the stack will contain the final prefix expression.
 
-1- start from beginning as operators end mai honge
-2- if any operand then push in stack
-ab+ ko a+b
-stack - | a b + op2 + op1
-3- op2 operator op1 when op1 = first element of stack and op2 = second element of stack
+1 - start from beginning as operators end mai honge
+2 - if any operand then push it into stack
+ab+ ko +ab
+stack | a b + operator op2 op1
 
 CODE:
 */
