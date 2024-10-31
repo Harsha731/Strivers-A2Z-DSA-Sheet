@@ -20,6 +20,9 @@ a + b + c => ab+c+ is postfix,		abc++ is prefix
 So, when we do reverse and pstfix for the prefix, we need to pop only higher precedence and not the ones with same precedence
 The difference is due to the fact that (ab+) + c gives abc+c+.
 But the other one, (+ab)+c gives ++abc
+
+-> We do the postfix, in normal way because we keep adding the operators in forward direction
+But, in the prefix, we need to add the operator in the earlier, so we can't do it in forward direction
 ____________________________________________
 
 -> We will push the alphaNum to the stack, so come from the place alphaNum are present
