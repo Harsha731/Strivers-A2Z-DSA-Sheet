@@ -45,6 +45,8 @@ If st.top is +ve, it means old_mini = new_mini, we simply pop the top value of s
 Top : If st.top is -ve, it means mini got changed and it got changed to val
 If st.top is +ve, it means mini remained same and we can get the value using val = mini + st.top()
 
+Here, we are not discussing about the last element present in stack
+
 CODE:
 */
 
@@ -94,3 +96,56 @@ COMPLEXITY ANALYSIS:
 - All the operations (push, pop, top, getMin) have O(1) time complexity as we are performing constant-time operations on the stack.
 - The space complexity is O(n) as we use an auxiliary stack to store the minimum elements.
 */
+
+
+// Handle the empoty stack situation in pop, top, getMin and update min to -1 after popping the last element
+
+class MinStack {
+private:
+    stack<long long> st;
+    int mini;
+
+public:
+    MinStack() {
+        mini = -1;
+    }
+    
+    void push(int val) {
+        if (st.empty()) {
+            st.push(0);
+            mini = val;
+        } else {
+            st.push((long long)val - mini); 
+            mini = min(val, mini);
+        }
+    }
+    
+    void pop() {
+        if (st.empty()) return;        
+
+        if (st.top() < 0)           
+            mini = mini - st.top();
+        
+        st.pop();
+
+        // Reset mini if the stack becomes empty
+        if (st.empty()) {
+            mini = -1;  // Reset mini to initial value
+        }
+    }
+    
+    int top() {
+        if (st.empty()) return -1; 
+
+        if (st.top() < 0)           
+            return mini;
+        else
+            return mini + st.top();
+    }
+    
+    int getMin() {
+        if (st.empty()) return -1;
+        return mini;
+    }
+};
+
