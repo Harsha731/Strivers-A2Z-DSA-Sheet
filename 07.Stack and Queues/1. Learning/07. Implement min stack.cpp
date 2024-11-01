@@ -32,6 +32,19 @@ APPROACH:
 - To get the top element, we add the current minimum to the top element of the main stack.
 - To get the minimum element, we simply return the current minimum.
 
+Mine :
+
+Instead of directly storing each value, the stack stores an "offset" between the current value and the minimum (mini)
+
+Push : If val > mini, we push +ve value val - mini and we remain mini as it is
+If val < mini, we push -ve value val - mini and we change mini to val
+
+Pop : If st.top is -ve, it means mini got changed to val and we update the mini by old_mini = new_mini (=val) - st.top() before pop out
+If st.top is +ve, it means old_mini = new_mini, we simply pop the top value of stack
+
+Top : If st.top is -ve, it means mini got changed and it got changed to val
+If st.top is +ve, it means mini remained same and we can get the value using val = mini + st.top()
+
 CODE:
 */
 
