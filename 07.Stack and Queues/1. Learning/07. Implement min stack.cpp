@@ -54,18 +54,20 @@ public:
         }
     }
     
+    // If val < old mini, then new mini = val, so retrieve it we do [ old mini ] = [ new_mini ] - [ st.top() ]
+    //                                                                   old mini   =  val         - ( val - old_mini )
     void pop() {
-        if (st.top() < 0)
+        if (st.top() < 0)           
             mini = mini - st.top();
         st.pop();
     }
     
     int top() {
         int ans = -1;
-        if (st.top() < 0)
+        if (st.top() < 0)           // If the st.top() is negative, it means minimum got changed top 'val' at this point, so the answer is the mini (i.e, min as min=val)
             ans = mini;
         else
-            ans = mini + st.top();
+            ans = mini + st.top();      // If not, we do we add mini to st.top() to get the val
         return ans;
     }
     
