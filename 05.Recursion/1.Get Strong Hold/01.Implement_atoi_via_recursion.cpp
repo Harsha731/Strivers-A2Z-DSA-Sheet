@@ -14,57 +14,78 @@ Output: -1
 Explanation: Output is -1 as not all characters are digits.
 
 Approach:
-1. We start from the last character of the string and recursively convert each digit to an integer.
-2. We use a helper function `getnum` that takes the index `i` and the string `str` as arguments.
-3. The base case is when `i` becomes negative, in which case we return 0.
-4. For each digit, we convert it to an integer by subtracting the ASCII value of '0'.
-5. We check if the digit is within the range of 0 to 9. If it is, we recursively call `getnum` for the previous index `i-1`.
-   - If the recursive call returns a valid number (`prev != 1e9`), we multiply it by 10 and add the current digit.
-   - Otherwise, we return a large value `1e9` to indicate an invalid conversion.
-6. In the main `atoi` function, we initialize `i` to the index of the last character in the string (`str.size()-1`).
-7. We call the `getnum` function with `i` and `str`.
-8. If the result (`ans`) is equal to `1e9`, it means the conversion was invalid, so we return -1.
-9. If the first character of the string is '-', we return the negative value of `ans`.
-10. Otherwise, we return `ans`.
+
+Whitespace Handling: The code starts by skipping leading whitespaces in the string.
+Sign Handling: It then checks if the string starts with a '+' or '-' sign and updates the sign accordingly.
+Digit Conversion: Using a loop, it converts consecutive digit characters to an integer and checks for overflow/underflow after each operation.
+Overflow Handling: If the number exceeds INT_MAX or falls below INT_MIN, it returns the respective bounds.
 
 Time Complexity: O(N), where N is the length of the string.
-Space Complexity: O(N), where N is the length of the string (due to the recursive calls).
+Space Complexity: O(N) for recustion stack space, O(1) for iteration
 
 CODE:*/
-int getnum(int i, string& str)
-{
-    if (i < 0)
-        return 0;
 
-    if (i == 0) {
-        if (str[i] == '-')
-            return 0;
+Iteration :
 
-        int digit = str[i] - '0';
-        if (0 <= digit && digit <= 9) {
-            int prev = getnum(i - 1, str);
-            if (prev != 1e9)
-                return (prev * 10) + digit;
+class Solution {
+public:
+    int myAtoi(string s) {
+        int sign=1;
+        long long n=0;
+        int i=0;
+
+        while (s[i]==' '){
+            i++;
         }
-        return 1e9;
+
+        if (s[i] == '-' || s[i] == '+') {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+
+
+        for(int j=i;j<s.length();j++) {
+            int m = s[j]-'0';
+            if(m>=0 && m<=9) n = 10*n + m;
+            else break;
+            if (n * sign > INT_MAX) return INT_MAX;
+            if (n * sign < INT_MIN) return INT_MIN;
+        }
+        return n * sign;
+    }
+};
+________________________________________________________________
+
+recursion :
+
+class Solution {
+public:
+    long solve(string s, int sign, int i, long n){
+        if(i==s.length()) return sign*n;
+        int n1 = s[i]-'0';
+        if(n1>=0 && n1<10){
+            n = 10*n+n1;
+            if(sign*n >= INT_MAX) return INT_MAX;
+            if(sign*n <= INT_MIN) return INT_MIN;
+            return solve(s, sign, i+1, n);
+        }
+        // if spaces are between, or any other charater is present
+        return sign*n;
     }
 
-    int digit = str[i] - '0';
-    if (0 <= digit && digit <= 9) {
-        int prev = getnum(i - 1, str);
-        if (prev != 1e9)
-            return (prev * 10) + digit;
-    }
-    return 1e9;
-}
 
-int atoi(string str)
-{
-    int i = str.size() - 1;
-    int ans = getnum(i, str);
-    if (ans == 1e9)
-        return -1;
-    if (str[0] == '-')
-        return -1 * ans;
-    return ans;
-}
+    int myAtoi(string s) {
+        int i=0,sign=1;
+        while(s[i]==' '){
+            i++;
+        }
+        if(s[i]=='-') {
+            sign=-1;
+            i++;
+        }
+        else if(s[i]=='+') {
+            i++;
+        }
+        return solve(s, sign, i, 0);
+    }
+};
