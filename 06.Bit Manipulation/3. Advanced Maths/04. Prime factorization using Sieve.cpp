@@ -19,6 +19,9 @@ To compute the prime factorization of a number N, we can use the concept of Siev
 5. Return the `ans` vector, which will contain the prime factors of N.
 
 CODE:*/
+
+// This is better for range queries, as precomputation helps a lot. Else, this comsumes much time
+
 vector<int> findPrimeFactors(int n) {
     vector<bool> prime(n + 1, true);
     vector<int> ans;
