@@ -23,7 +23,7 @@ int countPrimes(int n) {
     for (long long i = 2; i < n; i++) {
         if (primes[i]) {
             cnt++;
-            for (long long j = i * i; j <= n; j += i) {
+            for (long long j = i * i; j <= n; j += i) {		// first tell here i*2, then tell i*i
                 primes[j] = false;
             }
         }
@@ -42,35 +42,18 @@ we can also written as i*i<=N instead i<root(N)
 TC is N + N*log(log(N)) + N
 prime harmonic series - derivation is hard - just remember it
 SC is N 
-______________________________
 
-// No need
+Derivation :-
 
-prime[n+1];
-for(i=2;i<=n;i++) prime[i]=1;
-for(i=2;i<=n;i++){
-    if(prime[i]==1){
-        for(j=2*i;j<=N;j+=i){
-            prime[j]=0;
-        }
-    }
-}
+1. Inner Loop (for j ):
 
-// Important
+For each prime i, the inner loop marks multiples of i as non-prime.
+The number of iterations in the inner loop decreases as i increases. For example:
+For i = 2, it marks approximately n/2 numbers.
+For i = 3, it marks approximately n/3 numbers.
+For i = 5, it marks approximately n/5 numbers, and so on.
 
-prime[n+1];
-for(i=2;i<=n;i++) prime[i]=1;
-for(i=2;i<=root(n);i++){        //root(n)
-    if(prime[i]==1){
-        for(j=i*i;j<=N;j+=i){    //i*i
-            prime[j]=0;
-        }
-    }
-}
+2. Summing Inner Loop Work:
 
-
-
-// Time Complexity: O(n log log n)
-// Space Complexity: O(n)
-
-
+The total work done in the inner loop across all primes is proportional to: n * (1/2 + 1/3 + 1/4 + ...)
+This series is the sum of reciprocals of primes, and it is known to converge to log(log(n)) asymptotically.
