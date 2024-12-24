@@ -18,6 +18,11 @@ To calculate x raised to the power n, we can use the concept of binary exponenti
 5. If isNegative is true, return 1/res; otherwise, return res.
 
 CODE:*/
+
+// Here, we are making 5^13 as 5^(1101)
+// So, for every iteration, we are making x as 1, 5, 5^2, 5^3, 5^4, ...
+// If there is a bit in power, we multiply. i.e, (5) -> (5) -> (5.5^4) -> (5.5^4.5^8)
+
 double myPow(double x, int n) {
     if (n == 0)
         return 1;
