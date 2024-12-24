@@ -22,6 +22,10 @@ To reverse a stack using recursion without using any extra space, we can follow 
 Time Complexity: O(N^2) (due to multiple recursive calls)
 Space Complexity: O(N) (due to the internal stack space used for recursion)
 
+** The reverseStack function recursively removes the top element of the stack, reverses the remaining stack, and then inserts the removed element at the bottom using insertAtBottom.
+insertAtBottom: This function inserts an element at the bottom of the stack by temporarily removing elements and placing the target element at the bottom.
+reverseStack: Recursively reverses the stack by repeatedly removing the top element and reinserting it at the bottom in reversed order.
+
 CODE:*/
 void insertAtBottom(int ele, stack<int>& stack) {
     if (stack.empty()) {
