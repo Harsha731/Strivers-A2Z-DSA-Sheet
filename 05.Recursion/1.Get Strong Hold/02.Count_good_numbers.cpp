@@ -17,29 +17,30 @@ Input: n = 50
 Output: 564908303
 
 Approach:
-- We can observe that for a good digit string of length n, each digit can be either even or a prime number (2, 3, 5, or 7).
-- For odd indices, there are 4 choices (2, 3, 5, or 7) since they must be prime.
-- For even indices, there are 5 choices (0, 2, 4, 6, or 8) since they must be even.
-- We can use a recursive approach to count the number of good digit strings.
-- The base case is when n = 1, in which case there are 5 possible digit strings (0, 2, 4, 6, or 8).
-- For even lengths (n % 2 == 0), we multiply the count of good digit strings of length n-1 by 4 (since there are 4 choices for odd indices).
-- For odd lengths (n % 2 != 0), we multiply the count of good digit strings of length n-1 by 5 (since there are 5 choices for even indices).
-- We return the result modulo 10^9 + 7 to handle large outputs.
+- modular exponentiation
 
-Time Complexity: O(n) (due to the recursive calls)
-Space Complexity: O(n) (due to the recursive calls)
+Time Complexity: O(logn)
+Space Complexity: O(1) 
 
 CODE:*/
 
-const long long mod = 1e9 + 7;
+method 1 )
 
-int countGoodNumbers(long long n) {
-    // Base case
-    if (n == 1)
-        return 5;
+long long power(long long n, long long k) {
+        long long result = 1;
+        while (k > 0) {
+            if (k & 1) { // Check if the last bit of k is 1 (k is odd)
+                result = (result * n) % mod;
+            }
+            n = (n * n) % mod; // Square the base
+            k >>= 1; // Right shift k to divide it by 2
+        }
+        return result;
+    }
 
-    if (n % 2 == 0)
-        return (countGoodNumbers(n - 1) % mod * 4 % mod);
-    else
-        return (countGoodNumbers(n - 1) % mod * 5 % mod);
-}
+    int countGoodNumbers(long long n) {
+        long long even = (n + 1) >> 1; // Divide (n + 1) by 2 using right shift
+        long long odd = n >> 1;       // Divide n by 2 using right shift
+        long long t = (power(5, even) * power(4, odd)) % mod;
+        return t;
+    }
