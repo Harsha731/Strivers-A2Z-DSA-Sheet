@@ -27,6 +27,11 @@ To sort a stack in descending order, we can follow the following steps:
 Time Complexity: O(N^2) (due to multiple recursive calls)
 Space Complexity: O(N) (due to the internal stack space used for recursion)
 
+
+** The sortSt function recursively sorts a stack by removing the top element, calling sortSt on the remaining stack, and then placing the removed element at its correct position using the placeAtCorrectPos function.
+placeAtCorrectPos: Inserts the element into the stack in a sorted order by temporarily removing elements until the correct position is found.
+sortSt: Recursively sorts the stack by removing the top element, sorting the rest of the stack, and reinserting the removed element in the correct position.
+
 CODE:*/
 void placeAtCorrectPos(int ele, stack<int>& st) {
 	if (st.empty() || st.top() < ele) {
