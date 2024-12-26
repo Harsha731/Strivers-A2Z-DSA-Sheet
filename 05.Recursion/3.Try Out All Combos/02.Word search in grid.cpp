@@ -41,6 +41,8 @@ CODE:*/
 // this makes code quite big but if you want to make it compact you could make call for all four cases and after call check if it's valid
 // just check the code of rat in maze for shorter code
 
+// ** Here, m*n is for 'for' loop, then 4^L for each cell in the worst case
+
 bool flag = false;
 
 void solve(int i, int j, int ltr, string& word, vector<vector<char>>& board) {
