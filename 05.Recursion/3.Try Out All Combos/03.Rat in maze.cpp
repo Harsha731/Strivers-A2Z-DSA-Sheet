@@ -33,6 +33,7 @@ We can use a backtracking approach to find all possible paths.
    - Return the vector of paths.
    
 Time Complexity: O(3^(N^2)), where N is the size of the matrix. In the worst case, each cell can have three possible neighboring cells to explore.
+// ** Note that it is not 4^(N^2)
 Space Complexity: O(N^2), as we are using a vector of strings to store the paths.
 
 CODE:*/
