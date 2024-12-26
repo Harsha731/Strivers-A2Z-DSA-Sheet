@@ -23,6 +23,7 @@ We can use a recursive backtracking approach to generate all possible palindrome
    - Return the vector of partitions.
 
 Time Complexity: O(N * 2^N), where N is the length of the input string 's'. In the worst case, we can have 2^N possible partitions, and for each partition, we need to check if each substring is a palindrome, which takes O(N) time.
+* 2^N strings are there and it takes O(N) to check palindrome or not
 Space Complexity: O(N), where N is the length of the input string 's'. The space is used for storing the temporary partition vector and the vector of partitions.
 
 CODE:*/
