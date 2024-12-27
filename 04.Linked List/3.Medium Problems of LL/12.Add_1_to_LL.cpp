@@ -30,23 +30,32 @@ Node* reverseLL(Node* head) {
 }
 
 Node* addOne(Node* head) {
+    // Reverse the list to make addition easier
     head = reverseLL(head);
+    
     Node* curr = head;
     int carry = 1;
-    Node* last;
+
+    // Traverse the reversed list and add 1
     while (curr) {
-        long sum = curr->data + carry;
-        curr->data = sum % 10;
-        carry = sum / 10;
-        if (curr && !curr->next)
-            last = curr;
-        curr = curr->next;
+        int sum = curr->data + carry;
+        curr->data = sum % 10;   // Update the current node with the sum's unit digit
+        carry = sum / 10;        // Update the carry for the next iteration
+
+        // If no carry, we can stop early
+        if (carry == 0) break;
+        
+        curr = curr->next; // Move to the next node
     }
-    while (carry) {
-        last->next = new Node(carry % 10);
-        carry = carry / 10;
-        last = last->next;
+
+    // If carry is still left, add a new node
+    if (carry) {
+        Node* newNode = new Node(carry);
+        curr->next = newNode;
     }
+
+    // Reverse the list back to its original order
     head = reverseLL(head);
+
     return head;
 }
