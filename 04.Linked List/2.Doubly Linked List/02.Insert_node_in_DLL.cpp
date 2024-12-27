@@ -39,16 +39,34 @@ Space complexity is O(1) as we are using a constant amount of extra space to sto
 CODE:-
 */
 
-void addNode(Node *head, int pos, int data)
-{
-   int cnt = 0;
-   Node* curr = head;
-   while(cnt<pos){
-       curr = curr->next;
-       cnt++;
-   }
-   Node* nxt = curr->next;
-   curr->next = new Node(data);
-   curr->next->prev = curr;
-   curr->next->next = nxt;
+void addNode(Node* head, int pos, int data) {
+    if (head == nullptr) { // If list is empty
+        cout << "List is empty. Cannot insert at position " << pos << endl;
+        return;
+    }
+
+    int cnt = 0;
+    Node* curr = head;
+
+    // Traverse to the specified position
+    while (cnt < pos && curr != nullptr) {
+        curr = curr->next;
+        cnt++;
+    }
+
+    if (curr == nullptr) { // If position is out of bounds
+        cout << "Position out of bounds." << endl;
+        return;
+    }
+
+    Node* nxt = curr->next;         // Save the next node
+    Node* newNode = new Node(data); // Create the new node
+
+    curr->next = newNode;           // Link current node to the new node
+    newNode->prev = curr;           // Set the previous pointer of the new node
+
+    if (nxt != nullptr) {           // If next node exists, update its previous pointer
+        nxt->prev = newNode;
+    }
+    newNode->next = nxt;            // Link the new node to the next node
 }
