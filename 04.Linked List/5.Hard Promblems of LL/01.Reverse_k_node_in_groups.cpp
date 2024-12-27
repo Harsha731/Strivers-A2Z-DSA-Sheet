@@ -11,6 +11,12 @@ After reversing the first k nodes, prev becomes the new head, and curr becomes t
 We recursively call the function on the remaining linked list starting from frwd (which points to the (k+1)-th node).
 Finally, we update the next pointer of the original head to point to the reversed group obtained from the recursive call.
 
+
+** Everytime we are checking we are having atleast k nodes or not. 
+If not there, then directly return head
+Now reverse every k nodes and attach the (head of next k nodes) to the (last of this k nodes)
+
+
 TIME COMPLEXITY: O(N), where N is the number of nodes in the linked list.
 SPACE COMPLEXITY: O(1).
 
