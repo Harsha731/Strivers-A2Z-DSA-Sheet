@@ -2,7 +2,9 @@
 QUESTION:
 A linked list of length n is given such that each node contains an additional random pointer, which could point to any node in the list, or null.
 
-Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
+Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its 
+corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in 
+the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
 
 For example, if there are two nodes X and Y in the original list, where X.random --> Y, then for the corresponding two nodes x and y in the copied list, x.random --> y.
 
@@ -23,11 +25,21 @@ Input: head = [[1,1],[2,1]]
 Output: [[1,1],[2,1]]
 
 APPROACH:
-To create a deep copy of a linked list with random pointers, we can follow these steps:
-1. Traverse the original linked list and create a new node for each node in the original list. Insert the new node between the original node and its next node.
-2. Set the random pointer of the new node by mapping it to the corresponding random node in the original list.
-3. Separate the original list and the copied list by updating the next pointers of nodes in both lists.
-4. Return the head of the copied list.
+1. Insert Copy Nodes in Between:
+Traverse the original list.
+For each node, create a copy node and insert it immediately after the original node.
+This creates a linked structure: original -> copy -> original -> copy.
+
+2. Connect Random Pointers:
+Traverse the modified list.
+Set the random pointer of each copy node to point to the corresponding copy of the random pointer of its original node.
+
+3. Separate the Lists:
+Traverse the list again to restore the original list.
+Extract the deep copy list by detaching the copied nodes.
+
+4. Return the Deep Copy:
+Return the head of the copied list.
 
 TIME COMPLEXITY:
 The time complexity of this approach is O(n) since we traverse the original list once to create the copied list.
@@ -37,34 +49,47 @@ The space complexity is also O(n) because we create a new node for each node in 
 
 CODE:
 */
-Node* copyRandomList(Node* head) {
-    if (head == NULL)
-        return head;
 
-    // inserting dupli node in between
-    Node* orig = head;
-    while (orig) {
-        Node* temp = orig->next;
-        orig->next = new Node(orig->val);
-        orig->next->next = temp;
-        orig = orig->next->next;
+class Solution {
+public:
+    void insertCopyInBetween(Node* head) {
+        Node* temp = head;
+        while (temp != NULL) {
+            Node* nextElement = temp->next;
+            Node* copy = new Node(temp->val); // Create a copy node
+            copy->next = nextElement;
+            temp->next = copy;
+            temp = nextElement;
+        }
     }
-    // setting random pointers
-    orig = head;
-    while (orig) {
-        if (orig->random && orig->next)
-            orig->next->random = orig->random->next;
-        orig = orig->next->next;
+
+    void connectRandomPointers(Node* head) {
+        Node* temp = head;
+        while (temp != NULL) {
+            Node* copyNode = temp->next;
+            copyNode->random = temp->random ? temp->random->next : NULL; // Connect random pointer
+            temp = temp->next->next;
+        }
     }
-    // setting next pointers and dettaching duplicate nodes from the original list
-    orig = head;
-    Node* ans = orig->next;
-    while (orig && orig->next) {
-        Node* temp = orig->next->next;
-        if (orig->next->next)
-            orig->next->next = orig->next->next->next;
-        orig->next = temp;
-        orig = orig->next;
+
+    Node* getDeepCopyList(Node* head) {
+        Node* temp = head;
+        Node* copyHead = head->next;
+
+        while (temp != nullptr) {
+            Node* copyTemp = temp->next;
+            temp->next = copyTemp->next; // Restore original list
+            copyTemp->next = copyTemp->next ? copyTemp->next->next : NULL; // Separate copy list
+            temp = temp->next;
+        }
+
+        return copyHead;
     }
-    return ans;
-}
+
+    Node* copyRandomList(Node* head) {
+        if (!head) return nullptr;
+        insertCopyInBetween(head);
+        connectRandomPointers(head);
+        return getDeepCopyList(head);
+    }
+};
