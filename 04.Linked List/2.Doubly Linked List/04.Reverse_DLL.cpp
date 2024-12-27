@@ -12,6 +12,15 @@ Input:
 LinkedList: 75 <--> 122 <--> 59 <--> 196
 Output: 196 59 122 75
 
+Brute Force approach:
+Step 1: Initialization a temp pointer to the head of the doubly linked list and a stack data structure to store the values from the list.
+Step 2: Traverse the doubly linked list with the temp pointer and while traversing push the value at the current node temp onto the stack. 
+Move the temp to the next node continuing until temp reaches null indicating the end of the list.
+Step 3: Reset the temp pointer back to the head of the list and in thissecond iteration pop the element from the stack, replace the data at the 
+current node with the popped value from the top of the stack and move temp to the next node. Repeat this step until temp reaches null or the stack becomes empty.
+
+Code
+
 APPROACH:-
 1. The function `reverseDLL` takes in one parameter: `head`, which is a pointer to the head of the doubly linked list.
 2. The variable `curr` is initialized with the `head` pointer, which represents the current node being processed.
