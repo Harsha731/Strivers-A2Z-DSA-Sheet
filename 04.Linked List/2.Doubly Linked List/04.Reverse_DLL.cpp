@@ -25,19 +25,28 @@ APPROACH:-
 
 CODE:-
 */
-Node* reverseDLL(Node *head) {
+Node* reverseDLL(Node* head) {
+    if (head == nullptr) return nullptr; // Handle empty list
+
     Node* curr = head;
-    Node* ans = NULL;
-    while(curr) {
+    Node* newHead = nullptr;
+
+    while (curr) {
+        // Swap the next and prev pointers
         Node* nxt = curr->next;
         curr->next = curr->prev;
         curr->prev = nxt;
-        if(curr->prev == NULL)
-            ans = curr;
+
+        // Update the new head when the last node is reached
+        newHead = curr;
+
+        // Move to the next node in the original list (which is now `prev`)
         curr = curr->prev;
     }
-    return ans;
+
+    return newHead;
 }
+
 
 /*
 Time Complexity:
