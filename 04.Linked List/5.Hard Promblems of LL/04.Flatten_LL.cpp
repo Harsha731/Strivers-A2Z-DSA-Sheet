@@ -21,7 +21,21 @@ Step 4: Create a new linked list from the sorted array and return the flattened 
 
 **APPROACH:**
 
-To flatten the linked list, we can use a recursive approach. The idea is to flatten the list from right to left. Starting from the last node, we recursively flatten the sublist pointed by the bottom pointer and merge it with the current node. We continue this process until we reach the head of the original linked list. Finally, we return the flattened list.
+Base Case:
+If the head is null, indicating the end of the list, it is already flattened or there are no further nodes. Return the head as it is.
+Similarly, if there's no next node, meaning there's only one node left in the list, return the head as it is since it's already flattened.
+
+Step 1: Establish Base Case Conditions Check if the base case conditions are met, return the head if it is null or has no next pointer to head as there’s no further flattening or merging required.
+
+Step 2: Recursively Merge the List:
+
+Initiate the recursive flattening process by calling `flattenLinkedList` on the next node (`head -> next`).
+The result of this recursive call is the head of the flattened and merged linked list.
+Step 3: Merge Operations:
+
+Inside the recursive call, call the merge function which takes care of the merging of these two lists based on their data values.
+Read more about merging two linked lists here.
+The merged list is updated in the head, which is then returned as the result of the flattening process.
 
 **TIME COMPLEXITY:** The time complexity is O(N), where N is the total number of nodes in the linked list.
 
