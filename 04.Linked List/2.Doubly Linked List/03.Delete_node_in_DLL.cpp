@@ -28,27 +28,45 @@ APPROACH:-
 
 CODE:-
 */
-Node* deleteNode(Node *head_ref, int x) {
-  Node* temp = head_ref;
-  
-  // If the node to be deleted is the head node
-  if (x == 1) {
-    temp = temp->next;
-    return temp;
-  }
-  
-  // Traverse to the node just before the position to be deleted
-  for (int i = 1; i < (x - 1); i++) {
-    temp = temp->next;
-  }
-  
-  // Store the previous and next nodes of the node to be deleted
-  Node* previous = temp;
-  previous->next = temp->next->next;
-  temp->prev = previous;
-  
-  return head_ref;
+
+Node* deleteNode(Node* head_ref, int x) {
+    if (head_ref == nullptr) return nullptr; // Empty list
+
+    Node* temp = head_ref;
+
+    // If the node to be deleted is the head node
+    if (x == 1) {
+        head_ref = temp->next; // Move head to the next node
+        if (head_ref != nullptr) {
+            head_ref->prev = nullptr; // Update the prev pointer of the new head
+        }
+        delete temp; // Free memory of the old head
+        return head_ref;
+    }
+
+    // Traverse to the node at position x
+    for (int i = 1; i < x && temp != nullptr; i++) {
+        temp = temp->next;
+    }
+
+    // If position is out of bounds
+    if (temp == nullptr) {
+        cout << "Position out of bounds." << endl;
+        return head_ref;
+    }
+
+    // Update the previous and next pointers
+    if (temp->next != nullptr) { // If not the last node
+        temp->next->prev = temp->prev;
+    }
+    temp->prev->next = temp->next;
+
+    // Free the memory of the node being deleted
+    delete temp;
+
+    return head_ref;
 }
+
 
 /*
 Time Complexity:
