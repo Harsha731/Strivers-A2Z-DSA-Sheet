@@ -52,3 +52,57 @@ Node* segregate(Node* head) {
     
     return head;
 }
+________________________________________________________________
+
+// 1. Initialize Dummy Nodes: Create dummy nodes (zeroHead, oneHead, twoHead) to store the 0, 1, and 2 lists.
+// 2. Traverse the Original List: Use the temp pointer to traverse the original list and append nodes to the corresponding list (0, 1, or 2).
+// 3. Connect the Lists: After segregation, connect the 0 list to the 1 list, and the 1 list to the 2 list. Set the end of the 2 list to NULL.
+// 4. Return Sorted List: Set the head to zeroHead->next and return the sorted linked list.
+    
+class Solution {
+public:
+    Node* segregate(Node* head) {
+        if (!head || !head->next) return head; // No sorting needed for empty or single-node list
+
+        // Dummy nodes for 0s, 1s, and 2s
+        Node* zeroHead = new Node(-1);
+        Node* oneHead = new Node(-1);
+        Node* twoHead = new Node(-1);
+
+        // Pointers to build the three lists
+        Node* zero = zeroHead;
+        Node* one = oneHead;
+        Node* two = twoHead;
+
+        // Use temp to traverse the original list
+        Node* temp = head;
+        while (temp) {
+            if (temp->data == 0) {
+                zero->next = temp;
+                zero = zero->next;
+            } else if (temp->data == 1) {
+                one->next = temp;
+                one = one->next;
+            } else {
+                two->next = temp;
+                two = two->next;
+            }
+            temp = temp->next; // Move to the next node
+        }
+
+        // Connect the three lists
+        zero->next = (oneHead->next) ? (oneHead->next) : (twoHead->next);
+        one->next = twoHead->next;
+        two->next = NULL; // Terminate the list
+
+        // Update head to the start of the sorted list
+        head = zeroHead->next;
+
+        // Free dummy nodes
+        delete zeroHead;
+        delete oneHead;
+        delete twoHead;
+
+        return head;
+    }
+};
