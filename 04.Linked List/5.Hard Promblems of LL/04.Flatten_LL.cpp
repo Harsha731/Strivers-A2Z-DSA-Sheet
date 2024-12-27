@@ -8,6 +8,17 @@ Flatten the Link List such that all the nodes appear in a single level while mai
 
 Note: The flattened list will be printed using the bottom pointer instead of the next pointer.
 
+Brute Force APPROACH :
+
+Step 1:Initialise an empty array to store the data extracted during the traversal.
+
+Step 2: Start traversing through the top-level ‘next’ pointers of the linked list and for each node accessed by the ‘next’ pointer, traverse its ‘child’ nodes.
+Iterate all the nodes until reaching the end of the child pointer list appending each node’s value to the array. Move to the next primary node and repeat the process of traversing the child nodes.
+
+Step 3: Sort the array to arrange its collected node data in ascending order.
+
+Step 4: Create a new linked list from the sorted array and return the flattened linked list
+
 **APPROACH:**
 
 To flatten the linked list, we can use a recursive approach. The idea is to flatten the list from right to left. Starting from the last node, we recursively flatten the sublist pointed by the bottom pointer and merge it with the current node. We continue this process until we reach the head of the original linked list. Finally, we return the flattened list.
