@@ -20,6 +20,7 @@ To sort a linked list, we can use the merge sort algorithm.
 5. Return the head of the sorted linked list.
 
 TIME COMPLEXITY: O(NlogN)
+There are logN levels and each node is visited only once in each level, so O(N)
 SPACE COMPLEXITY: O(logN) - Recursive stack space
 
 */
