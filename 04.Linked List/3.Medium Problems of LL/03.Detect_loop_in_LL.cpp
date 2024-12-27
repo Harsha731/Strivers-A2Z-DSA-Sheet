@@ -17,6 +17,14 @@ Output: true
 Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
 */
 
+/*   Brure force approach
+Step 1: Traverse through the LL using the traversal technique of assigning a temp node to the head and iterating by moving to the next element till we reach null.
+Step 2: While traversing, keep a track of the visited nodes in the map data structure. 
+Note: Storing the entire node in the map is essential to distinguish between nodes with identical values but different positions in the list. This ensures accurate loop detection and not just duplicate value checks.
+Step 3: If a previously visited node is encountered again, that proves that there is a loop in the linked list hence return true.
+Step 4: If the traversal is completed, and we reach the last point of the LL which is null, it means there was noloop, hence we return false.
+*/
+
 /*
 APPROACH:
 To determine if a linked list has a cycle, we can use the two-pointer technique.
@@ -27,6 +35,8 @@ In other words, if there is a cycle, the two pointers will meet at some point.
 If the fast pointer reaches the end of the list (i.e., it becomes NULL or reaches a node with a NULL next pointer), then there is no cycle in the linked list.
 Return true if the two pointers meet (indicating a cycle), and false otherwise.
 */
+
+// Also called as tortoise and Hare approach
 
 // CODE:-
 bool hasCycle(ListNode *head) {
