@@ -15,7 +15,7 @@ Input: head = [1,2], n = 1
 Output: [1]
 */
 
-/* 
+/*  brute force APPROACH
 1. Initialize a temp pointer to traverse the linked list.
 2. Use a cnt variable to count the total nodes in the list by iterating until temp reaches NULL
 3. Compute the position of the node to delete as L - N + 1.
