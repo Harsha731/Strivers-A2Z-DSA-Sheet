@@ -11,6 +11,15 @@ Input: head = [1,2]
 Output: false
 */
 
+/* 
+Brute force approach:
+Step 1: Create an empty stack. This stack will be used to temporarily store the nodes from the original linked list as we traverse it.
+Step 2: Traverse the linked list using a temporary variable `temp` till it reaches null. At each node, push the value at the current node onto the stack. 
+Step 3: Set variable `temp` back to the head of the linked list. While the stack is not empty, compare the value at the temp node to the value at the top of the stack. Pop the stack and move the temp to the next node till it reaches the end.
+During the comparison, if at any point the values do not match, the linked list is not a palindrome and hence returns false.
+Step 4: If all values match till emp reaches the end, it means that the linked list is a palindrome, as the values read the same way both forward and backward hence we return true.
+*/
+
 /*
 APPROACH:
 To determine if a linked list is a palindrome, we can follow these steps:
