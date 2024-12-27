@@ -36,6 +36,10 @@ The approach to adding a node at a specific position in a doubly linked list is 
 Time complexity of this approach is O(N), where N is the number of nodes in the doubly linked list. In the worst case, we may need to traverse the entire list to reach the desired position.
 Space complexity is O(1) as we are using a constant amount of extra space to store temporary pointers during the insertion process.
 
+** Here, the start is 0th node
+and we want to go till pth node (till cnt = p), so that we place a new node after the pth node
+
+
 CODE:-
 */
 
