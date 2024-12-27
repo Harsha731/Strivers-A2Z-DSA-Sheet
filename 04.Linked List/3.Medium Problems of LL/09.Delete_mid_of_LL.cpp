@@ -10,6 +10,11 @@ The above figure represents the given linked list. The indices of the nodes are 
 Since n = 7, node 3 with value 7 is the middle node, which is marked in red.
 We return the new list after removing this node.
 
+Brute force APPROACH:
+Step 1: Traverse the linked list to count the number of nodes and store the length as `n`. Calculate the index of the middle node by dividing the total number of nodes by 2.
+Step 2: Traverse the linked list again while keeping track of the node count to reach the middle node. 
+Step 3: Once reaching the middle node, delete it by setting the next pointer of the previous node directly to the node after the middle node. Free the memory allocated to the middle node.
+
 APPROACH:
 To delete the middle node of a linked list, we can use the slow and fast pointer technique.
 1. Initialize three pointers: slow, fast, and prev.
