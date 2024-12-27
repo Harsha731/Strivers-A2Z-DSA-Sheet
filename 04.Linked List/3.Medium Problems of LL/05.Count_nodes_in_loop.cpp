@@ -26,6 +26,13 @@ is 2.
 */
 
 /*
+Step 1: Traverse through the LL using the traversal technique of assigning a temp node to the head and iterating by moving to the next element till we reach null.
+While traversing, keep track of the Visited nodes and the timer value associated in the map data structure.
+Step 2: Continue traversing till a node that has already been visited is found. The difference between its timer value in the hashmap and the current timers value will be the length of the linked list.
+Step 3: If the traversal is completed, and we reach the last point of the linked list which is null, it means there was no loop, hence we return false
+*/
+
+/*
 APPROACH:
 To detect a loop in a linked list, we can use the Floyd's cycle-finding algorithm, also known as the "tortoise and hare" algorithm.
 Initialize two pointers, slow and fast, to the head of the linked list.
