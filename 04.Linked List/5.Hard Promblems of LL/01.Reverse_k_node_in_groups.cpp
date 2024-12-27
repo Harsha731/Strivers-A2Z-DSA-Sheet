@@ -12,7 +12,8 @@ We recursively call the function on the remaining linked list starting from frwd
 Finally, we update the next pointer of the original head to point to the reversed group obtained from the recursive call.
 
 
-** Everytime we are checking we are having atleast k nodes or not. 
+** Follow this approach
+Everytime we are checking we are having atleast k nodes or not. 
 If not there, then directly return head
 Now reverse every k nodes and attach the (head of next k nodes) to the (last of this k nodes)
 
