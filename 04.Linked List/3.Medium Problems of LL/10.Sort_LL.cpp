@@ -6,6 +6,11 @@ Example:
 Input: head = [4,2,1,3]
 Output: [1,2,3,4]
 
+brute force APPROACH :
+Step 1:Create an empty array to store the node values. Iterate the linked list using a temp pointer to the head and push the value of temp node into the array. Move temp to the next node.
+Step 2: Sort the array containing node values in ascending order.
+Step 3: Convert the sorted array back to a linked list reassigning the values from the sorted array and overwriting them sequentially according to their order in the array.
+
 APPROACH:
 To sort a linked list, we can use the merge sort algorithm.
 1. Implement a function to merge two sorted linked lists.
