@@ -28,10 +28,16 @@ APPROACH:-
 4. Once we reach the position just before the node to be deleted, we update the `next` pointer of the current node to skip the next node and point to the node after it.
 5. Return the head pointer of the modified linked list.
 
-
-
 Time complexity of this approach is O(N), where N is the number of nodes in the linked list. We may need to traverse the linked list until we reach the desired position.
 Space complexity is O(1) as we are not using any extra space that grows with the input size. We only need a constant amount of space to store the counter variable and the temporary pointer.
+
+
+
+** IMP 1 -> 2 -> 3	(3rd node)
+The goal is to position the curr pointer at the (x-1)th node (one node before the node to be deleted).
+i.e, place cur at 2
+
+So, at start cnt = 1, cur = 1 and it goes till 2
 
 CODE:-
 */
