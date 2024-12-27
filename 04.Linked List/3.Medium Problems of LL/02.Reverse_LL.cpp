@@ -24,6 +24,17 @@ Return prev, which will be the new head of the reversed list.
 */
 
 // CODE:-
+
+// Brute force approach
+
+// Brute force approach :
+// Step 1: Create an empty stack. This stack will be used to temporarily store the nodes from the original linked list as we traverse it.
+// Step 2: Traverse the linked list using a temporary variable `temp` till it reaches null. At each node, push the value at the current node onto the stack. 
+// Step 3: Set variable `temp` back to the head of the linked list. While the stack is not empty, set the value at the temp node to the value at the top of the stack. Pop the stack and move temp to the next node till it reaches null.
+// Step 4: Return the head as the new head of the reversed linked list
+
+// Method 1 : Iterative
+
 ListNode* reverseList(ListNode* head) {
     ListNode* prev = NULL;
     ListNode* curr = head;
@@ -35,6 +46,25 @@ ListNode* reverseList(ListNode* head) {
     }
     return prev;
 }
+
+// Method 2 : Recursive
+
+Node* reverseLinkedList(Node* head) {
+    // Base case: Empty list or single node
+    if (head == nullptr || head->next == nullptr) {
+        return head;
+    }
+
+    // Reverse the rest of the list
+    Node* newHead = reverseLinkedList(head->next);
+
+    // Adjust the pointers
+    head->next->next = head;
+    head->next = nullptr;
+
+    return newHead;
+}
+
 
 // TIME COMPLEXITY: O(N)
 // SPACE COMPLEXITY: O(1)
