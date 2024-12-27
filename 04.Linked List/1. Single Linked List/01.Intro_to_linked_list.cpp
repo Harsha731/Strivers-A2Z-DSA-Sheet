@@ -34,6 +34,23 @@ The approach to construct a linked list from an array is as follows:
 CODE:-
 */
 
+class Node{
+    Public: // access modifier
+    int data; // the data value
+    Node* next; // the pointer to the next value
+    Public:
+    // constructor
+    Node (int data1, Node* next1){
+        data=data1;  // Initialize data with the provided value
+        next=next1;  // Initialize next with the provided
+    }
+    Node (int data1){
+        data=data1;  // Initialize data with the provided value
+        next=nullptr;  // Initialize next as null since it's the end of the list
+
+    }
+};
+
 Node* constructLL(vector<int>& arr) {
     Node* head = new Node(arr[0]);
     Node* curr = head;
