@@ -39,54 +39,48 @@ APPROACH:-
 */
 
 // CODE:-
-vector<int> findUnion(int arr1[], int arr2[], int n, int m)
-{
-    int i = 0; // i to keep track in arr1
-    int j = 0; // j to keep track in arr2
-    vector<int> ans;
 
-    while (i < n && j < m)
-    {
+#include <vector>
+using namespace std;
 
-        if (arr1[i] < arr2[j])
-        {
-            ans.push_back(arr1[i++]);
-            while (i < n && arr1[i] == arr1[i - 1])
-                i++;
-        }
-        else if (arr2[j] < arr1[i])
-        {
-            ans.push_back(arr2[j++]);
-            while (j < m && arr2[j] == arr2[j - 1])
-                j++;
-        }
-        // means arr1[i] = arr2[j] in that case we can insert anyone
-        else
-        {
-            ans.push_back(arr1[i++]);
-            j++;
-            while (i < n && arr1[i] == arr1[i - 1])
-                i++;
-            while (j < m && arr2[j] == arr2[j - 1])
-                j++;
-        }
-    }
+vector<int> FindUnion(int arr1[], int arr2[], int n, int m) {
+    int i = 0, j = 0;           // Pointers for arr1 and arr2
+    vector<int> ans;            // Vector to store the union of arrays
 
-    while (i < n)
-    {
-        ans.push_back(arr1[i++]);
-        while (i < n && arr1[i] == arr1[i - 1])
+    // Traverse both arrays
+    while (i < n && j < m) {
+        if (arr1[i] <= arr2[j]) { // Case 1 and 2: arr1[i] is smaller or equal
+            if (ans.empty() || ans.back() != arr1[i]) {
+                ans.push_back(arr1[i]);
+            }
             i++;
-    }
-    while (j < m)
-    {
-        ans.push_back(arr2[j++]);
-        while (j < m && arr2[j] == arr2[j - 1])
+        } else {                  // Case 3: arr2[j] is smaller
+            if (ans.empty() || ans.back() != arr2[j]) {
+                ans.push_back(arr2[j]);
+            }
             j++;
+        }
+    }
+
+    // Add remaining elements of arr1, if any
+    while (i < n) {
+        if (ans.empty() || ans.back() != arr1[i]) {
+            ans.push_back(arr1[i]);
+        }
+        i++;
+    }
+
+    // Add remaining elements of arr2, if any
+    while (j < m) {
+        if (ans.empty() || ans.back() != arr2[j]) {
+            ans.push_back(arr2[j]);
+        }
+        j++;
     }
 
     return ans;
 }
+
 
 // TIME COMPLEXITY = O(N+M)
 // SPACE COMPLEXITY = O(0)
