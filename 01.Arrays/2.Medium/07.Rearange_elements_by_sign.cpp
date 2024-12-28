@@ -53,3 +53,28 @@ vector<int> rearrangeArray(vector<int> &nums)
 
 // TIME COMPLEXITY = O(N)
 // SPACE COMPLEXITY = O(0)
+
+// Follow Up question. Here counts of +ve != -ve 
+// We can't follow above approach because, it inserts elements at 1 index gap each
+// And we don't when we are out of elements of another type. Hence seperate arrays are needed
+
+vector<int> RearrangeBySign(vector<int> &A, int n) {
+    vector<int> pos, neg;
+
+    // Segregate the array into positives and negatives
+    for (int x : A) (x > 0 ? pos.push_back(x) : neg.push_back(x));
+
+    int i = 0, j = 0, k = 0;
+
+    // Fill alternatively while both have elements
+    while (i < pos.size() && j < neg.size()) {
+        A[k++] = pos[i++];
+        A[k++] = neg[j++];
+    }
+
+    // Append remaining elements
+    while (i < pos.size()) A[k++] = pos[i++];
+    while (j < neg.size()) A[k++] = neg[j++];
+
+    return A;
+}
