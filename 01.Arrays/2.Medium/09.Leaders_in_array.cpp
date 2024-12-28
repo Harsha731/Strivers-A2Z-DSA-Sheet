@@ -26,16 +26,13 @@ To find the leaders in the array, we can follow these steps:
 
 // CODE:
 
-vector<int> leaders(int a[], int n)
-{
+vector<int> leaders(int a[], int n) {
     vector<int> ans;
     ans.push_back(a[n - 1]);
     int maxi = a[n - 1]; // represent maximum encountered till now
 
-    for (int i = n - 2; i >= 0; i--)
-    {
-        if (a[i] >= maxi)
-        {
+    for (int i = n - 2; i >= 0; i--) {
+        if (a[i] >= maxi) {
             ans.push_back(a[i]);
             maxi = a[i];
         }
