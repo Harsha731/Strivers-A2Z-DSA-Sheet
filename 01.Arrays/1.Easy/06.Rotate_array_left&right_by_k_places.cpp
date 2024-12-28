@@ -20,6 +20,13 @@ rotate 1 steps to the right: [99,-1,-100,3]
 rotate 2 steps to the right: [3,99,-1,-100]
 */
 
+/* Brute force APPROACH
+Copy the last k elements into the temp array.
+Shift n-k elements from the beginning by k position to the right
+Copy the elements into the main array from the temp array.
+
+*/
+
 /*
 APPROACH:-
 To rotate the array k places to right follow below steps
