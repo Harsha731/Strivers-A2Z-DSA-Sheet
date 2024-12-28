@@ -13,6 +13,9 @@ Explanation:
 The largest element of given array is 90
 */
 
+// Brute force APPROACH 
+// sort and get the last element
+
 /*
 APPROACH:-
 -> Intialize the ans with starting element
