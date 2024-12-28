@@ -10,6 +10,8 @@ Explanation:
 We moved the 2nd element to the 1st position and 3rd element to the 2nd position and 4th element to the 3rd position and 5th element to the 4th position and move oth element to the 5th position.
 */
 
+// BRUTE FORCE APPROACH is to have a temp array and update all the values by 1 index prior and return this
+
 /*
 APPROACH:-
 -> By observing we can the ans is the arr where arr[i] = arr[i+1] and at last place we will have arr[0]
