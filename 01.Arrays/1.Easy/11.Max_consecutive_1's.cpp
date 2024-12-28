@@ -21,21 +21,21 @@ APPROACH:-
 */
 
 // CODE:-
-int findMaxConsecutiveOnes(vector<int> &nums)
-{
-    int ans = 0;
-    for (int i = 0; i < nums.size(); i++)
-    {
-        int cnt = 0; // to store the count of consecutive 1's
-        while (i < nums.size() && nums[i] == 1)
-        {
-            cnt++;
-            i++;
+
+int findMaxConsecutiveOnes(vector < int > & nums) {
+      int cnt = 0;
+      int maxi = 0;
+      for (int i = 0; i < nums.size(); i++) {
+        if (nums[i] == 1) {
+          cnt++;
+        } else {
+          cnt = 0;
         }
-        ans = max(ans, cnt);
+
+        maxi = max(maxi, cnt);
+      }
+      return maxi;
     }
-    return ans;
-}
 
 // TIME COMPLEXITY = O(N)
 // SPACE COMPLEXITY = O(0)
