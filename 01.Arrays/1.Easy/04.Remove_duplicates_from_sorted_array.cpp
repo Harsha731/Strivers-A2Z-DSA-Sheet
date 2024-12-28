@@ -20,6 +20,8 @@ Explanation: Your function should return k = 5, with the first five elements of 
 It does not matter what you leave beyond the returned k (hence they are underscores).
 */
 
+// BRUTE FORCE APPROACH : is to use a set and traverse once to fill and 2nd time to update values
+
 /*
 APPROACH:-
 -> The idea, is to use keep a pointer k which signifies that upto here the array is sorted
