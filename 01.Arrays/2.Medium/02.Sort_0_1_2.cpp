@@ -23,6 +23,10 @@ APPROACH:-
 2. If the current element at the mid pointer is 1 (white), we simply increment the mid pointer. This keeps white elements in the middle of the array.
 3. If the current element at the mid pointer is 2 (blue), we swap it with the element at the high pointer and decrement the high pointer. This ensures that blue elements are moved to the right side of the array.
 
+** If arr[mid] == 0: Swap with arr[low], increment low and mid.
+If arr[mid] == 1: Increment mid.
+If arr[mid] == 2: Swap with arr[high], decrement high (recheck mid).
+
 Repeat step 2 until the mid pointer crosses the high pointer.
 At the end of the algorithm, the array will be sorted in the desired order.
 */
