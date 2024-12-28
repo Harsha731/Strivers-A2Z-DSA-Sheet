@@ -23,7 +23,7 @@ It does not matter what you leave beyond the returned k (hence they are undersco
 /*
 APPROACH:-
 -> The idea, is to use keep a pointer k which signifies that upto here the array is sorted
--> Now travese the entire array and if arr[k]!=arr[j] that is arr[j] is a unique value hence it should be included
+-> Now travese the entire array using 'j' pointer and if arr[k]!=arr[j] that is arr[j] is a unique value hence it should be included
    so increment the k and swap arr[k] with arr[j]
 -> Return k+1, +1 is because of 0 based indexing
 */
