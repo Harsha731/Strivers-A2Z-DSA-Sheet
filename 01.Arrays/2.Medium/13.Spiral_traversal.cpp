@@ -16,22 +16,14 @@ Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 /*
 APPROACH:-
 
-To traverse the matrix in a spiral order, we can use the following steps:
+https://lh4.googleusercontent.com/Xq3R-xwSRxUx3EEjKQIMaHTM9qGqj81nPFe2nGoSnxnd36bStjU989Sf-CsWAnFZf4jHS68xr4l49QqKXeo7o7lLF1V38SJYaxC1CWWNzvk-eBNevdWhduS6mBSX9QGXGATwQw0OkFXkP18JWw
 
-1. Initialize four variables: top, bottom, left, and right to keep track of the boundaries of the current spiral.
-2. Create an empty vector called 'ans' to store the elements in spiral order.
-3. While the top boundary is less than or equal to the bottom boundary and the left boundary is less than or equal to the right boundary:
-   - Traverse the top row from left to right and add each element to 'ans'.
-   - Increment the top boundary.
-   - Traverse the right column from top to bottom and add each element to 'ans'.
-   - Decrement the right boundary.
-   - Check if the top boundary is still less than or equal to the bottom boundary:
-     - Traverse the bottom row from right to left and add each element to 'ans'.
-     - Decrement the bottom boundary.
-   - Check if the left boundary is still less than or equal to the right boundary:
-     - Traverse the left column from bottom to top and add each element to 'ans'.
-     - Increment the left boundary.
-4. Return the 'ans' vector containing all the elements in spiral order.
+In each outer loop traversal print the elements of a square in a clockwise manner.
+Print the top row, i.e. Print the elements of the top row from column index left to right and increase the count of the top so that it will move to the next row.
+Print the right column, i.e. Print the rightmost column from row index top to bottom and decrease the count of right.
+Print the bottom row, i.e. if top <= bottom, then print the elements of a bottom row from column right to left and decrease the count of bottom
+Print the left column, i.e. if left <= right, then print the elements of the left column from the bottom row to the top row and increase the count of left.
+Run a loop until all the squares of loops are printed.
 
 */
 
