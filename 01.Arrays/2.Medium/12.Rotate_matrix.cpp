@@ -21,6 +21,7 @@ Return the new matrix as ans
 TC : O(N^2) and SC : O(N^2)
 
 optimal) 
+TC : O(N^2) and SC : O(1)
 
 Given matrix :
 a11 a21 a31 a41
