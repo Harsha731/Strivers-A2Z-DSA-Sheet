@@ -10,83 +10,74 @@ Example 2:
 Input: matrix = [[0,1,2,0],[3,4,5,2],[1,3,1,5]]
 Output: [[0,0,0,0],[0,4,5,0],[0,3,1,0]]
 
-APPROACH:
-To solve this problem in-place, we can follow these steps:
-1. Use two boolean variables, firstRowZero and firstColZero, to check if the first row and first column contain zeros initially.
-2. Iterate through the matrix and if an element is zero, set the corresponding element in the first row and first column to zero.
-3. Iterate through the matrix again, excluding the first row and first column. If an element in the first row or first column is zero, set the current element to zero.
-4. Finally, based on the values in firstRowZero and firstColZero, set the first row and first column to zero if needed.
+Set Matrix Zeros :
+Brute force) Traverse each cell.
+If a cell contains 0, set all 'non-zero' elements in its entire row and column to -1 using markRow and markCol.
+Now, 2nd traversal is replacing every -1 with 0.
+TC : O(N*M*(N+M)) + O(N*M) and SC : O(1)
 
-TIME COMPLEXITY: O(m * n), where m and n are the dimensions of the matrix.
-SPACE COMPLEXITY: O(1), as we are using constant extra space.
+Better approach) Arrays row and col are used to track which rows and columns need to be zeroed.
+Traverse the matrix. If any element is 0, mark the corresponding row[i] and col[j] as 1.
+Traverse the matrix again. Set matrix[i][j] to 0 if row[i] or col[j] is 1.
+TC : O(N*M) and SC : O(N+M)
+
+Optimal approach)
+i) Instead of separate arrays for rows and columns, use the first row and column of the matrix itself.
+ii) Additionally, use a variable col0 to track whether the first column should be zeroed.
+Traverse the matrix. If a cell is 0, set the corresponding row marker (matrix[i][0]) and column marker (matrix[0][j]). If the zero is in the first column, set col0 to 0.
+iii) Traverse the matrix from (1,1) to (n-1, m-1). Set matrix[i][j] to 0 if its row or column marker is 0.
+iv) If the top-left cell (matrix[0][0]) is 0, zero out the entire first row. If col0 is 0, zero out the entire first column.
+TC : O(N*M) and SC : O(1)
 
 */
 
-// CODE:
-void setZeroes(vector<vector<int>>& matrix) {
-    int m = matrix.size();
-    int n = matrix[0].size();
-    bool firstRowZero = false;
-    bool firstColZero = false;
+vector<vector<int>> zeroMatrix(vector<vector<int>> &matrix, int n, int m) {
 
-    // Check if the first row contains zero
-    for (int j = 0; j < n; j++) {
-        if (matrix[0][j] == 0) {
-            firstRowZero = true;
-            break;
-        }
-    }
+    // int row[n] = {0}; --> matrix[..][0]
+    // int col[m] = {0}; --> matrix[0][..]
 
-    // Check if the first column contains zero
-    for (int i = 0; i < m; i++) {
-        if (matrix[i][0] == 0) {
-            firstColZero = true;
-            break;
-        }
-    }
-
-    // Mark zeros in the first row and column
-    for (int i = 1; i < m; i++) {
-        for (int j = 1; j < n; j++) {
+    int col0 = 1;
+    // step 1: Traverse the matrix and
+    // mark 1st row & col accordingly:
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
             if (matrix[i][j] == 0) {
+                // mark i-th row:
                 matrix[i][0] = 0;
-                matrix[0][j] = 0;
+
+                // mark j-th column:
+                if (j != 0)
+                    matrix[0][j] = 0;
+                else
+                    col0 = 0;
             }
         }
     }
 
-    // Set rows to zero
-    for (int i = 1; i < m; i++) {
-        if (matrix[i][0] == 0) {
-            for (int j = 1; j < n; j++) {
-                matrix[i][j] = 0;
+    // Step 2: Mark with 0 from (1,1) to (n-1, m-1):
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < m; j++) {
+            if (matrix[i][j] != 0) {
+                // check for col & row:
+                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+                    matrix[i][j] = 0;
+                }
             }
         }
     }
 
-    // Set columns to zero
-    for (int j = 1; j < n; j++) {
-        if (matrix[0][j] == 0) {
-            for (int i = 1; i < m; i++) {
-                matrix[i][j] = 0;
-            }
-        }
-    }
-
-    // Set first row to zero
-    if (firstRowZero) {
-        for (int j = 0; j < n; j++) {
+    //step 3: Finally mark the 1st col & then 1st row:
+    if (matrix[0][0] == 0) {
+        for (int j = 0; j < m; j++) {
             matrix[0][j] = 0;
         }
     }
-
-    // Set first column to zero
-    if (firstColZero) {
-        for (int i = 0; i < m; i++) {
+    if (col0 == 0) {
+        for (int i = 0; i < n; i++) {
             matrix[i][0] = 0;
         }
     }
+
+    return matrix;
 }
 
-// TIME COMPLEXITY: O(m * n), where m and n are the dimensions of the matrix.
-// SPACE COMPLEXITY: O(1), as we are using constant extra space.
