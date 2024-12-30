@@ -17,6 +17,7 @@ Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 APPROACH:-
 
 https://lh4.googleusercontent.com/Xq3R-xwSRxUx3EEjKQIMaHTM9qGqj81nPFe2nGoSnxnd36bStjU989Sf-CsWAnFZf4jHS68xr4l49QqKXeo7o7lLF1V38SJYaxC1CWWNzvk-eBNevdWhduS6mBSX9QGXGATwQw0OkFXkP18JWw
+![Sample Output](Spiral_traversal.png)
 
 In each outer loop traversal print the elements of a square in a clockwise manner.
 Print the top row, i.e. Print the elements of the top row from column index left to right and increase the count of the top so that it will move to the next row.
