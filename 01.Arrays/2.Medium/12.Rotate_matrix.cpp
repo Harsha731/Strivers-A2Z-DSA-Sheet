@@ -16,11 +16,35 @@ Output: [[15,13,2,5],[14,3,4,1],[12,6,8,9],[16,7,10,11]]
 /*
 APPROACH:-
 
-To rotate the image by 90 degrees clockwise in-place, we can follow these steps:
+brute force) Take another matrix and keep the 1st row elements as 1st column elements and so on
+Return the new matrix as ans
+TC : O(N^2) and SC : O(N^2)
 
-1. Transpose the matrix: Iterate over the matrix and swap each element (i, j) with its corresponding element (j, i). This step transforms rows into columns.
+optimal) 
 
-2. Reverse each row: Iterate over each row in the transposed matrix and reverse the elements. This step ensures the rotation in a clockwise direction.
+Given matrix :
+a11 a21 a31 a41
+a12 a22 a32 a42
+a13 a23 a33 a43
+a14 a24 a34 a44
+
+Transposed matrix :
+a11 a12 a13 a14
+a21 a22 a23 a24
+a31 a32 a33 a34
+a41 a42 a43 a44
+
+Reverse each row : (90 degrees CW)
+a14 a13 a12 a11 
+a24 a23 a22 a21
+a34 a33 a32 a31
+a44 a43 a42 a41
+
+Reverse each col : (90 degrees CCW)
+a41 a42 a43 a44
+a31 a32 a33 a34
+a21 a22 a23 a24
+a11 a12 a13 a14
 
 */
 
