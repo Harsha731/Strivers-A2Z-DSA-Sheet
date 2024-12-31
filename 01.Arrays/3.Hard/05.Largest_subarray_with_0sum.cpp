@@ -9,42 +9,36 @@ A[] = {15, -2, 2, -8, 1, 7, 10, 23}
 Output: 5
 Explanation: The largest subarray with a sum of 0 will be -2, 2, -8, 1, 7.
 
-APPROACH:
-To find the length of the largest subarray with a sum of 0, we can use a technique called prefix sum.
-1. Create a prefix sum array of the same size as the input array.
-2. Initialize a map to store the prefix sum and its corresponding index. Initialize it with an entry for prefix sum 0 and index -1.
-3. Iterate through the input array and calculate the prefix sum by adding each element.
-4. For each prefix sum encountered, check if it exists in the map. If it does, update the answer by taking the maximum of the current answer and the difference between the current index and the index stored in the map for that prefix sum.
-5. If the prefix sum is not found in the map, add it to the map with its corresponding index.
-6. Finally, return the answer as the length of the largest subarray with a sum of 0.
+// TC : O(N^2) and SC : O(1)
 
-CODE:
-*/
+int solve(vector<int>& a) {
+    int maxLen = 0;
 
-int maxLen(vector<int> &A, int n)
-{
-    unordered_map<int, int> mp;
-    mp[0] = -1;
-    int pref_sum = 0;
-    int ans = 0;
-
-    for (int i = 0; i < n; i++)
-    {
-        pref_sum += A[i];
-        if (mp.find(pref_sum) != mp.end())
-        {
-            ans = max(ans, i - mp[pref_sum]);
-        }
-        else
-        {
-            mp[pref_sum] = i;
+    for (int i = 0; i < a.size(); i++) {
+        int sum = 0;
+        for (int j = i; j < a.size(); j++) {
+            sum += a[j];
+            if (sum == 0) {
+                maxLen = max(maxLen, j - i + 1);
+            }
         }
     }
 
-    return ans;
+    return maxLen;
 }
+_____________________________
 
-/*
-TIME COMPLEXITY: O(n), where n is the size of the input array A.
-SPACE COMPLEXITY: O(n), as we are using a map to store the prefix sums and their corresponding indices.
-*/
+// TC : O(N) and SC : O(N)
+
+int solve(vector<int>& a) {
+    int maxLen = 0, sum = 0;
+    unordered_map<int, int> sumIndexMap;
+
+    for (int i = 0; i < a.size(); i++) {
+        sum += a[i];
+        if (sum == 0) maxLen = i + 1;
+        else if (sumIndexMap.find(sum) != sumIndexMap.end()) maxLen = max(maxLen, i - sumIndexMap[sum]);
+        else sumIndexMap[sum] = i;
+    }
+    return maxLen;
+}
