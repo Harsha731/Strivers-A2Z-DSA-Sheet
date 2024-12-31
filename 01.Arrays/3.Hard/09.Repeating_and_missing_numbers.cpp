@@ -66,8 +66,6 @@ XOR all elements and numbers from 1 to n to get xr = X ^ Y.
 Find the rightmost bit where X and Y differ.
 Group the numbers based on this bit and XOR each group to find the missing and repeating numbers.
 
-
-
 vector<int> findMissingRepeatingNumbers(vector<int> a) {
     int n = a.size(); // size of the array
 
