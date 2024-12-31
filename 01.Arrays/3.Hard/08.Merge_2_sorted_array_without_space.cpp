@@ -10,48 +10,91 @@ Output: [1,2,2,3,5,6]
 Explanation: The arrays we are merging are [1,2,3] and [2,5,6].
 The result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.
 
-APPROACH:
-To merge two sorted arrays, nums1 and nums2, into nums1, we can use a two-pointer approach.
-1. Initialize three pointers: i, j, and k, where i points to the last valid element of nums1, j points to the last element of nums2, and k points to the last index of the merged array nums1.
-2. Start from the end of the arrays and compare the elements at i and j.
-3. If the element at nums1[i] is greater than the element at nums2[j], swap it with the element at nums1[k], decrement i and k.
-4. Otherwise, swap the element at nums2[j] with the element at nums1[k], decrement j and k.
-5. Repeat steps 3 and 4 until all elements in nums1 and nums2 have been merged.
-6. If there are still elements remaining in nums2 after merging, copy them to the remaining positions in nums1.
-
 CODE:
 */
 
-void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-    int i = m - 1; // Pointer for nums1
-    int j = n - 1; // Pointer for nums2
-    int k = m + n - 1; // Pointer for merged array nums1
-    
-    while (i >= 0 && j >= 0) {
-        if (nums1[i] > nums2[j]) {
-            swap(nums1[i], nums1[k]);
-            i--;
-            k--;
-        } else {
-            swap(nums2[j], nums1[k]);
-            j--;
-            k--;
+
+optimal 1) 
+The idea was arr1 max <= arr2 min
+It was not given that it should be *sorted* in the end. Elements will be in desc order in arr2
+If arr1[left] > arr2[right]: We will swap the elements and move the pointers to the next positions.
+If arr1[left] <= arr2[right]: We will stop moving the pointers as arr1[] and arr2[] are containing correct elements. 
+
+void merge(long long arr1[], long long arr2[], int n, int m) {
+
+    //Declare 2 pointers:
+    int left = n - 1;
+    int right = 0;
+
+    //Swap the elements until arr1[left] is
+    // smaller than arr2[right]:
+    while (left >= 0 && right < m) {
+        if (arr1[left] > arr2[right]) {
+            swap(arr1[left], arr2[right]);
+            left--, right++;
+        }
+        else {
+            break;
         }
     }
-    
-    // Copy remaining elements from nums2 to nums1 if any
-    while (j >= 0) {
-        swap(nums2[j], nums1[k]);
-        j--;
-        k--;
+
+    // Sort arr1[] and arr2[] individually:
+    sort(arr1, arr1 + n);
+    sort(arr2, arr2 + m);
+}
+
+Time Complexity: O(min(n, m)) + O(n*logn) + O(m*logm), where n and m are the sizes of the given arrays.
+Reason: O(min(n, m)) is for swapping the array elements. And O(n*logn) and O(m*logm) are for sorting the two arrays.
+
+Space Complexity: O(1) as we are not using any extra space.
+_________________________________________
+
+optimal 2) Gap method or shell sort
+
+void swapIfGreater(long long arr1[], long long arr2[], int ind1, int ind2) {
+    if (arr1[ind1] > arr2[ind2]) {
+        swap(arr1[ind1], arr2[ind2]);
     }
 }
 
-/*
-TIME COMPLEXITY: O(m + n), where m and n are the lengths of nums1 and nums2 respectively.
-The merging process requires iterating through both arrays once.
-SPACE COMPLEXITY: O(1)
-The merge is performed in-place without using any additional space.
+void merge(long long arr1[], long long arr2[], int n, int m) {
+    // len of the imaginary single array:
+    int len = n + m;
 
-*/
+    // Initial gap:
+    int gap = (len / 2) + (len % 2);
 
+    while (gap > 0) {
+        // Place 2 pointers:
+        int left = 0;
+        int right = left + gap;
+        while (right < len) {
+            // case 1: left in arr1[]
+            //and right in arr2[]:
+            if (left < n && right >= n) {
+                swapIfGreater(arr1, arr2, left, right - n);
+            }
+            // case 2: both pointers in arr2[]:
+            else if (left >= n) {
+                swapIfGreater(arr2, arr2, left - n, right - n);
+            }
+            // case 3: both pointers in arr1[]:
+            else {
+                swapIfGreater(arr1, arr1, left, right);
+            }
+            left++, right++;
+        }
+        // break if iteration gap=1 is completed:
+        if (gap == 1) break;
+
+        // Otherwise, calculate new gap:
+        gap = (gap / 2) + (gap % 2);
+    }
+}
+
+Time Complexity: O((n+m)*log(n+m)), where n and m are the sizes of the given arrays.
+Reason: The gap is ranging from n+m to 1 and every time the gap gets divided by 2. So, the time complexity of the outer loop will be O(log(n+m)). 
+Now, for each value of the gap, the inner loop can at most run for (n+m) times. So, the time complexity of the inner loop will be O(n+m). 
+So, the overall time complexity will be O((n+m)*log(n+m)).
+
+Space Complexity: O(1) as we are not using any extra space.
