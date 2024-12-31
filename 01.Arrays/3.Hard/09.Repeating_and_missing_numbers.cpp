@@ -23,26 +23,35 @@ To find the missing and repeating numbers in the given unsorted array, we can ut
 CODE:
 */
 
-vector<int> findTwoElement(vector<int> arr, int N) {
-    long long n = N;
-    long long optSum = n * (n + 1) / 2; // Sum if all elements are present once
-    long long opt2Sum = n * (n + 1) * (2 * n + 1) / 6; // Optimum sum of squares
-    long long actSum = 0; // Actual sum of the given array
-    long long act2Sum = 0; // Actual sum of squares
-    
-    for (auto it : arr) {
-        actSum += it;
-        act2Sum += (long long)it * (long long)it;
+vector<int> findMissingRepeatingNumbers(vector<int> a) {
+    long long n = a.size(); // size of the array
+
+    // Find Sn and S2n:
+    long long SN = (n * (n + 1)) / 2;
+    long long S2N = (n * (n + 1) * (2 * n + 1)) / 6;
+
+    // Calculate S and S2:
+    long long S = 0, S2 = 0;
+    for (int i = 0; i < n; i++) {
+        S += a[i];
+        S2 += (long long)a[i] * (long long)a[i];
     }
-    
-    long long xMinusY = optSum - actSum;
-    long long x2MinusY2 = opt2Sum - act2Sum;
-    long long xPlusY = x2MinusY2 / xMinusY;
-    
-    long long x = (xPlusY + xMinusY) / 2;
-    long long y = xPlusY - x;
-    
-    return {(int)y, (int)x};
+
+    //S-Sn = X-Y:
+    long long val1 = S - SN;
+
+    // S2-S2n = X^2-Y^2:
+    long long val2 = S2 - S2N;
+
+    //Find X+Y = (X^2-Y^2)/(X-Y):
+    val2 = val2 / val1;
+
+    //Find X and Y: X = ((X+Y)+(X-Y))/2 and Y = X-(X-Y),
+    // Here, X-Y = val1 and X+Y = val2:
+    long long x = (val1 + val2) / 2;
+    long long y = x - val1;
+
+    return {(int)x, (int)y};
 }
 
 /*
