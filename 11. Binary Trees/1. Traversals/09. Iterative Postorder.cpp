@@ -1,48 +1,50 @@
 /*
-Question:
-Given the root of a binary tree, return the postorder traversal of its nodes' values.
+1. Two Stacks for Postorder: Use two stacks:
+    st1 for storing nodes during the traversal.
+    st2 for reversing the node processing order to get postorder.
 
-Approach:
-- We can perform a postorder traversal iteratively using a stack and a map.
-- The idea is to push all the left children of a node into the stack until we reach a node with no left child.
-- Then, we check if the right child of the node exists or has already been visited (using the map).
-    - If it does not exist or has been visited, we add the node's value to the result vector and pop the node from the stack.
-    - Otherwise, we push the right child into the stack and mark it as visited in the map.
-- We repeat this process until the stack is empty and all nodes are traversed.
+2. Push Root to st1: Push the root node onto st1 to start the traversal.
 
-Complexity Analysis:
-- Since we visit each node once and perform constant time operations for each node, the time complexity of this approach is O(N), where N is the number of nodes in the binary tree.
-- The space complexity is also O(N) as we store the node values in the result vector and use a stack and a map to keep track of the nodes.
+3. Iterative Traversal:
+    While st1 is not empty, pop the top node and push it onto st2.
+    Push the left child to st1 (if it exists).
+    Push the right child to st1 (if it exists).
 
-Code:
+4. Postorder Result: After the traversal, st2 will have nodes in reverse postorder. Pop from st2 and add values to the postorder vector.
+5. Return Result: Return the postorder vector containing the postorder traversal.
 */
 
-void pushLeft(TreeNode* curr, stack<TreeNode*>& st, unordered_map<TreeNode*, bool>& mp) {
-    while (curr) {
-        mp[curr] = true;
-        st.push(curr);
-        curr = curr->left;
+vector<int> postOrder(Node* root) {
+    vector<int> postorder;
+
+    if(root == NULL){
+        return postorder;
     }
+
+    stack<Node*> st1, st2;
+
+    st1.push(root);
+
+    while(!st1.empty()){
+        root = st1.top();
+        st1.pop();
+
+        st2.push(root);
+
+        if(root->left != NULL){
+            st1.push(root->left);
+        }
+
+        if(root->right != NULL){
+            st1.push(root->right);
+        }
+    }
+
+    while(!st2.empty()){
+        postorder.push_back(st2.top()->data);
+        st2.pop();
+    }
+
+    return postorder;
 }
 
-vector<int> postorderTraversal(TreeNode* root) {
-    if (!root) {
-        return {};
-    }
-    vector<int> ans;
-    stack<TreeNode*> st;
-    TreeNode* curr = root;
-    unordered_map<TreeNode*, bool> mp;
-    pushLeft(curr, st, mp);
-    while (!st.empty()) {
-        curr = st.top();
-        if (!curr->right || mp[curr->right]) {
-            ans.push_back(curr->val);
-            st.pop();
-        }
-        else {
-            pushLeft(curr->right, st, mp);
-        }
-    }
-    return ans;
-}
