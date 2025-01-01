@@ -42,3 +42,32 @@ vector<int> rightSideView(TreeNode* root) {
 
     return ans;
 }
+___________________________________________
+
+/*
+It uses a helper function recursionRight that traverses the tree.
+For each level, it first checks if the level already has a node in the result vector. If not, it adds the current node’s value as the first visible node at that level.
+It prioritizes the right child before the left child to ensure the rightmost node is added first.
+Traversal: The function performs a depth-first search (DFS) with right-to-left traversal, ensuring the rightmost node at each level is added to the result.
+*/
+
+class Solution {
+public:
+    vector<int> rightsideView(Node* root) {
+        vector<int> res;
+        recursionRight(root, 0, res);
+        return res;
+    }
+
+private:
+    void recursionRight(Node* root, int level, vector<int>& res) {
+        if (root == NULL) {
+            return;
+        }
+        if (res.size() == level) {
+            res.push_back(root->data);
+        }
+        recursionRight(root->right, level + 1, res);
+        recursionRight(root->left, level + 1, res);
+    }
+};
