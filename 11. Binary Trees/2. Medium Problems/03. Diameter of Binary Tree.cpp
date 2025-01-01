@@ -2,7 +2,15 @@
 Question:
 Given the root of a binary tree, return the length of the diameter of the tree.
 
-Approach:
+Approach 1:
+Create a global variable diameter to store the maximum diameter.
+Write a recursive function to calculate the height of a node.
+Calculate the height of the left and right subtrees.
+Compute the diameter at the current node (leftHeight + rightHeight).
+Update diameter to the maximum of its current value and the computed diameter.
+TC : O(N^2)
+
+Approach 2:
 - The diameter of a binary tree is the length of the longest path between any two nodes in the tree.
 - This path may or may not pass through the root.
 - To find the diameter of the tree, we can recursively calculate the height of each node's left and right subtrees.
