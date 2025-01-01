@@ -4,8 +4,32 @@ Given a binary tree, determine if it is height-balanced.
 
 Approach 1: 
 calculate heights at each node and do abs(lh-rh) && left && right
+Visit each node twice
 TC : O(N^2)
+*/
 
+bool isBalanced(Node* root) {
+    if (root == nullptr) {
+        return true;
+    }
+    int leftHeight = getHeight(root->left);
+    int rightHeight = getHeight(root->right);
+    if (abs(leftHeight - rightHeight) <= 1 && isBalanced(root->left) && isBalanced(root->right)) {
+        return true;
+    }
+    return false;
+}
+
+int getHeight(Node* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    int leftHeight = getHeight(root->left);
+    int rightHeight = getHeight(root->right);
+    return max(leftHeight, rightHeight) + 1;
+}
+__________________________________________________________
+/*
 Approach 2:
 - We can solve this problem recursively by checking if the left and right subtrees of each node are height-balanced.
 - For each node, we calculate the height of its left and right subtrees, and check if the absolute difference of their heights is at most 1.
