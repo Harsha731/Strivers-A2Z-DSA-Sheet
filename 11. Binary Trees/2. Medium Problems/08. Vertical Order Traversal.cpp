@@ -4,12 +4,16 @@ Given the root of a binary tree, calculate the vertical order traversal of the b
 There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
 
 Approach:
-- We can perform a level order traversal of the binary tree while keeping track of the horizontal distance (hd) of each node from the root.
-- For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively.
-- We can use a queue to perform the level order traversal. The queue will store pairs of (hd, node), where hd represents the horizontal distance and node represents the current node being processed.
-- During the traversal, we maintain an unordered_map to store the nodes at each horizontal distance. The key in the map is the horizontal distance (hd), and the value is a vector of pairs representing the level and value of the nodes at that horizontal distance.
-- After the traversal, we iterate over the keys in the map in ascending order and sort the nodes within each horizontal distance based on their levels. We then extract the values and add them to the result vector.
-- Finally, we return the result vector containing the vertical order traversal.
+
+map<int, map<int, multiset<int>>> nodes stores nodes by vertical (x) and level (y).
+queue<pair<Node*, pair<int, int>>> for BFS traversal.
+
+Traversal:
+Start BFS with root at (x = 0, y = 0).
+For each node, store its value in nodes[x][y] and enqueue its left (x-1, y+1) and right (x+1, y+1) children.
+
+Result Construction:
+Traverse nodes to combine and sort values for each vertical column.
 
 Complexity Analysis:
 - Since we visit each node once and perform constant time operations for each node, the time complexity of this approach is O(N), where N is the number of nodes in the binary tree.
@@ -20,43 +24,37 @@ Code:
 
 // NOTE:- we are keeping track of levels because of the question condition but if no such condition exists, then no need of level only hd will work.
 
-vector<vector<int>> verticalTraversal(TreeNode* root) {
-    if (!root) return {};
+class Solution {
+public:
+    vector<vector<int>> findVertical(Node* root) {
+        map<int, map<int, multiset<int>>> nodes;
+        queue<pair<Node*, pair<int, int>>> todo;
+        todo.push({root, {0, 0}});
 
-    unordered_map<int, vector<pair<int, int>>> mp;
-    int mini = 0, maxi = 0;
-    queue<pair<int, TreeNode*>> q;
-    q.push({0, root});
+        while (!todo.empty()) {
+            auto p = todo.front();
+            todo.pop();
+            Node* temp = p.first;
+            int x = p.second.first;
+            int y = p.second.second;
+            nodes[x][y].insert(temp->data);
 
-    int lvl = 0;
-    while (!q.empty()) {
-        int n = q.size();
-        for (int i = 0; i < n; i++) {
-            auto p = q.front();
-            q.pop();
-            TreeNode* curr = p.second;
-            int hd = p.first;
-            if (curr->left) {
-                mini = min(mini, hd - 1);
-                q.push({hd - 1, curr->left});
+            if (temp->left) {
+                todo.push({temp->left, {x - 1, y + 1}});
             }
-            if (curr->right) {
-                maxi = max(maxi, hd + 1);
-                q.push({hd + 1, curr->right});
+            if (temp->right) {
+                todo.push({temp->right, {x + 1, y + 1}});
             }
-            mp[hd].push_back({lvl, curr->val});
         }
-        lvl++;
-    }
 
-    vector<vector<int>> ans;
-    for (int i = mini; i <= maxi; i++) {
-        sort(mp[i].begin(), mp[i].end());
-        vector<int> temp;
-        for (auto it : mp[i])
-            temp.push_back(it.second);
-        ans.push_back(temp);
+        vector<vector<int>> ans;
+        for (auto p : nodes) {
+            vector<int> col;
+            for (auto q : p.second) {
+                col.insert(col.end(), q.second.begin(), q.second.end());
+            }
+            ans.push_back(col);
+        }
+        return ans;
     }
-
-    return ans;
-}
+};
