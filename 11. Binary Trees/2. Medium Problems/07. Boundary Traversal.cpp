@@ -21,6 +21,12 @@ Complexity Analysis:
 Code:
 */
 
+/*
+left - until leaf node
+leaf nodes - separate function for leaf node too - traverse in in-order
+right - from root->right and reverse add
+*/
+
 void leftTraversal(TreeNode<int>* root, vector<int>& ans) {
     if (!root) return;
     if (!root->left && !root->right) return;
