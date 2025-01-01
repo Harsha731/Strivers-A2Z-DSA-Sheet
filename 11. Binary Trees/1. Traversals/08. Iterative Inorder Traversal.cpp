@@ -1,43 +1,38 @@
 /*
-Question:
-Given the root of a binary tree, return the inorder traversal of its nodes' values.
+1. Traverse Left Subtree:
+    Push the current node onto the stack.
+    Move to the left child of the current node.
 
-Approach:
-- We can perform an inorder traversal iteratively using a stack.
-- The idea is to push all the left children of a node into the stack until we reach a node with no left child.
-- Then, we pop a node from the stack, add its value to the result vector, and move to its right child (if it exists).
-- We repeat this process until the stack is empty and all nodes are traversed.
+2. Process Node:
+    When a node becomes NULL, pop a node from the stack.
+    Add the node’s value to the result list.
 
-Complexity Analysis:
-- Since we visit each node once and perform constant time operations for each node, the time complexity of this approach is O(N), where N is the number of nodes in the binary tree.
-- The space complexity is O(N) as we store the node values in the result vector and use a stack to keep track of the nodes.
-
-Code:
+3. Traverse Right Subtree: Move to the right child of the current node after processing the current node.
+4. End Traversal: The loop ends when both the stack is empty and node is NULL, and the inorder traversal result is returned.
 */
 
-void pushLeft(TreeNode* curr, stack<TreeNode*>& st) {
-    while (curr) {
-        st.push(curr);
-        curr = curr->left;
-    }
-}
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root){
+        stack<TreeNode*> st;
+        TreeNode* node = root;
+        vector<int> inorder;
 
-vector<int> inorderTraversal(TreeNode* root) {
-    if (!root) {
-        return {};
-    }
-    stack<TreeNode*> st;
-    TreeNode* curr = root;
-    pushLeft(curr, st);
-    vector<int> ans;
-    while (!st.empty()) {
-        curr = st.top();
-        st.pop();
-        ans.push_back(curr->val);
-        curr = curr->right;
-        if (curr) {
-            pushLeft(curr, st);
+        while(true){
+            if(node != NULL){
+                st.push(node);
+                node = node->left;
+            }
+            else{
+                if(st.empty()){
+                    break;
+                }
+                node = st.top();
+                st.pop();
+                inorder.push_back(node->val);
+                node = node->right;
+            }
         }
+        return inorder;
     }
-    return ans;
-}
+};
