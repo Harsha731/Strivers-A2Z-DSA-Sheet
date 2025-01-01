@@ -2,7 +2,11 @@
 Question:
 Given a binary tree, determine if it is height-balanced.
 
-Approach:
+Approach 1: 
+calculate heights at each node and do abs(lh-rh) && left && right
+TC : O(N^2)
+
+Approach 2:
 - We can solve this problem recursively by checking if the left and right subtrees of each node are height-balanced.
 - For each node, we calculate the height of its left and right subtrees, and check if the absolute difference of their heights is at most 1.
 - If both subtrees are height-balanced, and the absolute difference of their heights is at most 1, then the current node and its subtree are height-balanced.
