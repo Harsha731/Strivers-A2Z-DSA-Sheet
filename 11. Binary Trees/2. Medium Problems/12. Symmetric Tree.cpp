@@ -10,18 +10,12 @@
 
 /**
  APPROACH:
- We can solve this problem using a recursive approach.
- 1. Define a helper function "isMirror" that takes two tree nodes as input.
- 2. Base case:
-    - If both nodes are NULL, return true.
-    - If either node is NULL, return false.
- 3. Check if the values of the two nodes are equal.
- 4. Recursively call "isMirror" on the left and right children of the two nodes:
-    - isMirror(node1->left, node2->right)
-    - isMirror(node1->right, node2->left)
- 5. Return the logical AND of the above two recursive calls.
- 6. In the main "isSymmetric" function, return the result of calling "isMirror" on the root's left and right children.
- 
+Helper Function: isSymmetricUtil compares two subtrees recursively by checking:
+If both nodes are NULL.
+If the nodes' values are equal.
+If the left child of the first subtree and the right child of the second subtree are symmetric, and vice versa.
+Base Case: The tree is symmetric if its left and right subtrees are mirrors of each other.
+
  COMPLEXITY ANALYSIS:
  - The time complexity is O(N), where N is the number of nodes in the binary tree, as we need to visit all the nodes once.
  - The space complexity is O(H), where H is the height of the tree, due to the recursive function calls on the stack.
@@ -30,16 +24,23 @@
 CODE:-
 */
 
-bool isMirror(TreeNode* node1, TreeNode* node2) {
-    if (!node1 && !node2)
-        return true;
-    if (!node1 || !node2)
-        return false;
-    return (node1->val == node2->val) &&
-           isMirror(node1->left, node2->right) &&
-           isMirror(node1->right, node2->left);
-}
+class Solution {
+private:
+    bool isSymmetricUtil(Node* root1, Node* root2) {
+        if (root1 == NULL || root2 == NULL) {
+            return root1 == root2;
+        }
+        return (root1->data == root2->data)
+            && isSymmetricUtil(root1->left, root2->right)
+            && isSymmetricUtil(root1->right, root2->left);
+    }
 
-bool isSymmetric(TreeNode* root) {
-    return isMirror(root->left, root->right);
-}
+public:
+    bool isSymmetric(Node* root) {
+        if (!root) {
+            return true;
+        }
+        return isSymmetricUtil(root->left, root->right);
+    }
+};
+
