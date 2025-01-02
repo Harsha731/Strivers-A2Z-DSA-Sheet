@@ -12,7 +12,9 @@ Explanation: The LCA of nodes 5 and 1 is 3.
 
 APPROACH:
 
-To find the lowest common ancestor (LCA) of two nodes `p` and `q` in a binary tree, we can use a recursive approach. We start from the root of the tree and check if either `p` or `q` matches the current node. If one of them matches, it means that the current node is the LCA. Otherwise, we recursively search for `p` and `q` in the left and right subtrees.
+To find the lowest common ancestor (LCA) of two nodes `p` and `q` in a binary tree, we can use a recursive approach. 
+We start from the root of the tree and check if either `p` or `q` matches the current node.
+If one of them matches, it means that the current node is the LCA. Otherwise, we recursively search for `p` and `q` in the left and right subtrees.
 
 COMPLEXITY ANALYSIS:
 
