@@ -4,6 +4,8 @@ Write a program to print the path from the root to a given node in a binary tree
 
 **Approach:**
 
+If the node is not there in the tree, then empty vector need to be returned
+
 To find the path from the root to the given node, we can use a recursive function. The idea is to traverse the tree from the root and 
 keep track of the path in a vector. If the target node is found, add the node's value to the path vector, and return true. Otherwise, 
 recursively search for the target node in the left and right subtrees. If the target node is not found, remove the last node from the path vector before returning false.
