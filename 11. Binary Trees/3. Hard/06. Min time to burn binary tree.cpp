@@ -50,7 +50,6 @@ visiting all nodes in the binary tree once.
 CODE:
 */
 
-*/
 class Solution {
   public:
     void setParent(Node* root, unordered_map<Node*, Node*>& parent, Node*& start, int target) {
