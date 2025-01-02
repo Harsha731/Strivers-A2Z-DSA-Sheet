@@ -18,7 +18,7 @@ To count the number of nodes in the complete binary tree efficiently, we can mak
 COMPLEXITY ANALYSIS:
 
 Let n be the number of nodes in the complete binary tree.
-- Time Complexity: The time complexity of this approach is O(log^2 n), as we perform binary search on the last level, and at each step, we calculate the height of the left and right subtrees, which takes O(log n) time. We do this operation recursively, so the overall time complexity is O(log^2 n).
+- Time Complexity: O(log^2 n). There are logN levels and TC for height calculation is logN
 - Space Complexity: The space complexity is O(log n) due to the recursion stack, where n is the height of the complete binary tree.
 
 CODE:
