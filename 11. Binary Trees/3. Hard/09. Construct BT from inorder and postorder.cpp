@@ -23,23 +23,33 @@ Let n be the number of nodes in the binary tree.
 CODE:
 */
 
-TreeNode* solve(int pi, int ins, int ine, vector<int>& inorder, vector<int>& postorder) {
-    if (pi < 0 || ins > ine) return NULL;
-
-    int loc = -1;
-    for (int i = ins; i <= ine; i++) {
-        if (inorder[i] == postorder[pi])
-            loc = i;
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+    if (inorder.size() != postorder.size()) {
+        return NULL;
     }
 
-    TreeNode* root = new TreeNode(postorder[pi]);
-    root->right = solve(pi - 1, loc + 1, ine, inorder, postorder);
-    root->left = solve(pi - (ine - loc + 1), ins, loc - 1, inorder, postorder);
+    map<int, int> hm;
+    for (int i = 0; i < inorder.size(); i++) {
+        hm[inorder[i]] = i;
+    }
+
+    return buildTreePostIn(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1, hm);
+}
+
+TreeNode* buildTreePostIn(vector<int>& inorder, int is, int ie, vector<int>& postorder, int ps, int pe, map<int, int>& hm) {
+
+    if (ps > pe || is > ie) {
+        return NULL;
+    }
+
+    TreeNode* root = new TreeNode(postorder[pe]);
+    int inRoot = hm[postorder[pe]];
+    int numsLeft = inRoot - is;
+
+    root->left = buildTreePostIn(inorder, is, inRoot - 1, postorder, ps, ps + numsLeft - 1, hm);
+
+    root->right = buildTreePostIn(inorder, inRoot + 1, ie, postorder, ps + numsLeft, pe - 1, hm);
 
     return root;
 }
 
-TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
-    int n = inorder.size();
-    return solve(n - 1, 0, n - 1, inorder, postorder);
-}
