@@ -16,7 +16,11 @@ Explanation: The maximum width exists in the third level with length 4 (5,3,null
 
 APPROACH:
 
-To find the maximum width, we can perform a level-order traversal (BFS) of the binary tree while keeping track of the indices of nodes at each level. For each level, we calculate the width by finding the difference between the indices of the leftmost and rightmost non-null nodes. The maximum width among all levels will be the answer.
+Each node is paired with its index in a "virtual" complete binary tree.
+For each level, the width is calculated as the difference between the first and last node's indices plus one.
+Children are indexed as 2 x index + 1 (left) and 2 x index + 2 (right) relative to the current node's index.
+Update the maximum width after processing each level.
+Return the maximum width after traversing all levels.
 
 COMPLEXITY ANALYSIS:
 
