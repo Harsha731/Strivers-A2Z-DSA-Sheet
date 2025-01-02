@@ -36,6 +36,12 @@ CODE:-
 
 */
 
+// Important
+// Brute force is in order array creation using normal way or Morris way and returning the kth value
+// optimized, just keep int& value and update it when found with the counter = k
+// Perform reverseInOrder for kth largest. i.e, Right Root Left
+
+
 void inorder(TreeNode* root, int k, int& cnt, int& ans) {
     if (!root) return;
     inorder(root->left, k, cnt, ans);
