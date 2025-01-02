@@ -48,5 +48,6 @@ int countNodes(TreeNode* root) {
     int rh = rightHeight(root->right);
     if (lh == rh)
         return pow(2, lh) - 1;
+    //  return  (1 << lh) - 1;
     return 1 + countNodes(root->left) + countNodes(root->right);
 }
