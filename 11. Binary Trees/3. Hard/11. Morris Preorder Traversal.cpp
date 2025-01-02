@@ -6,6 +6,7 @@ APPROACH:
 
 We can achieve a non-recursive preorder traversal without using extra space by modifying the binary tree itself.
 
+# There are total 3 cases here
 1. We start with the current node as the root.
 2. While the current node is not NULL, we do the following:
    - If the current node does not have a left child, we visit the current node and move to its right child.
