@@ -41,13 +41,16 @@ void serialize(TreeNode* root, string& serialized) {
     serialize(root->right, serialized);
 }
 
-string serialize(TreeNode* root) {
+string serialize(TreeNode* root) {         // Given fucntion type
     string serialized;
     serialize(root, serialized);
     return serialized;
 }
 
-TreeNode* deserialize(stringstream& ss) {
+// In the code, ss is a stringstream object used to parse the serialized tree string. It processes the string token by token (split by commas) 
+// using getline, allowing the deserialize function to reconstruct the binary tree recursively.
+
+TreeNode* deserialize(stringstream& ss) {         
     string token;
     getline(ss, token, ',');
     if (token == "N")
@@ -58,7 +61,7 @@ TreeNode* deserialize(stringstream& ss) {
     return root;
 }
 
-TreeNode* deserialize(string data) {
+TreeNode* deserialize(string data) {           // Given function type
     stringstream ss(data);
     return deserialize(ss);
 }
