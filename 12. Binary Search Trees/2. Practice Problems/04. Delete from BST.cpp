@@ -15,7 +15,9 @@ To delete a node with a given key from the BST, we need to search for the node f
 
 For the first case, we simply remove the node from the tree and return NULL as the new root.
 For the second case, we return the non-NULL child of the node to be deleted as the new root.
-For the third case, we find the maximum value node in the left subtree of the node to be deleted (the rightmost node of the left subtree), copy its value to the node to be deleted, and then recursively delete the maximum value node in the left subtree.
+For the third case, we find the maximum value node in the left subtree of the node to be deleted 
+(the rightmost node of the left subtree), copy its value to the node to be deleted, and then 
+recursively delete the maximum value node in the left subtree.
 
 Example:
 Input: root = [5,3,6,2,4,null,7], key = 3
