@@ -25,58 +25,61 @@ Let `n` be the number of nodes in the binary tree.
 CODE:
 */
 
-vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-    vector<int> ans;
-    unordered_map<int, TreeNode*> parent;
-    queue<TreeNode*> q;
-    q.push(root);
-
-    while (!q.empty()) {
-        int si = q.size();
-        for (int i = 0; i < si; i++) {
-            auto top = q.front();
-            q.pop();
-
-            if (top->left) {
-                parent[top->left->val] = top;
-                q.push(top->left);
-            }
-
-            if (top->right) {
-                parent[top->right->val] = top;
-                q.push(top->right);
-            }
+class Solution {
+public:
+    // Recursive function to map parent pointers
+    void mapParents(TreeNode* node, unordered_map<TreeNode*, TreeNode*>& parent) {
+        if (!node) return;
+        
+        if (node->left) {
+            parent[node->left] = node;
+            mapParents(node->left, parent);
+        }
+        
+        if (node->right) {
+            parent[node->right] = node;
+            mapParents(node->right, parent);
         }
     }
 
-    unordered_map<int, int> visited;
-    q.push(target);
-    while (k-- && !q.empty()) {
-        int size = q.size();
+    // Main function to find nodes at distance K
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        unordered_map<TreeNode*, TreeNode*> parent;
+        mapParents(root, parent);  // Map parent pointers recursively
 
-        for (int i = 0; i < size; i++) {
-            auto top = q.front();
-            q.pop();
+        unordered_map<TreeNode*, bool> visited;
+        queue<TreeNode*> q;
+        q.push(target);
+        visited[target] = true;
+        int currentDistance = 0;
 
-            visited[top->val] = 1;
-
-            if (top->left && !visited[top->left->val]) {
-                q.push(top->left);
-            }
-
-            if (top->right && !visited[top->right->val]) {
-                q.push(top->right);
-            }
-
-            if (parent[top->val] && !visited[parent[top->val]->val]) {
-                q.push(parent[top->val]);
+        while (!q.empty()) {
+            if (currentDistance == k) break;
+            currentDistance++;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+                if (node->left && !visited[node->left]) {
+                    visited[node->left] = true;
+                    q.push(node->left);
+                }
+                if (node->right && !visited[node->right]) {
+                    visited[node->right] = true;
+                    q.push(node->right);
+                }
+                if (parent[node] && !visited[parent[node]]) {
+                    visited[parent[node]] = true;
+                    q.push(parent[node]);
+                }
             }
         }
-    }
 
-    while (!q.empty()) {
-        ans.push_back(q.front()->val);
-        q.pop();
+        vector<int> ans;
+        while (!q.empty()) {
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+        return ans;
     }
-    return ans;
-}
+};
