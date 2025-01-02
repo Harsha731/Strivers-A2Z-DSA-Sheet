@@ -24,6 +24,9 @@ Space Complexity:
 
 */
 
+// Everytime, when we are popping the element, we check there are nodes in right subtree or not
+// pushLeft makes us go deep and stack pop makes us do backtrack
+
 stack<TreeNode*> st;
 
 BSTIterator(TreeNode* root) {
