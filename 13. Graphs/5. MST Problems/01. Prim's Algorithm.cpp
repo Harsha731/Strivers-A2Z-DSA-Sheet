@@ -66,9 +66,15 @@ public:
 	}
 };
 ____________________________________
+/*
+Obtaining the info about the MST instead of simply sum of edges in MST
 
-// Obtaining the info about the MST instead of simply sum of edges in MST
-
+Note: Points to remember if we do not wish to store the mst(minimum spanning tree) for the graph and are only concerned 
+   about the sum of all the edge weights of the minimum spanning tree:
+First of all, we will not use the triplet format instead, we will just use the pair in the format of 
+   (edge weight, node value). Basically, we do not need the parent node.
+In step 3, we need not store anything in the mst array and we need not even use the mst array in our whole algorithm as well.
+*/
 class Solution
 {
 public:
