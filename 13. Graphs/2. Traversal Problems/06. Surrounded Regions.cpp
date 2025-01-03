@@ -16,6 +16,16 @@ COMPLEXITY ANALYSIS:
 - Space Complexity: O(m * n), where m is the number of rows and n is the number of columns in the matrix. We use additional space for the 'vis' matrix.
 */
 
+/* Notes : 
+No need of any queue, simply use DFS on the boundary elements if vis=0
+We can also use BFS instead of DFS as well similar to next question
+
+Make a duplicate board matrix with name as vis
+Mark all the 0's that are able to reach from the border cells as #
+Now, traverse once again by making 0's to X if vis is 0 and not #  
+
+*/
+
 void dfs(int i, int j, vector<vector<char>>& vis){
     if(i >= 0 && i < vis.size() && j >= 0 && j < vis[0].size() && vis[i][j] == 'O'){
         vis[i][j] = '#';
