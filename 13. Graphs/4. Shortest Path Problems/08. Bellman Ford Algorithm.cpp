@@ -11,44 +11,56 @@ Explanation:
 For nodes 2 to 0, we can follow the path - 2 -> 0. This has a distance of 1.
 For nodes 2 to 1, we can follow the path - 2 -> 0 -> 1, which has a distance of 1 + 5 = 6.
 
-APPROACH:
-- We can use Bellman-Ford algorithm to find the shortest distance of all the nodes from the given source vertex S.
-- The Bellman-Ford algorithm can handle negative edge weights and identify negative cycles.
-- We will initialize an array dis to store the shortest distance of each node from the source vertex. Initialize all distances to a very large value except for the source vertex, which will have a distance of 0.
-- Run a loop for V-1 times (V is the number of vertices), and in each iteration, relax all the edges to minimize the distance.
-- If there is a negative cycle, the distance will keep decreasing in the Vth iteration as well. In this case, we will return an array containing only -1.
-- Otherwise, we return the dis array with the shortest distances of all nodes from the source vertex.
-
-COMPLEXITY ANALYSIS:
-- The time complexity of the Bellman-Ford algorithm is O(V*E), where V is the number of vertices and E is the number of edges.
-- The space complexity is O(V) to store the distance values.
-
 CODE:
 */
 
+/*
+BellmanFord is Dijkstra applied 'V' times. If then, it is ElogV * V
 
-vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
-    vector<pair<int, int>> adj[V];
-    for (auto e : edges) {
-        adj[e[0]].push_back({e[1], e[2]});
-    }
-    vector<int> dis(V, 1e8);
-    dis[S] = 0;
-    for (int i = 0; i < V; i++) {
-        for (int u = 0; u < V; u++) {
-            for (auto vec : adj[u]) {
-                int v = vec.first, wt = vec.second;
-                if (dis[u] != 1e8)
-                    dis[v] = min(dis[v], dis[u] + wt);
+Two follow-up questions about the algorithm: 
+1. Why do we need exact N-1 iterations?
+0->1->2->3->4
+In 1st iteration, 0->1 comes
+In 2nd iteration, 1->2, then 2->3 and so on... It is because, dist[1], [2], ... will be inf, so they won't run in 1st iteration
+Let’s try to first understand his using an example:
+In the above graph, the algorithm will minimize the distance of the ith node in the ith iteration like dist[1] 
+will be updated in the 1st iteration, dist[2] will be updated in the 2nd iteration, and so on. So we will need 
+a total of 4 iterations(i.e. N-1 iterations) to minimize all the distances as dist[0] is already set to 0.
+Note: Points to remember since, in a graph of N nodes we will take at most N-1 edges to reach from the first to 
+the last node, we need exact N-1 iterations. It is impossible to draw a graph that takes more than N-1 edges to reach any node. 
+
+
+
+1. Negative Weights:
+Dijkstra's Algorithm: Does not handle negative weights. It assumes all edge weights are non-negative.
+Bellman-Ford Algorithm: Handles negative weights and detects negative-weight cycles in the graph.
+
+2. Complexity:
+Dijkstra's Algorithm: O(E + VlogV)
+Bellman-Ford Algorithm: O(V.E)
+*/
+
+const int INF = INT_MAX;
+
+// Function to implement the Bellman-Ford algorithm
+void bellmanFord(int vertices, int edges, vector<tuple<int, int, int>> &graph, int source) {
+    vector<int> distance(vertices, INF);
+    distance[source] = 0;
+
+    // Relax all edges |V| - 1 times
+    for (int i = 0; i < vertices - 1; i++) {
+        for (const auto &[u, v, weight] : graph) {
+            if (distance[u] != INF && distance[u] + weight < distance[v]) {
+                distance[v] = distance[u] + weight;
             }
         }
     }
-    for (int u = 0; u < V; u++) {
-        for (auto vec : adj[u]) {
-            int v = vec.first, wt = vec.second;
-            if (dis[u] != 1e8 && dis[v] > dis[u] + wt)
-                return {-1};
+
+    // Check for negative-weight cycles
+    for (const auto &[u, v, weight] : graph) {
+        if (distance[u] != INF && distance[u] + weight < distance[v]) {
+            cout << "Graph contains a negative-weight cycle" << endl;
+            return;
         }
     }
-    return dis;
 }
