@@ -31,6 +31,7 @@ Space Complexity: O( N*M ) { Distance matrix containing N*M cells + priority que
 
 CODE:
 */
+// constaint : effort, not distance
 
 typedef pair<int, pair<int, int>> tri;      // (effort, (x, y))
 
