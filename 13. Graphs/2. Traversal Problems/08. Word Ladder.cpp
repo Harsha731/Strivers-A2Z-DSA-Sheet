@@ -69,3 +69,43 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
     
     return 0;
 }
+____________________________________________
+
+/* Approach 2
+we use         unordered_set<string> st(wordList.begin(), wordList.end());
+and we erase the start word (if exists)
+Here we don't use visited and we erase if we are able to reach it from the start word by pushing it into queue
+Here, we are able to find the present reachable word in minimum possible time, because if reachable in much less time, then it may have erased earlier instead now
+TC : O(N*M*26)
+*/
+class Solution {
+public:
+    int wordLadderLength(string startWord, string targetWord, vector<string> &wordList) {
+        queue<pair<string, int>> q;
+        q.push({startWord, 1});
+        unordered_set<string> st(wordList.begin(), wordList.end());
+        st.erase(startWord);
+
+        while (!q.empty()) {
+            string word = q.front().first;
+            int steps = q.front().second;
+            q.pop();
+
+            if (word == targetWord)
+                return steps;
+
+            for (int i = 0; i < word.size(); i++) {
+                char original = word[i];
+                for (char ch = 'a'; ch <= 'z'; ch++) {
+                    word[i] = ch;
+                    if (st.find(word) != st.end()) {
+                        st.erase(word);
+                        q.push({word, steps + 1});
+                    }
+                }
+                word[i] = original;
+            }
+        }
+        return 0;
+    }
+};
