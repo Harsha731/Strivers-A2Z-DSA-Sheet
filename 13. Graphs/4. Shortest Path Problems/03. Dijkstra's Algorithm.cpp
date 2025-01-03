@@ -14,6 +14,18 @@ COMPLEXITY ANALYSIS:
 - Time Complexity: O(E + log(V)), where E is the number of edges and V is the number of vertices in the graph. The time complexity is dominated by the priority queue operations in Dijkstra's algorithm.
 - Space Complexity: O(V + E), where V is the number of vertices and E is the number of edges in the graph. We use additional space for the adjacency list, the distance array, and the priority queue.
 */
+/*
+In the set, we save space, as for a particualr node, we will be having only the shortest possible distance one. i.e, {5 units, 4th node}  {6 units, 4th node}
+In PQ, both can exist, but in set, only 1st one exists
+
+TC : O(ElogV)
+There are E edges and for each, it takes logV to retrive and insert into PQ, set
+SC : O(E + V)
+For adjList storage, dist vector storage
+
+PQ : for dense graphs, where redundant entries are not significant
+Set : for sparse graphs, as it significant
+*/
 
 vector<int> dijkstra(int n, vector<vector<int>> adj[], int s){
     vector<int> dis(n, 1e9);
@@ -36,3 +48,32 @@ vector<int> dijkstra(int n, vector<vector<int>> adj[], int s){
 
     return dis;
 }
+________________________________________________
+
+vector <int> dijkstra(int V, vector<vector<int>> adj[], int S) {
+    set<pair<int,int>> st; 
+    vector<int> dist(V, 1e9); 
+    
+    st.insert({0, S}); 
+    dist[S] = 0;
+    
+    while(!st.empty()) {
+        auto it = *(st.begin()); 
+        int node = it.second; 
+        int dis = it.first; 
+        st.erase(it); 
+        
+        for(auto it : adj[node]) {
+            int adjNode = it[0]; 
+            int edgW = it[1]; 
+            
+            if(dis + edgW < dist[adjNode]) {
+                if(dist[adjNode] != 1e9)  st.erase({dist[adjNode], adjNode});  // Not needed actually, as anyways in the next 2nd line
+                dist[adjNode] = dis + edgW; 
+                st.insert({dist[adjNode], adjNode}); 
+            }
+        }
+    }
+    return dist; 
+}
+
