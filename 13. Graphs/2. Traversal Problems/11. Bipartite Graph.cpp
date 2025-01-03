@@ -9,37 +9,44 @@ The graph may not be connected, meaning there may be two nodes u and v such that
 A graph is bipartite if the nodes can be partitioned into two independent sets A and B such that every edge in the graph connects a node in set A and a node in set B.
 
 APPROACH:
-- We can use Depth-First Search (DFS) to color the nodes in the graph such that we can partition them into two sets A and B.
-- While performing the DFS, we use two colors: 1 and -1 to color the nodes. We start by coloring the first node with color 1.
-- For each uncolored node, we perform DFS and color its neighbors with the opposite color.
-- If we encounter a neighbor with the same color as the current node, the graph is not bipartite, and we return false.
-- If the DFS completes without any conflicts, we return true, indicating that the graph is bipartite.
+Use !col to get alternate colors and a col vector to store
+Here, 3 cases - uncolored and colored (already visited) but different color and colored with same color
+uncoloured - do proceed
+colored(already visited) but different colour - no problem
+same colour - return false
+We are searching for atleast one false
+Use bool dfs here
 
 COMPLEXITY ANALYSIS:
-- Time Complexity: O(V + E), where V is the number of nodes (vertices) in the graph, and E is the number of edges in the graph. We visit each node and each edge exactly once during the DFS.
-- Space Complexity: O(V), where V is the number of nodes (vertices) in the graph. We use additional space to store the colors of the nodes.
+Time Complexity: O(V + 2E), Where V = Vertices, 2E is for total degrees as we traverse all adjacent nodes.
+Space Complexity: O(3V) ~ O(V), Space for DFS stack space, colour array and an adjacency list.
 */
 
-bool dfs(int node, int color, vector<vector<int>>& adj, vector<int>& vis){
-    vis[node] = color;
-    for(auto v : adj[node]){
-        if(!vis[v] && !dfs(v, -color, adj, vis)){
-            return false;
+class Solution {
+private: 
+    bool dfs(int node, int col, int color[], vector<int> adj[]) {
+        color[node] = col; 
+        for (auto it : adj[node]) {
+            if (color[it] == -1) {
+                if (!dfs(it, !col, color, adj)) return false; 
+            } else if (color[it] == col) {
+                return false; 
+            }
         }
-        if(vis[v] == color){
-            return false;
-        }
+        return true; 
     }
-    return true;
-}
 
-bool isBipartite(vector<vector<int>>& graph) {
-    int n = graph.size();
-    vector<int> vis(n);
-    for(int i = 0; i < n; i++){
-        if(!vis[i] && !dfs(i, 1, graph, vis)){
-            return false;
+public:
+    bool isBipartite(int V, vector<int> adj[]) {
+        int color[V];
+        for (int i = 0; i < V; i++) color[i] = -1; 
+        
+        for (int i = 0; i < V; i++) {
+            if (color[i] == -1) {
+                if (!dfs(i, 0, color, adj)) return false; 
+            }
         }
+        return true; 
     }
-    return true;
-}
+};
+
