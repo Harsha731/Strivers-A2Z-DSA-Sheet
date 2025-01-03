@@ -1,8 +1,11 @@
 /* QUESTION:
 
-You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel times as directed edges times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel from source to target.
+You are given a network of n nodes, labeled from 1 to n. You are also given times, a list of travel times as directed edges 
+times[i] = (ui, vi, wi), where ui is the source node, vi is the target node, and wi is the time it takes for a signal to travel 
+from source to target.
 
-We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal. If it is impossible for all the n nodes to receive the signal, return -1.
+We will send a signal from a given node k. Return the minimum time it takes for all the n nodes to receive the signal. 
+If it is impossible for all the n nodes to receive the signal, return -1.
 
 Example:
 
@@ -23,6 +26,9 @@ COMPLEXITY ANALYSIS:
 
 CODE:
 */
+
+// This 1-based indexing, so we have to use adj[n+1], distTo(n+1, INT_MAX)
+// Also at the end, we have to check max in i=1 to i=distTo.size()
 
 int networkDelayTime(vector<vector<int>>& times, int n, int k) {
     vector<pair<int, int>> adj[n + 1];
