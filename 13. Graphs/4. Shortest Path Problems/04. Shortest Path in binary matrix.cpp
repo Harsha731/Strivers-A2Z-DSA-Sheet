@@ -19,8 +19,8 @@ APPROACH:
 - If the bottom-right cell cannot be reached or there is no clear path, return -1.
 
 COMPLEXITY ANALYSIS:
-- The time complexity of BFS is O(n^2) as it explores all cells in the n x n matrix.
-- The space complexity is also O(n^2) due to the usage of the queue and the visited matrix.
+Time Complexity: O( 4*N*M ) { N*M are the total cells, for each of which we also check 4 adjacent nodes for the shortest path length}
+Space Complexity: O( N*M )
 
 CODE:
 */
