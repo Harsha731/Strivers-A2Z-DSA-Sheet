@@ -24,8 +24,10 @@ APPROACH:
 - Continue this process until we reach the bottom-right cell.
 
 COMPLEXITY ANALYSIS:
-- Since we are using Dijkstra's algorithm, the time complexity is O((N*M) * log(N*M)), where N is the number of rows and M is the number of columns in the 2D array.
-- The space complexity is O(N*M) to store the distance values.
+Time Complexity: O( 4*N*M * log( N*M) ) { N*M are the total cells, for each of which we also check 4 adjacent nodes 
+for the minimum effort and additional log(N*M) for insertion-deletion operations in a priority queue } 
+
+Space Complexity: O( N*M ) { Distance matrix containing N*M cells + priority queue in the worst case containing all the nodes ( N*M) }.
 
 CODE:
 */
