@@ -23,7 +23,7 @@ void setAdj(string a, string b, vector<int> adj[], vector<int>& indeg){
     int n = min(as,bs);
     for(int i=0; i<n; i++){
         if(a[i]!=b[i]){
-            adj[a[i]-'a'].push_back(b[i]-'a');
+            adj[a[i]-'a'].push_back(b[i]-'a');       // a[i] -> b[i]
             indeg[b[i]-'a']++;
             break;
         }
