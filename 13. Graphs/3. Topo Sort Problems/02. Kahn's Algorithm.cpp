@@ -14,41 +14,40 @@ COMPLEXITY ANALYSIS:
 - Space Complexity: O(V), where V is the number of vertices (nodes) in the graph. We use additional space to store the indegree of each node and the queue for BFS.
 */
 
-bool isCyclic(int V, vector<int> adj[]) {
-    vector<int> indeg(V, 0);
+class Solution {
+public:
+	//Function to return list containing vertices in Topological order.
+	vector<int> topoSort(int V, vector<int> adj[])
+	{
+		int indegree[V] = {0};
+		for (int i = 0; i < V; i++) {
+			for (auto it : adj[i]) {
+				indegree[it]++;        // ( i -> it ) is a edge
+			}
+		}
 
-    // Calculate the indegree of each node
-    for (int i = 0; i < V; i++) {
-        for (auto it : adj[i]) {
-            indeg[it]++;
-        }
-    }
+		queue<int> q;
+		for (int i = 0; i < V; i++) {
+			if (indegree[i] == 0) {
+				q.push(i);
+			}
+		}
+		vector<int> topo;
+		while (!q.empty()) {
+			int node = q.front();
+			q.pop();
+			topo.push_back(node);
+			// node is in your topo sort
+			// so please remove it from the indegree
 
-    queue<int> q;
+			for (auto it : adj[node]) {
+				indegree[it]--;
+				if (indegree[it] == 0) q.push(it);
+			}
+		}
 
-    // Find nodes with indegree 0 and add them to the queue
-    for (int i = 0; i < V; i++) {
-        if (indeg[i] == 0) {
-            q.push(i);
-        }
-    }
+		return topo;
+	}
+};
 
-    int cnt = 0;
 
-    while (!q.empty()) {
-        int node = q.front();
-        q.pop();
-        cnt++;
-
-        // Remove the node and its outgoing edges
-        for (auto i : adj[node]) {
-            indeg[i]--;
-            if (indeg[i] == 0) {
-                q.push(i);
-            }
-        }
-    }
-
-    // If the count of removed nodes is not equal to the total number of nodes, there is a cycle
-    return !(cnt == V);
-}
