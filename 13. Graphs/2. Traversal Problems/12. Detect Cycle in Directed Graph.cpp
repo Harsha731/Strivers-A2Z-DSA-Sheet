@@ -3,42 +3,56 @@ QUESTION:
 Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, check whether it contains any cycle or not.
 
 APPROACH:
-- To check for cycles in a directed graph, we can use Depth-First Search (DFS) with backtracking.
-- During the DFS, we maintain a visited array to keep track of nodes that have been visited.
-- We perform DFS from each unvisited node to explore the graph and check for cycles.
-- If we encounter a node that is already visited in the current DFS traversal, it means we have found a cycle, and we return true.
-- If we complete the DFS for all nodes without finding any cycle, we return false.
+Khan's algorithm helps to find using BFS
+Atleast one cycle, we have to return true
+
+We have to run DFS for all the nodes, as it is directed and some nodes many not be reachable from the 0 index
+    recStack[node] = 1; along with vis vector
+
+case 1 ) not visited till now
+case 2 ) visited but not in same path, i.e, 
+1 -> 2 -> 3 -> 4 -> 5
+1 -> 6 -> 7 -> 5, here we are getting 5 again, but it is not in this path
+case 3) visited in same path
 
 COMPLEXITY ANALYSIS:
-- Time Complexity: O(V + E), where V is the number of vertices (nodes) and E is the number of edges in the graph. We visit each node and each edge exactly once during the DFS.
-- Space Complexity: O(V), where V is the number of vertices (nodes) in the graph. We use additional space to store the visited status of the nodes.
+Time Complexity: O(V+E)+O(V) , where V = no. of nodes and E = no. of edges. There can be at most V components. So, another O(V) time complexity.
+Space Complexity: O(2N) + O(N) ~ O(2N): O(2N) for two visited arrays and O(N) for recursive stack space
 */
 
-bool dfs(int node, vector<int> adj[], vector<bool>& vis){
-    vis[node] = true;
-    for(auto v : adj[node]){
-        if(!vis[v] && dfs(v, adj, vis)){
-            return true;
-        }
-        else if(vis[v]){
-            return true;
-        }
-    }
-    vis[node] = false;
-    return false;
-}
+class Solution {
+private:
+	bool dfsCheck(int node, vector<int> adj[], int vis[], int pathVis[]) {
+		vis[node] = 1;
+		pathVis[node] = 1;
 
-bool isCyclic(vector<vector<int>>& edges, int v, int e)
-{
-    vector<int> adj[v];
-    for(auto it : edges){
-        adj[it[0]].push_back(it[1]);
-    }
-    vector<bool> vis(v);
-    for(int i = 0; i < v; i++){
-        if(!vis[i] && dfs(i, adj, vis)){
-            return true;
-        }
-    }
-    return false;
-}
+		// traverse for adjacent nodes
+		for (auto it : adj[node]) {
+			// when the node is not visited
+			if (!vis[it]) {
+				if (dfsCheck(it, adj, vis, pathVis) == true)
+					return true;
+			}
+			// if the node has been previously visited but it has to be visited on the same path
+			else if (pathVis[it]) {
+				return true;
+			}
+		}
+
+		pathVis[node] = 0;
+		return false;
+	}
+public:
+	// Function to detect cycle in a directed graph.
+	bool isCyclic(int V, vector<int> adj[]) {
+		int vis[V] = {0};
+		int pathVis[V] = {0};
+
+		for (int i = 0; i < V; i++) {
+			if (!vis[i]) {
+				if (dfsCheck(i, adj, vis, pathVis) == true) return true;
+			}
+		}
+		return false;
+	}
+};
