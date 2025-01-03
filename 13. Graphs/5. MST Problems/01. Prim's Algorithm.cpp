@@ -32,34 +32,84 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
-int minimumSpanningTree(vector<vector<int>>& edges, int n) {
-    vector<pair<int, int>> adj[n];
-    for (auto e : edges) {
-        adj[e[0]].push_back({e[2], e[1]});
-        adj[e[1]].push_back({e[2], e[0]});
-    }
+class Solution {
+public:
+	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+	int spanningTree(int V, vector<vector<int>> adj[])
+	{
+		priority_queue<pair<int, int>, vector<pair<int, int> >, greater<pair<int, int>>> pq;
 
-    vector<bool> mst(n);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({0, 0});
-    int ans = 0;
+		vector<int> vis(V, 0);
+		// {wt, node}
+		int sum = 0;
+		pq.push({0, 0});
+        
+		while (!pq.empty()) {
+			auto it = pq.top();
+			pq.pop();
+			int node = it.second;
+			int wt = it.first;
 
-    while (!pq.empty()) {
-        auto node = pq.top();
-        int u = node.second, uwt = node.first;
-        pq.pop();
+			if (vis[node] == 1) continue;
+			// add it to the mst
+			vis[node] = 1;
+			sum += wt;
+			for (auto it : adj[node]) {
+				int adjNode = it[0];
+				int edW = it[1];
+				if (!vis[adjNode]) {
+					pq.push({edW, adjNode});
+				}
+			}
+		}
+		return sum;
+	}
+};
+____________________________________
 
-        if (!mst[u]) {
-            mst[u] = true;
-            ans += uwt;
+// Obtaining the info about the MST instead of simply sum of edges in MST
 
-            for (auto vec : adj[u]) {
-                int v = vec.second, vwt = vec.first;
-                if (!mst[v])
-                    pq.push({vwt, v});
+class Solution
+{
+public:
+    int spanningTree(int V, vector<vector<int>> adj[], vector<pair<int, int>>& mstArray)
+    {
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+
+        vector<int> vis(V, 0);
+        // {edge weight, node, parent}
+        int sum = 0;
+        pq.push({0, 0, -1});  
+
+        while (!pq.empty()) {
+
+            // auto it = pq.top();
+            // int wt = get<0>(it);  
+            // int node = get<1>(it);  
+            // int parent = get<2>(it);  
+
+            auto [wt, node, parent] = pq.top();  // Structured bindings to unpack the tuple
+            pq.pop();
+
+            if (vis[node] == 1) continue;  // Skip if already visited
+            vis[node] = 1;
+            sum += wt;
+
+            // Store the edge {node, parent} in the MST array, if not the starting node
+            if (parent != -1) {
+                mstArray.push_back({node, parent});
+            }
+
+            // Add all unvisited adjacent nodes to the priority queue
+            for (auto& neighbor : adj[node]) {
+                int adjNode = neighbor[0];  // adjacent node
+                int edW = neighbor[1];  // edge weight
+
+                if (!vis[adjNode]) {
+                    pq.push({edW, adjNode, node});  // Push with edge weight, adjacent node, and parent node
+                }
             }
         }
+        return sum;
     }
-
-    return ans;
-}
+};
