@@ -31,6 +31,13 @@ Space Complexity: O(m * n) - due to the queue and the grid.
 
 Code:
 */
+/* Notes :
+Push all rotten into queue and count the no. of fresf oranges 'f'
+BFS, if f==0, return 0 at start
+if f>0, return -1 at end
+if f=0, break the loop to help TC
+int t1, update t1 if we noticed the t greater than t1 in queue and return t1
+*/
 
 int orangesRotting(vector<vector<int>>& grid) {
     int ans = -1, fresh = 0, m = grid.size(), n = grid[0].size();
