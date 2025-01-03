@@ -18,6 +18,11 @@ Space Complexity:
 - The space complexity is O(n), where n is the number of cities. We use extra space for the adjacency list and the 'vis' vector.
 
 */
+/* Notes :
+DFS, BFS both.
+adj matrix to adj list
+How many times we are able to do DFS is the answer
+*/
 
 void dfs(int node, vector<int> adj[], vector<bool>& vis){
     vis[node] = true;
