@@ -25,6 +25,11 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+// Floyd Warshall : One of diagnol element becomes <0 if there exits a -ve cycle or Values changes even after one more iteration
+// It can't detect -ve edges
+// Floyd Warshall is not similar to Bellman-Ford
+// Here, we check what if 0th vertex acts as middleman and what if 1st acts as middleman
+
 void shortest_distance(vector<vector<int>>& matrix) {
     int v = matrix.size();
 
