@@ -12,6 +12,15 @@ COMPLEXITY ANALYSIS:
 - Space Complexity: O(V), where V is the number of vertices. We use an additional array to keep track of visited nodes.
 */
 
+/* Notes :
+DFS, BFS both
+replace the 4 directionally connected pixels colors which are of 'same color' as the current cell to given target color
+i.e, image[nrow][ncol] == cur_color && image[nrow][ncol] != target_color
+
+If the start color = target color, simply return at the starting itself
+As it is unnecessary calls    
+*/
+
 bool dfs(int node, int parent, vector<int> adj[], vector<bool>& vis){
     vis[node] = true;
     for(auto v:adj[node]){
