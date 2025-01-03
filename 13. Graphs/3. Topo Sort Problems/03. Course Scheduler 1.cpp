@@ -1,6 +1,7 @@
 /*
 QUESTION:
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites 
+where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
 
 Return true if you can finish all courses. Otherwise, return false.
 
@@ -12,8 +13,10 @@ APPROACH:
 - If we can perform a successful Topological Sort (i.e., there is no cycle), then it means we can finish all courses.
 
 COMPLEXITY ANALYSIS:
-- Time Complexity: O(N + E), where N is the number of courses (nodes) and E is the number of prerequisites (edges) in the graph. We perform a BFS-like traversal of all nodes and edges.
-- Space Complexity: O(N + E), where N is the number of courses (nodes) and E is the number of prerequisites (edges) in the graph. We use additional space to store the adjacency list and indegree of each node.
+- Time Complexity: O(N + E), where N is the number of courses (nodes) and E is the number of prerequisites (edges)
+in the graph. We perform a BFS-like traversal of all nodes and edges.
+- Space Complexity: O(N + E), where N is the number of courses (nodes) and E is the number of prerequisites (edges) 
+in the graph. We use additional space to store the adjacency list and indegree of each node.
 */
 
 bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
@@ -22,7 +25,7 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
 
     // Calculate the indegree of each course and build the adjacency list
     for (auto it : prerequisites) {
-        indeg[it[0]]++;
+        indeg[it[0]]++;            // it[0] <- it[1]  is the edge given
         adj[it[1]].push_back(it[0]);
     }
 
