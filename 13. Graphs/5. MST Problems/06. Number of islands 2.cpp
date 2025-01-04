@@ -120,3 +120,65 @@ vector<int> numOfIslands(int n, int m, vector<vector<int>>& operators) {
     }
     return ans;
 }
+_________________________________________________________
+
+/*  DFS / BFS approach
+
+    For every query, we are making vis array to 0 again. We are counting that how many times do we need to run DFS / BFS for the current scenario
+
+    Time Complexity : O(Q * N * M)
+    Space Complexity : O(N * M)
+
+    Where 'Q' is the number of queries.
+    Where 'N' is the number of rows and 'M' is the number of columns.
+*/
+
+bool valid(int x, int y, int n, int m, vector<vector<int>> &grid, vector<vector<int>> &vis){
+	if (x < 0 || x >= n || y < 0 || y >= m || grid[x][y] == 0 || vis[x][y] == 1){
+		return 0;
+	}
+
+	return 1;
+}
+
+void dfs(int x, int y, vector<int> &dx, vector<int> &dy, vector<vector<int>> &grid, vector<vector<int>> &visited){
+	visited[x][y] = 1;
+
+	for (int dir = 0; dir < 4; dir++){
+		int X = x + dx[dir], Y = y + dy[dir];
+
+		if (!valid(X, Y, grid.size(), grid[0].size(), grid, visited)){
+			continue;
+		}
+		dfs(X, Y, dx, dy, grid, visited);
+	}
+}
+
+vector<int> numOfIslandsII(int n, int m, vector<vector<int>> &q){
+	vector<int> ans;
+	vector<vector<int>> grid(n, vector<int>(m));
+
+	vector<int> dx = {1, 0, -1, 0};
+	vector<int> dy = {0, 1, 0, -1};
+
+	for (int i = 0; i < (int)q.size(); i++){
+		int x = q[i][0], y = q[i][1];
+
+		grid[x][y] = 1;
+
+		int noOfIslands = 0;
+
+		vector<vector<int>> visited(n, vector<int>(m));
+
+		for (int i = 0; i < n; i++){
+			for (int j = 0; j < m; j++){
+				if (grid[i][j] == 1 && !visited[i][j]){
+					dfs(i, j, dx, dy, grid, visited);
+					noOfIslands++;
+				}
+			}
+		}
+		ans.push_back(noOfIslands);
+	}
+	return ans;
+}
