@@ -2,17 +2,28 @@
 QUESTION:-
 Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, Find the number of strongly connected components in the graph.
 
+Check the Image
+
 Approach:
 1. We can use Kosaraju's algorithm to find the number of strongly connected components (SCCs) in a directed graph.
 2. Kosaraju's algorithm performs two DFS traversal on the graph to find SCCs.
 3. In the first DFS traversal, we find the order of vertices in which they finish their DFS traversal (topological ordering).
-4. In the second DFS traversal, we visit the vertices in reverse order of their finish times (based on the first DFS traversal) and mark the SCCs.
+4. In the second DFS traversal, we visit the vertices in reverse order of their finish times (based on the first DFS traversal) 
+and mark the SCCs.
 5. The number of SCCs will be the number of times we perform the second DFS traversal and find a new SCC.
 
 Complexity Analysis:
 - Let V be the number of vertices and E be the number of edges in the directed graph.
 - The time complexity of Kosaraju's algorithm is O(V + E) as we perform two DFS traversals.
 - The space complexity is O(V + E) to store the adjacency list and O(V) for the auxiliary arrays.
+
+Image : 
+In the first image, we have the graph. If we reverse the graph, and if we traverse in the same toposort order
+0 1 2 | 3 | 4 5 6 | 7     
+Starting from 0, we end up in the same SCC, again we need to start DFS from 3 and again from 4 and again from 7
+It is because, SCC1 -> SCC2 are only 1 sided, more than 1 can be there, thatswhy they are 2 different SCC's
+Now, by reversing, we can't go from SCC1 to SCC2, we need to start again
+
 */
 
 
