@@ -94,3 +94,56 @@ int makeConnected(int n, vector<vector<int>>& connections) {
     int components = djs.countComponents(n);
     return components - 1;
 }
+_________________________________________________________
+
+/* DFS,  can be done using BFS also
+i) Create adjList
+ii) Join 2 stones if they have same row, col
+iii) Count how many times you need to do DFS
+iv) n - no. of DFS's is the answer
+*/
+
+class Solution {
+public:
+    int removeStones(vector<vector<int>>& stones) {
+        int n = stones.size();
+
+        // Adjacency list to store graph connections
+        vector<vector<int>> adj(n);
+
+        // Build the graph: Connect stones that share the same row or column
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1]) {
+                    adj[i].push_back(j);
+                    adj[j].push_back(i);
+                }
+            }
+        }
+
+        int components = 0;
+        vector<bool> vis(n, false);
+
+        // Traverse all stones using DFS to count connected components
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                dfs(adj, vis, i);
+                components++;
+            }
+        }
+
+        // Maximum stones that can be removed is total stones minus number of connected components
+        return n - components;
+    }
+
+private:
+    // DFS to visit all stones in a connected component
+    void dfs(vector<vector<int>>& adj, vector<bool>& vis, int u) {
+        vis[u] = true;
+        for (int v : adj[u]) {
+            if (!vis[v]) {
+                dfs(adj, vis, v);
+            }
+        }
+    }
+};
