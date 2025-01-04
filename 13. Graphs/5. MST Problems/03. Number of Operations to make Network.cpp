@@ -86,11 +86,11 @@ DFS / BFS approach
 We are checking at start, m < n-1
 Then, we are counting the no. of BFS traversals needed. so, cnt - 1 is answer
 
-Time Complexity : O(N^4), where ‘N’ is the number of rows in the binary matrix. 
-Since we are traversing over each element of the matrix, and we are calling DFS for every 0 encountered 
-which takes O(N^2) time for each call. Hence, the overall Time Complexity is O(N^4).
+Time Complexity : O(N + M), where N denotes the number of vertices and M denotes the number of edges in the graph.
+We are visiting each vertex and edge once.
 
-Space Complexity : O(N^2), where ‘N’ is the number of rows in the binary matrix.
+Space Complexity : O(N + M), where N denotes the number of vertices and N denotes the number of edges in the graph.
+We build an adjacency list where ‘i-th’ vector/list can be of size N.
 */  
 int makeGraphConnected(int n, vector<pair<int, int>>& edges, int m) {
     if (m < n - 1) return -1;
