@@ -22,6 +22,12 @@ Complexity Analysis:
 CODE:-
 */
 
+/*
+1) Connect all the 1's as components in step 1 by (row*n + col)
+2) Use a 'set' to know different components along the 4 directions (edge case) for the cell, then do size increment accordingly and update max if possible
+3) Edge case is if all 1's exists, then step 2 won't run
+*/
+
 class DisjointSet {
 public:
     vector<int> parent, size;
@@ -64,6 +70,7 @@ int largestIsland(vector<vector<int>>& grid) {
 
     DisjointSet djs(n * n);
 
+    // step 1 : Connect all the 1's as components in step 1 by (row*n + col)
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             if (grid[i][j] == 1) {
@@ -79,6 +86,9 @@ int largestIsland(vector<vector<int>>& grid) {
             }
         }
     }
+
+    // step 2 : Use a 'set' to know different components along the 4 directions (edge case) for the cell, 
+    // then do size increment accordingly and update max if possible
     int ans = INT_MIN;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
@@ -98,8 +108,13 @@ int largestIsland(vector<vector<int>>& grid) {
             }
         }
     }
+
+    // Edge case is if all 1's exists, then step 2 won't run
     for (int cellNo = 0; cellNo < n * n; cellNo++) {
         ans = max(ans, djs.size[djs.findUPar(cellNo)]);
     }
+    // Simply, the first cell may be sufficient
+    // ans = max(ans, djs.size[djs.findUPar(0)]);
+    
     return ans;
 }
