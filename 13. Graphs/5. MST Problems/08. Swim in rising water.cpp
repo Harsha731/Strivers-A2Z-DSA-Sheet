@@ -10,7 +10,7 @@ Return the least time until you can reach the bottom right square (n - 1, n - 1)
 DFS + binary search approach
 Binary Search: Used to find the minimum time required (low to high range) to swim from top-left to bottom-right.
 DFS: The canReach function performs depth-first search to check if the target can be reached with the current mid value.
-Visited Array: Prevents revisiting cells during DFS, ensuring correctness and avoiding infinite loops.
+Visited Array: Prevents revisiting cells during DFS, ensuring correctness and avoiding infinite loops
 TC : O(N^2 logN) as Binary search runs at max log(N^2) times and it runs DFS for N^2 iterations for each DFS
 */
 class Solution {
