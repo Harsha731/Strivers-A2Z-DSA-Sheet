@@ -1,23 +1,24 @@
 /*
-QUESTION:-
-There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
-A critical connection is a connection that, if removed, will make some servers unable to reach some other server.
-Return all critical connections in the network in any order.
+Check Image
+We do checking of bridges while backtracking
 
-Approach:
-1. We can use Tarjan's algorithm to find the critical connections in the network.
-2. Tarjan's algorithm is used to find bridges in an undirected graph, which are exactly the critical connections.
-3. We perform a depth-first search (DFS) on the graph and keep track of the timestamp (time) when each node is visited.
-4. We also maintain two arrays, tin and low, to store the timestamp of each node and the lowest timestamp reachable from the node using a back edge or a cross edge, respectively.
-5. During the DFS, if we encounter an edge (u, v) such that low[v] > tin[u], it means the edge (u, v) is a critical connection (bridge).
-6. We add all such critical connections to the result.
+There are 3 cases :
+i) The adjNode is parent node. Ignore it.
+ii) The adjNode is not parent node and visited. Update the low[]. 
+iii) The adjNode is not parent node and not visited till now. Do DFS and update the low.
 
-Complexity Analysis:
-- Let n be the number of servers and m be the number of connections in the network.
-- The time complexity of this approach is O(n + m) since we perform a single DFS on the graph.
-- The space complexity is O(n + m) to store the graph adjacency list and O(n) for the auxiliary arrays.
+We update the low in both cases of visited as well as unvisited (during backtracking)
+
+we check whether we can reach earlier or to the parent node via another path
+
+vector<vector<int>> adj(n); is the correct way of declaration
+
+Here we are assuming the whole is connected graph, else we have to run DFS for every unvisited node
+
+We are not considering the parent’s insertion time during calculating the lowest insertion time 
+as we want to check if any other path from the node to the parent exists excluding the edge we intend to remove.
 */
-
+______________________
 
 int time;
 
