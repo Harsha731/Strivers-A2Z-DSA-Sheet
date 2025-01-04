@@ -27,50 +27,82 @@ The ranks get distorted after joining two components, so it is good to use union
 ______________________________________
 
 class DisjointSet {
-    vector<int> rank, parent;
+private:
+    vector<int> parent, size, rank;
+
 public:
     DisjointSet(int n) {
-        rank.resize(n + 1, 0);
         parent.resize(n + 1);
+        rank.resize(n + 1, 0);
+        size.resize(n + 1, 1);
         for (int i = 0; i <= n; i++) {
             parent[i] = i;
-        }   
+        }
         // iota(parent.begin(), parent.end(), 0); instead of for loop
     }
 
-    int findUPar(int node) {
-        if (node == parent[node])
-            return node;
-        return parent[node] = findUPar(parent[node]);
+    int find(int x) {
+        if (parent[x] == x)
+            return x;
+        return parent[x] = find(parent[x]);
     }
 
-    void unionByRank(int u, int v) {
-        int ulp_u = findUPar(u);
-        int ulp_v = findUPar(v);
-        if (ulp_u == ulp_v) return;
-        if (rank[ulp_u] < rank[ulp_v]) {
-            parent[ulp_u] = ulp_v;
+     void unionByRank(int x, int y) {
+        int ulp_x = find(x);
+        int ulp_y = find(y);
+        if (ulp_x == ulp_y) return;
+        if (rank[ulp_x] < rank[ulp_y]) {
+            parent[ulp_x] = ulp_y;
         }
-        else if (rank[ulp_v] < rank[ulp_u]) {
-            parent[ulp_v] = ulp_u;
+        else if (rank[ulp_y] < rank[ulp_x]) {
+            parent[ulp_y] = ulp_x;
         }
         else {
-            parent[ulp_v] = ulp_u;
-            rank[ulp_u]++;
+            parent[ulp_y] = ulp_x;
+            rank[ulp_x]++;
         }
     }
 
-    void unionBySize(int u, int v) {
-        int ulp_u = findUPar(u);
-        int ulp_v = findUPar(v);
-        if (ulp_u == ulp_v) return;
-        if (size[ulp_u] < size[ulp_v]) {
-            parent[ulp_u] = ulp_v;
-            size[ulp_v] += size[ulp_u];
+    void unionBySize(int x, int y) {
+        int rootX = find(x);
+        int rootY = find(y);
+
+        if (rootX == rootY)
+            return;
+
+        if (size[rootX] < size[rootY]) {
+            parent[rootX] = rootY;
+            size[rootY] += size[rootX];
+        } else {
+            parent[rootY] = rootX;
+            size[rootX] += size[rootY];
         }
-        else {
-            parent[ulp_v] = ulp_u;
-            size[ulp_u] += size[ulp_v];
+    }
+
+    void printArrays() {
+        cout << "PARENT" << endl;
+        for (auto it : parent) {
+            cout << it << " ";
         }
+        cout << endl << "SIZE" << endl;
+        for (auto it : size) {
+            cout << it << " ";
+        }
+    }
+
+    int setSize(int vertex) {
+        return size[find(vertex)];
+    }
+
+    int numberOfDisjointSets(int n) {
+        for (int i = 0; i < n; i++) {
+            parent[i] = find(i);
+        }
+
+        set<int> uniqueParents;
+        for (int i = 0; i < n; i++) {
+            uniqueParents.insert(parent[i]);
+        }
+        return uniqueParents.size();
     }
 };
