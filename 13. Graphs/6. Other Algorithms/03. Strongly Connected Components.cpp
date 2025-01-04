@@ -24,6 +24,13 @@ Starting from 0, we end up in the same SCC, again we need to start DFS from 3 an
 It is because, SCC1 -> SCC2 are only 1 sided, more than 1 can be there, thatswhy they are 2 different SCC's
 Now, by reversing, we can't go from SCC1 to SCC2, we need to start again
 
+Time Complexity: O(V+E) + O(V+E) + O(V+E) ~ O(V+E) , where V = no. of vertices, E = no. of edges. 
+The first step is a simple DFS, so the first term is O(V+E). The second step of reversing the graph 
+and the third step, containing DFS again, will take O(V+E) each.
+
+Space Complexity: O(V)+O(V)+O(V+E), where V = no. of vertices, E = no. of edges. Two O(V) for the 
+visited array and the stack we have used. O(V+E) space for the reversed adjacent list.
+
 */
 
 
