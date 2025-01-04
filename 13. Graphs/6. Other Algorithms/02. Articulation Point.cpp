@@ -20,6 +20,9 @@ low[node] = min(low[node], tin[it]);  // For visited
 
 In the image, 2 is AP because, low[4] = 3 and tin[2] = 3, so 4 is being reached at max from 2 only, so when we remove 2, it becomes disconnected
 Also, 0 is AP, because child = 2    
+
+Time Complexity: O(V+2E), where V = no. of vertices, E = no. of edges. It is because the algorithm is just a simple DFS traversal.
+Space Complexity: O(3V), where V = no. of vertices. O(3V) is for the three arrays i.e. tin, low, and vis, each of size V.
 */
 
 __________________________________
