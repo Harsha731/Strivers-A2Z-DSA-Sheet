@@ -1,6 +1,10 @@
 /*
 QUESTION:-
-You are given an n x m 2D matrix, and an array of size k denoting the number of operations. The matrix elements are 0 if there is water or 1 if there is land. Originally, the 2D matrix is all 0, which means there is no land in the matrix. The array has k operator(s) and each operator has two integers A[i][0], A[i][1], which means that you can change the cell matrix[A[i][0]][A[i][1]] from sea to an island. Return how many islands are there in the matrix after each operation. You need to return an array of size k.
+You are given an n x m 2D matrix, and an array of size k denoting the number of operations. The matrix elements are 0 
+if there is water or 1 if there is land. Originally, the 2D matrix is all 0, which means there is no land in the matrix. 
+The array has k operator(s) and each operator has two integers A[i][0], A[i][1], which means that you can change the 
+cell matrix[A[i][0]][A[i][1]] from sea to an island. Return how many islands are there in the matrix after each operation. 
+You need to return an array of size k.
 Note: An island means a group of 1s such that they share a common side.
 
 Example 1:
@@ -46,6 +50,12 @@ Complexity Analysis:
 - The space complexity is O(n*m) for storing the grid and the disjoint set.
 
 CODE:-
+*/
+
+/*
+Initially all are water cells and k cells had been made as land
+We increase 1 for each iteration and we can decrease 4 at max in each iteration by checking that does it make islands connecting or not
+Each cell is represented as mx+y
 */
 
 class DisjointSet {
