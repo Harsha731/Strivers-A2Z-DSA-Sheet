@@ -79,3 +79,66 @@ public:
         return res;
     }
 };
+____________________________________________________________
+
+// DFS
+
+/*
+ump 'emailToName' is for mapping the name to each email. eg. {harsha@gmail.com, harsha}
+ump 'graph' is for creating a adjList, we attach all the emails from 2 to n to 1st email
+uset 'visited' is for not visiting any email again
+2D 'result' vector is for storing the ans and returning it
+For each unvisited email, we create a vector component and we run DFS and insert all the corresponding emails, it can be from 2 different entries, 
+merging happens here in the DFS call. We sort it. We insert the name from the ump 'emailToName' at start and insert this into ans 2D vector
+
+TC : building the adjList - O(E)
+DFS - O(E+V)
+Sorting takes - O( sum(Mi * log(Mi)) ), where sum() denotes the summation and ‘Mi’ denotes the length of accounts[i].
+Sorting step dominates
+
+SC  -  O(E)
+*/
+
+void dfs(const string& email, unordered_map<string, vector<string>>& graph, vector<string>& component, unordered_set<string>& visited) {
+    visited.insert(email);
+    component.push_back(email);
+    for (const auto& u : graph[email]) {
+        if (!visited.count(u)) {
+            dfs(u, graph, component, visited);
+        }
+    }
+}
+
+vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+    unordered_map<string, string> emailToName;      // {harsha@gmail.com, harsha}
+    unordered_map<string, vector<string>> graph;    // adjList / creating edges from 1st email to all remaining emails
+
+    // Build the graph and map email to name
+    for (const auto& account : accounts) {
+        const string& name = account[0];
+        for (int i = 1; i < account.size(); ++i) {
+            emailToName[account[i]] = name;
+            if (i > 1) {
+                graph[account[i]].push_back(account[1]);
+                graph[account[1]].push_back(account[i]);
+            }
+        }
+    }
+
+    unordered_set<string> visited;
+    vector<vector<string>> result;
+
+    // DFS to find connected components
+    for (const auto& it : emailToName) {
+		string email = it.first;
+        if (!visited.count(email)) {
+            vector<string> component;
+            dfs(email, graph, component, visited);
+            sort(component.begin(), component.end());
+            component.insert(component.begin(), emailToName[email]);
+            result.push_back(component);
+        }
+    }
+
+    return result;
+}
