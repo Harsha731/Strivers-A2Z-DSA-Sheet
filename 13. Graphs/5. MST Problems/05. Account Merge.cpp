@@ -34,6 +34,9 @@ Complexity Analysis:
 */
 __________________________
 
+// In this question, if 2 differnt users have same email, then we are assuming they are same. So, they should have 
+// same name, but if they have differnt names, then we are are returning it with the name appeared first
+
 class Solution {
 public:
     vector<vector<string>> accountsMerge(vector<vector<string>>& accs) {
