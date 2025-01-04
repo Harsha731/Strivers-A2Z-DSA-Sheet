@@ -1,21 +1,25 @@
 /* QUESTION:
 
-There are n computers numbered from 0 to n - 1 connected by ethernet cables connections forming a network where connections[i] = [ai, bi] represents a connection between computers ai and bi. Any computer can reach any other computer directly or indirectly through the network.
+There are n computers numbered from 0 to n - 1 connected by ethernet cables connections forming a network where connections[i] = [ai, bi] 
+represents a connection between computers ai and bi. Any computer can reach any other computer directly or indirectly through the network.
 
-You are given an initial computer network connections. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected.
+You are given an initial computer network connections. You can extract certain cables between two directly connected computers, 
+and place them between any pair of disconnected computers to make them directly connected.
 
 Return the minimum number of times you need to do this in order to make all the computers connected. If it is not possible, return -1.
 
 APPROACH:
 - We can use the Disjoint Set data structure to keep track of connected components and find the minimum number of times we need to add connections.
-- If the number of connections is less than n - 1 (number of computers minus one), it means the network is disconnected, and we cannot make all the computers connected. In this case, we return -1.
+- If the number of connections is less than n - 1 (number of computers minus one), it means the network is disconnected, 
+and we cannot make all the computers connected. In this case, we return -1.
 - Otherwise, we initialize a Disjoint Set data structure with n nodes representing each computer.
 - We iterate through the given connections and union the connected components of each pair of computers using the Disjoint Set data structure.
 - After this, we count the number of disconnected components using the findUPar function of the Disjoint Set data structure.
 - The minimum number of times we need to add connections to make all computers connected is the number of disconnected components minus one.
 
 COMPLEXITY ANALYSIS:
-- The time complexity of this approach is O(E + V), where E is the number of connections and V is the number of computers. The log V factor is due to the unionBySize operation in the Disjoint Set data structure.
+- The time complexity of this approach is O(E + V), where E is the number of connections and V is the number of computers. 
+The log V factor is due to the unionBySize operation in the Disjoint Set data structure.
 - The space complexity is O(V) for the Disjoint Set data structure and other data structures.
 
 CODE:
@@ -62,6 +66,7 @@ public:
 
 int makeConnected(int n, vector<vector<int>>& connections) {
     if (n - 1 > connections.size())
+        // If we have wires less than n-1, then it is not possible to conenct the n computers
         return -1;
 
     DisjointSet djs(n);
