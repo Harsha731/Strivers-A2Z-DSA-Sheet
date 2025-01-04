@@ -118,3 +118,51 @@ int largestIsland(vector<vector<int>>& grid) {
     
     return ans;
 }
+__________________________________________________
+
+/* 
+DFS / BFS approach
+For every 0 present in the matrix, we re initialize vis = 0 and
+we try to make it 1 and get the maxSize surrounding it
+
+TC : O(N^4), where ‘N’ is the number of rows in the binary matrix. 
+Since we are traversing over each element of the matrix, and we are calling DFS for every 0 encountered which 
+takes O(N^2) time for each call. Hence, the overall Time Complexity is O(N^4).
+
+SC : O(N^2), where ‘N’ is the number of rows in the binary matrix.
+*/
+
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+
+// DFS to find the island size
+int getIslandSize(vector<vector<int>>& grid, int i, int j, vector<vector<bool>>& visited) {
+    if (i < 0 || i >= grid.size() || j < 0 || j >= grid.size() || visited[i][j] || grid[i][j] == 0)
+        return 0;
+    
+    visited[i][j] = true;
+    int size = 1;
+    for (int k = 0; k < 4; k++) {
+        size += getIslandSize(grid, i + dx[k], j + dy[k], visited);
+    }
+    return size;
+}
+
+int maximumIslandSize(vector<vector<int>>& grid) {
+    int n = grid.size(), maxSize = 0;
+    bool hasZero = false;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (grid[i][j] == 0) {
+                hasZero = true;
+                grid[i][j] = 1;
+                vector<vector<bool>> visited(n, vector<bool>(n, false));
+                maxSize = max(maxSize, getIslandSize(grid, i, j, visited));
+                grid[i][j] = 0;
+            }
+        }
+    }
+
+    return hasZero ? maxSize : n * n;
+}
