@@ -1,6 +1,8 @@
 /*
 QUESTION:-
-Geek is going for n days training program, he can perform any one of these three activities Running, Fighting, and Learning Practice. Each activity has some point on each day. As Geek wants to improve all his skills, he can't do the same activity on two consecutive days. Help Geek to maximize his merit points as we were given a 2D array of n*3 points corresponding to each day and activity.
+Geek is going for n days training program, he can perform any one of these three activities Running, Fighting, and Learning Practice. 
+Each activity has some point on each day. As Geek wants to improve all his skills, he can't do the same activity on two consecutive days. 
+Help Geek to maximize his merit points as we were given a 2D array of n*3 points corresponding to each day and activity.
 
 Example:
 Input:
@@ -15,13 +17,19 @@ and on the third day, he will do fighting and earn 3 points.
 So, the maximum points is 11.
 
 Approach:
-1. To maximize the merit points, we need to find the maximum sum of points such that the Geek can't perform the same activity on two consecutive days.
+1. To maximize the merit points, we need to find the maximum sum of points such that the Geek can't perform the 
+same activity on two consecutive days.
 2. We can solve this problem using dynamic programming with memoization (top-down approach).
-3. We define a helper function fmemo(n, prev, points, memo) that calculates the maximum points the Geek can earn from the nth day onwards, given that on the (n-1)th day, he performed the activity indexed by 'prev'.
-4. The function checks if the maximum points for the (n-1)th day and 'prev' activity is already calculated and stored in the memo array. If yes, it returns the value from memo.
-5. Otherwise, it calculates the maximum points for the nth day by considering all three activities except the one performed on the (n-1)th day. It then adds the points for the nth day and recursively calls the function for the (n-1)th day with the new activity and updates the maximum points.
+3. We define a helper function fmemo(n, prev, points, memo) that calculates the maximum points the Geek can earn 
+from the nth day onwards, given that on the (n-1)th day, he performed the activity indexed by 'prev'.
+4. The function checks if the maximum points for the (n-1)th day and 'prev' activity is already calculated and 
+stored in the memo array. If yes, it returns the value from memo.
+5. Otherwise, it calculates the maximum points for the nth day by considering all three activities except the 
+one performed on the (n-1)th day. It then adds the points for the nth day and recursively calls the function 
+for the (n-1)th day with the new activity and updates the maximum points.
 6. The base case is when n is less than 0, in which case the function returns 0 as there are no days to earn points.
-7. In the main function maximumPoints(points, n), we create a dp (memo) array of size n initialized with -1 and call the fmemo function for the nth day with the initial activity as -1 (since no activity is performed on the first day).
+7. In the main function maximumPoints(points, n), we create a dp (memo) array of size n initialized with -1 and 
+call the fmemo function for the nth day with the initial activity as -1 (since no activity is performed on the first day).
 8. Finally, we return the maximum points obtained for all three possible starting activities (running, fighting, learning practice) as the result.
 
 Complexity Analysis:
@@ -54,7 +62,7 @@ int fmemo(int n, int prev, vector<vector<int>>& points, vector<vector<int>>& mem
     return ans;
 }
 
-//Tbaulation
+//Tabulation
 int ftab(int n, vector<vector<int>>& points) {
     vector<vector<int>> dp(n, vector<int>(3, 0));
 
@@ -81,6 +89,33 @@ int ftab(int n, vector<vector<int>>& points) {
     }
 
     return ans;
+}
+
+// Space optimization
+int fopt(int n, vector<vector<int>>& points) {
+    // Store the maximum points for the previous row
+    vector<int> prev(3, 0);
+
+    // Base case: initialize the first row values
+    for (int i = 0; i < 3; i++) {
+        prev[i] = points[0][i];
+    }
+
+    // Calculate the maximum points row by row using only the previous row
+    for (int i = 1; i < n; i++) {
+        vector<int> curr(3, 0);
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                if (j != k) {
+                    curr[j] = max(curr[j], points[i][j] + prev[k]);
+                }
+            }
+        }
+        prev = curr; // Update the previous row for the next iteration
+    }
+
+    // Find the maximum points among all choices for the last row
+    return *max_element(prev.begin(), prev.end());
 }
 
 int maximumPoints(vector<vector<int>>& points, int n) {
