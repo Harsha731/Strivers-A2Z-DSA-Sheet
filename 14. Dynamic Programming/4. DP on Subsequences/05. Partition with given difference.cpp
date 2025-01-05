@@ -106,7 +106,11 @@ int countPartitions(int n, int d, vector<int>& arr) {
     vector<vector<int>> dp(n, vector<int>(sum + 1, -1));
     for(int i = 0; i <= sum; i++){
         if(i - (sum - i) == d)
-            ans = (ans + fmemo(n - 1, i, arr, dp)) % mod;
+            ans = (ans + fmemo(n - 1, i, arr, dp)) % mod;      // There is only one 'i' possible for this
     }
+    // if (totSum-d < 0) return 0;
+    // if ((totSum-d) % 2 == 1) return 0;
+    // k = (sum - d ) / 2
+    // ans = fmemo(n-1, k, arr, dp) % mod ; 
     return ans;
 }
