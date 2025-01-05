@@ -18,6 +18,7 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+// Memoization
 int fmemo(int i, int j, string& s, string& t, vector<vector<int>>& dp) {
     if (j < 0) return 1;
     if (i < 0) return 0;
@@ -28,16 +29,50 @@ int fmemo(int i, int j, string& s, string& t, vector<vector<int>>& dp) {
         return dp[i][j] = fmemo(i - 1, j, s, t, dp);
 }
 
-int ftab(int n, int m, string& s, string& t){
-    vector<vector<int>> dp(n+1,vector<int>(m+1));
-    for(int i=1; i<=n; i++){
-        for(int j=1; j<=m; j++){
-            if(s[i-1]==t[j-1]) dp[i][j] = dp[i-1][j-1]+dp[i-1][j];
-            else dp[i][j] = dp[i-1][j];
+// Tabulation
+int numDistinct(string s, string t) {
+    int n = s.size(), m = t.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+
+    // Base case: If `t` is an empty string, there's exactly one way to match it (by not picking any characters)
+    for (int i = 0; i <= n; i++) {
+        dp[i][0] = 1;
+    }
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (s[i - 1] == t[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]; // Match or skip the character in `s`
+            } else {
+                dp[i][j] = dp[i - 1][j]; // Skip the character in `s`
+            }
         }
     }
-    return dp[n-1][m-1];
+
+    return dp[n][m];
 }
+
+// Space Optimization
+int numDistinct(string s, string t) {
+    int n = s.size(), m = t.size();
+    vector<int> prev(m + 1, 0), curr(m + 1, 0);
+
+    prev[0] = 1; // Base case: 1 way to form an empty string `t`
+
+    for (int i = 1; i <= n; i++) {
+        curr[0] = 1; // Base case: 1 way to form an empty string `t`
+        for (int j = 1; j <= m; j++) {
+            if (s[i - 1] == t[j - 1])
+                curr[j] = prev[j - 1] + prev[j];
+            else
+                curr[j] = prev[j];
+        }
+        prev = curr; // Update the previous row to the current row
+    }
+
+    return prev[m];
+}
+
 
 int numDistinct(string s, string t) {
     int n = s.size(), m = t.size();
