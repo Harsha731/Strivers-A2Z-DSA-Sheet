@@ -12,16 +12,19 @@ Explanation: Here there exists a subset with sum = 9, 4+3+2 = 9.
 
 Approach:
 1. We can solve this problem using dynamic programming with memoization (top-down approach).
-2. We define a helper function fmemo(i, sum, arr, dp) that checks if there is a subset of elements up to index i whose sum is equal to the given sum.
+2. We define a helper function fmemo(i, sum, arr, dp) that checks if there is a subset of elements up to index i 
+    whose sum is equal to the given sum.
 3. The function checks if the target sum is 0. If yes, it means we have found a subset with the given sum and returns true.
 4. If i is 0, it means we are at the first element, so the function checks if the first element is equal to the target sum.
 5. If the dp value for the current index and sum is already calculated, it returns the stored value.
-6. If the current element (arr[i]) is less than or equal to the target sum, the function recursively checks for two cases: including the current element in the subset (by reducing the sum) or excluding it (by not changing the sum).
+6. If the current element (arr[i]) is less than or equal to the target sum, the function recursively checks for two cases: 
+    including the current element in the subset (by reducing the sum) or excluding it (by not changing the sum).
 7. If any of the above cases returns true, the dp value for the current index and sum is updated to true.
 8. Finally, we return the dp value for the last index and the given sum.
 
 Complexity Analysis:
-- The time complexity of the fmemo function is O(n * sum), where n is the number of elements in the array and sum is the target sum. This is because the function calculates the result for each index and sum only once and stores it in the dp array.
+- The time complexity of the fmemo function is O(n * sum), where n is the number of elements in the array and sum 
+    is the target sum. This is because the function calculates the result for each index and sum only once and stores it in the dp array.
 - The space complexity is also O(n * sum) to store the dp array.
 
 */
