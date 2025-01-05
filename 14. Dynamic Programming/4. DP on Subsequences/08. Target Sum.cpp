@@ -32,68 +32,100 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
-
 // Memoization
-int fmemo(int i, int tar, int arr[], vector<vector<int>>& dp){
-    if(i == 0){
-        if(tar == 0 && arr[i] == 0) return dp[i][tar] = 2;
-        if(tar == 0) return dp[i][tar] = 1;
-        return dp[i][tar] = (arr[i] == tar);
+
+// TC : O(N*K) : There are N*K states therefore at max ‘N*K’ new problems will be solved.
+// SC : O(N*K) + O(N) : We are using a recursion stack space(O(N)) and a 2D array ( O(N*K)).
+
+int helper(int idx, int tgt, vector<int>& nums, vector<vector<int>>& memo) {
+    if (idx == 0) {
+        if (tgt == 0 && nums[0] == 0)      return 2;
+        if (tgt == 0 || tgt == nums[0])       return 1;
+        return 0;
+    }   
+
+    if (memo[idx][tgt] != -1)      return memo[idx][tgt];
+
+    int exclude = helper(idx - 1, tgt, nums, memo);
+    int include = 0;
+    if (nums[idx] <= tgt)
+        include = helper(idx - 1, tgt - nums[idx], nums, memo);
+
+    return memo[idx][tgt] = (exclude + include);
+}
+
+int findWays(int n, int tgt, vector<int>& nums) {
+    int totalSum = 0;
+    for (int i = 0; i < nums.size(); i++) {
+        totalSum += nums[i];
     }
 
-    if(dp[i][tar] != -1) return dp[i][tar];
+    if (totalSum - tgt < 0)       return 0;
+    if ((totalSum - tgt) % 2 == 1)       return 0;
 
-    int take = 0;
-    if(arr[i] <= tar) take = fmemo(i - 1, tar - arr[i], arr, dp);
-    int notake = fmemo(i - 1, tar, arr, dp);
-    return dp[i][tar] = (take + notake);
+    int s2 = (totalSum - tgt) / 2;
+    vector<vector<int>> memo(n, vector<int>(s2 + 1, -1));
+    return helper(n - 1, s2, nums, memo);
 }
+__________________________________
 
 // Tabulation
-int ftab(int n, int sum, int arr[]){
-    vector<vector<int>> dp(n,vector<int>(sum+1));
-    for(int i=0; i<n; i++){
-        for(int tar=0; tar<=sum; tar++){
-            if(i==0){
-                if(tar==0 && arr[i]==0) dp[i][tar] = 2;
-                else if(tar==0) dp[i][tar] = 1;
-                else dp[i][tar] =  (arr[i]==tar);
-                continue;
-            }
-            int take = 0;
-            if(arr[i] <= tar) take = dp[i-1][tar-arr[i]];
-            int notake = dp[i-1][tar];
-            dp[i][tar] =  (take+notake);
+
+const int mod = 1e9 + 7;
+
+int countWays(vector<int>& nums, int targetSum) {
+    int n = nums.size();
+    vector<vector<int>> dp(n, vector<int>(targetSum + 1, 0));
+
+    dp[0][0] = nums[0] == 0 ? 2 : 1;
+    if (nums[0] <= targetSum && nums[0] != 0) dp[0][nums[0]] = 1;
+
+    for (int i = 1; i < n; ++i) {
+        for (int sum = 0; sum <= targetSum; ++sum) {
+            dp[i][sum] = (dp[i - 1][sum] + (nums[i] <= sum ? dp[i - 1][sum - nums[i]] : 0)) % mod;
         }
     }
-    return dp[n-1][sum];
+    return dp[n - 1][targetSum];
 }
 
-// Space Optimization
-int fopt(int n, int sum, int arr[]){
-    vector<int> prev(sum+1);
-    for(int i=0; i<n; i++){
-        vector<int> curr(sum+1);
-        for(int tar=0; tar<=sum; tar++){
-            if(i==0){
-                if(tar==0 && arr[i]==0) curr[tar] = 2;
-                else if(tar==0) curr[tar] = 1;
-                else curr[tar] =  (arr[i]==tar);
-                continue;
-            }
-            int take = 0;
-            if(arr[i] <= tar) take = prev[tar-arr[i]];
-            int notake = prev[tar];
-            curr[tar] =  (take+notake);
+int findTargetSumWays(int n, int target, vector<int>& nums) {
+    int totalSum = accumulate(nums.begin(), nums.end(), 0);
+    if (totalSum < target || (totalSum - target) % 2 != 0) return 0;
+    return countWays(nums, (totalSum - target) / 2);
+}
+______________________________________
+
+// Space optimization
+
+const int mod = 1e9 + 7;
+
+int calculateWays(vector<int>& nums, int targetSum) {
+    int n = nums.size();
+    vector<int> prev(targetSum + 1, 0);
+
+    if (nums[0] == 0)    prev[0] = 2;
+    else      prev[0] = 1;
+
+    if (nums[0] != 0 && nums[0] <= targetSum)     prev[nums[0]] = 1;
+
+    for (int i = 1; i < n; i++) {
+        vector<int> cur(targetSum + 1, 0);
+        for (int sum = 0; sum <= targetSum; sum++) {
+            int notPicked = prev[sum];
+            int picked = 0;
+            if (nums[i] <= sum)
+                picked = prev[sum - nums[i]];
+            cur[sum] = (notPicked + picked) % mod;
         }
-        prev = curr;
+        prev = cur;
     }
-    return prev[sum];
+    return prev[targetSum];
 }
 
-int findTargetSumWays(vector<int>& nums, int target) {
-    int n = nums.size(), sum = 0; 
-    for(auto i:nums) sum += i;
-    vector<vector<int>> dp(n, vector<int>(sum + 1, -1));
-    return fmemo(n - 1, target, nums, dp);
+int targetSumWays(int n, int target, vector<int>& nums) {
+    int totalSum = accumulate(nums.begin(), nums.end(), 0);
+    if (totalSum < target || (totalSum - target) % 2 != 0)
+        return 0;
+    return calculateWays(nums, (totalSum - target) / 2);
 }
+
