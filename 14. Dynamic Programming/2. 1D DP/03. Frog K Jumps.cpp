@@ -65,6 +65,8 @@ int ftab(int i, int k, vector<int>& h){
     return dp[n-1];
 }
 
+// There is no Space Optimized code here as we need info about last k steps
+
 int minimizeCost(int n, int k, vector<int>& height) {
     vector<int> dp(n, -1);
     return fmemo(n - 1, k, height, dp);
