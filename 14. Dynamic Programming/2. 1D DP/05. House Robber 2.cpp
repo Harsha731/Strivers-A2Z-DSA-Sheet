@@ -29,47 +29,48 @@ Complexity Analysis:
 */
 
 // Memoization
-int fmemo(int e, int i, vector<int>& nums, vector<int>& dp) {
-    if (i < e)
+int robMemo(int start, int end, vector<int>& nums, vector<int>& dp) {
+    if (end < start)
         return 0;
 
-    if (i == e)
-        return dp[i] = nums[i];
+    if (end == start)
+        return dp[end] = nums[end];
 
-    if (dp[i] != -1)
-        return dp[i];
+    if (dp[end] != -1)
+        return dp[end];
 
-    int take = nums[i] + fmemo(e, i - 2, nums, dp);
-    int notake = fmemo(e, i - 1, nums, dp);
-    return dp[i] = max(take, notake);
+    int pick = nums[end] + robMemo(start, end - 2, nums, dp);
+    int skip = robMemo(start, end - 1, nums, dp);
+    return dp[end] = max(pick, skip);
 }
 
 // Tabulation
-int ftab(int e, int n, vector<int>& nums){
-    vector<int> dp(n);
-    dp[e] = nums[e];
-    for(int i=e+1; i<n-(!e); i++){
-        int take = nums[i];
-        if(i-2>=e)
-            take += dp[i-2];
-        int notake = dp[i-1];
-        dp[i] = max(take,notake);
+int robTab(int start, int end, vector<int>& nums) {
+    vector<int> dp(nums.size(), 0);
+    dp[start] = nums[start];
+    for (int i = start + 1; i <= end; i++) {
+        int pick = nums[i];
+        if (i - 2 >= start)
+            pick += dp[i - 2];
+        int skip = dp[i - 1];
+        dp[i] = max(pick, skip);
     }
-    return dp[n-1-(!e)];
+    return dp[end];
 }
 
 // Space Optimization
-int fopt(int e, int n, vector<int>& nums){
-    int p1 = nums[e], p2 = 0, ans = 0;
-    for(int i=e+1; i<n-(!e); i++){
-        int take = nums[i];
-        if(i-2>=e)
-            take += p2;
-        int notake = p1;
-        ans = max(take,notake);
-        p2 = p1; p1 = ans;
+int robOpt(int start, int end, vector<int>& nums) {
+    int prev1 = nums[start], prev2 = 0, curr = 0;
+    for (int i = start + 1; i <= end; i++) {
+        int pick = nums[i];
+        if (i - 2 >= start)
+            pick += prev2;
+        int skip = prev1;
+        curr = max(pick, skip);
+        prev2 = prev1;
+        prev1 = curr;
     }
-    return ans;
+    return curr;
 }
 
 int rob(vector<int>& nums) {
@@ -78,8 +79,8 @@ int rob(vector<int>& nums) {
         return nums[0];
 
     vector<int> dp(n, -1);
-    int s = fmemo(1, n - 1, nums, dp); // Rob from 1st to 2nd-last house
+    int case1 = robMemo(1, n - 1, nums, dp); // Rob from 2nd to last house
     dp.assign(n, -1);
-    int e = fmemo(0, n - 2, nums, dp); // Rob from 2nd to last house
-    return max(s, e);
+    int case2 = robMemo(0, n - 2, nums, dp); // Rob from 1st to 2nd-last house
+    return max(case1, case2);
 }
