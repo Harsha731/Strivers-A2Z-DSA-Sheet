@@ -25,51 +25,53 @@ Complexity Analysis:
 - The space complexity is also O(n) to store the dp array.
 */
 
-//Memoization
-int fmemo(int i, vector<int>& nums, vector<int>& dp) {
-    if (i < 0)
+// Memoization
+int robMemo(int idx, vector<int>& nums, vector<int>& dp) {
+    if (idx < 0)
         return 0;
 
-    if (i == 0)
-        return dp[i] = nums[i];
+    if (idx == 0)
+        return dp[idx] = nums[idx];
 
-    if (dp[i] != -1)
-        return dp[i];
+    if (dp[idx] != -1)
+        return dp[idx];
 
-    int take = nums[i] + fmemo(i - 2, nums, dp);
-    int notake = fmemo(i - 1, nums, dp);
-    return dp[i] = max(take, notake);
+    int pick = nums[idx] + robMemo(idx - 2, nums, dp);
+    int skip = robMemo(idx - 1, nums, dp);
+    return dp[idx] = max(pick, skip);
 }
 
-//Tabulation
-int ftab(int n, vector<int>& nums){
+// Tabulation
+int robTab(int n, vector<int>& nums) {
     vector<int> dp(n);
     dp[0] = nums[0];
-    for(int i=1; i<n; i++){
-        int take = nums[i];
-        if(i-2 >= 0) take += dp[i-2];
-        int notake = dp[i-1];
-        dp[i] = max(take,notake);
+    for (int i = 1; i < n; i++) {
+        int pick = nums[i];
+        if (i - 2 >= 0)
+            pick += dp[i - 2];
+        int skip = dp[i - 1];
+        dp[i] = max(pick, skip);
     }
-    return dp[n-1];
+    return dp[n - 1];
 }
 
-//Space Optimization
-int fopt(int n, vector<int>& nums){
-    int p1 = nums[0], p2 = 0, ans = p1;
-    for(int i=1; i<n; i++){
-        int take = nums[i];
-        if(i-2 >= 0) take += p2;
-        int notake = p1;
-        ans = max(take,notake);
-        p2 = p1; p1 = ans;
+// Space Optimization
+int robOpt(int n, vector<int>& nums) {
+    int prev1 = nums[0], prev2 = 0, curr = prev1;
+    for (int i = 1; i < n; i++) {
+        int pick = nums[i];
+        if (i - 2 >= 0)
+            pick += prev2;
+        int skip = prev1;
+        curr = max(pick, skip);
+        prev2 = prev1;
+        prev1 = curr;
     }
-    return ans;
+    return curr;
 }
-
 
 int rob(vector<int>& nums) {
     int n = nums.size();
     vector<int> dp(n, -1);
-    return fmemo(n - 1, nums, dp);
+    return robMemo(n - 1, nums, dp);
 }
