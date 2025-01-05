@@ -46,6 +46,46 @@ int fmemo(int i, int j, string& s, string& r, vector<vector<int>>& dp){
     return dp[i][j];
 }
 
+int longestCommonSubstr(string& S1, string& S2) {
+    int n = S1.size(), m = S2.size();
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+    int maxi = 0;
+
+    // Build the dp table
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (S1[i - 1] == S2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                maxi = max(maxi, dp[i][j]);
+            } else {
+                dp[i][j] = 0;
+            }
+        }
+    }
+
+    return maxi;
+}
+
+int longestCommonSubstr(string& S1, string& S2) {
+    int n = S1.length(), m = S2.length();
+    vector<int> dp(m + 1, 0), prev(m + 1, 0);
+    int maxi = 0;
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (S1[i - 1] == S2[j - 1]) {
+                dp[j] = prev[j - 1] + 1;
+                maxi = max(maxi, dp[j]);
+            } else {
+                dp[j] = 0;
+            }
+        }
+        prev = dp;
+    }
+
+    return maxi;
+}
+
 int longestCommonSubstr(string S1, string S2, int n, int m){
     vector<vector<int>> dp(n, vector<int>(m, -1));
     fmemo(n - 1, m - 1, S1, S2, dp);
