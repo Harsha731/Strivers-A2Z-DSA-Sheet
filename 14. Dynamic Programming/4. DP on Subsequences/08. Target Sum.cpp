@@ -1,33 +1,18 @@
 /*
-QUESTION:
-Given an array 'nums' and an integer 'target', the task is to count 
-the number of ways to make the sum of elements of one subset equal 
-to 'target'.
+Problem Description:
 
-Example:
-Input: nums = [1, 1, 1, 1, 1], target = 3
+We are given an array ‘ARR’ of size ‘N’ and a number ‘Target’. Our task is to build an expression from the given array where we 
+can place a ‘+’ or ‘-’ sign in front of an integer. We want to place a sign in front of every integer of the array and 
+get our required target. We need to count the number of ways in which we can achieve our required target.
+
+Input: nums = [1,1,1,1,1], target = 3
 Output: 5
-Explanation: There are 5 ways to achieve the target sum: 
-{1, 1, 1}, {1, 2}, {2, 1}, {1, 2}, {3}
-
-APPROACH:
-- The problem can be reduced to finding the count of subsets with a 
-  given sum.
-- Initialize dp[i][j] as the number of subsets with sum 'j' using 
-  the first 'i' elements.
-- Base cases:
-  - dp[0][0] = 1 since an empty subset has a sum of 0.
-  - dp[i][0] = 1 since there's always an empty subset.
-- For each element 'nums[i]' and each possible sum 'j' from 1 to 'target':
-  - dp[i][j] = dp[i-1][j] (not taking the current element)
-  - if 'nums[i]' is less than or equal to 'j', then dp[i][j] += dp[i-1][j-nums[i]] (taking the current element)
-- The required answer will be dp[n][target] where 'n' is the number 
-  of elements in the array.
-
-COMPLEXITY ANALYSIS:
-- The time complexity of the solution is O(n * target), where 'n' 
-  is the number of elements in the array.
-- The space complexity is O(n * target) for the dp array.
+Explanation: There are 5 ways to assign symbols to make the sum of nums be target 3.
+-1 + 1 + 1 + 1 + 1 = 3
++1 - 1 + 1 + 1 + 1 = 3
++1 + 1 - 1 + 1 + 1 = 3
++1 + 1 + 1 - 1 + 1 = 3
++1 + 1 + 1 + 1 - 1 = 3
 
 CODE:
 */
