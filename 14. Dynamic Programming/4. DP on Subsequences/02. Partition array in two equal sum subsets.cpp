@@ -1,7 +1,8 @@
 /*
 QUESTION:
 
-Given an integer array `nums`, return `true` if you can partition the array into two subsets such that the sum of the elements in both subsets is equal, or `false` otherwise.
+Given an integer array `nums`, return `true` if you can partition the array into two subsets such that 
+  the sum of the elements in both subsets is equal, or `false` otherwise.
 
 Example 1:
 Input: nums = [1,5,11,5]
@@ -11,7 +12,8 @@ Explanation: The array can be partitioned as [1, 5, 5] and [11].
 APPROACH:
 
 - To solve this problem, we can use dynamic programming.
-- We'll create a 2D DP array where `dp[i][j]` represents whether it's possible to select a subset from the first `i` elements of the `nums` array that sums up to `j`.
+- We'll create a 2D DP array where `dp[i][j]` represents whether it's possible to select a subset 
+  from the first `i` elements of the `nums` array that sums up to `j`.
 - The base case is when `j` is 0, in which case it's always possible to select an empty subset.
 - For each element in the `nums` array, we have two choices: include it in the subset or exclude it.
 - So, the recurrence relation becomes:
@@ -19,7 +21,8 @@ APPROACH:
 
 COMPLEXITY ANALYSIS:
 
-- The time complexity of this approach is O(n * sum), where `n` is the number of elements in the `nums` array and `sum` is the sum of all elements.
+- The time complexity of this approach is O(n * sum), where `n` is the number of elements in the 
+  `nums` array and `sum` is the sum of all elements.
 
 CODE:
 */
