@@ -24,6 +24,13 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+/*
+The current element needs to be divisible by the prev, it is enough
+1, 2, 4, 8, 16
+If 16 is divisible by 8, then the earlier elements are simply factors of 8, so they will also be divisible by 16
+It is good to do using tabulation, we can also do using memoization, but it is lengthy code
+*/
+
 vector<int> ftab(int n, vector<int>& nums) {
     vector<int> dp(n, 1);
     vector<int> prevmap(n, -1);
