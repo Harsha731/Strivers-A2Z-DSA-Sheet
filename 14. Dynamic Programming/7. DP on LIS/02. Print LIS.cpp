@@ -20,6 +20,7 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+// Here, we use 1D dp vector and while loop helps us to push the elements into ans vector and we reverse it at the end
 vector<int> ftab(int n, vector<int>& arr) {
     vector<int> dp(n, 1);
     vector<int> prevmap(n, -1);
