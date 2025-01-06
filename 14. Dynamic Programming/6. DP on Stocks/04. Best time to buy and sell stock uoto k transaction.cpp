@@ -28,35 +28,36 @@ CODE:
 */
 
 // Memoization
+int getAns(vector<int>& Arr, int n, int ind, int buy, int cap, vector<vector<vector<int>>>& dp) {
+    // Base case
+    if (ind == n || cap == 0) return 0;
 
-int maxi;
-int fmemo(int i, int hold, int cap, vector<int>& prices, vector<vector<vector<int>>>& dp){
-    if(i == prices.size()) return 0;
-    if(cap == maxi + 1) return 0;
+    // Check if the result is already computed
+    if (dp[ind][buy][cap] != -1)
+        return dp[ind][buy][cap];
 
-    if(dp[i][hold][cap] != -1) return dp[i][hold][cap];
+    int profit;
 
-    if(hold){
-        // sell 
-        int a = prices[i] + fmemo(i + 1, 0, cap, prices, dp);
-        // not sell
-        int b = fmemo(i + 1, 1, cap, prices, dp);
-        return dp[i][hold][cap] = max(a, b);
+    if (buy == 0) { // We can buy the stock
+        profit = max(0 + getAns(Arr, n, ind + 1, 0, cap, dp),
+                     -Arr[ind] + getAns(Arr, n, ind + 1, 1, cap, dp));
     }
-    else{
-        // buy
-        int a = -prices[i] + fmemo(i + 1, 1, cap + 1, prices, dp);
-        // not buy
-        int b = fmemo(i + 1, 0, cap, prices, dp);
-        return dp[i][hold][cap] = max(a, b);
+
+    if (buy == 1) { // We can sell the stock
+        profit = max(0 + getAns(Arr, n, ind + 1, 1, cap, dp),
+                     Arr[ind] + getAns(Arr, n, ind + 1, 0, cap - 1, dp));
     }
+
+    // Store the result in the DP array and return
+    return dp[ind][buy][cap] = profit;
 }
 
-int maxProfit(int k, vector<int>& prices) {
-    int n = prices.size();
-    maxi = k;
-    vector<vector<vector<int>>> dp(n, vector<vector<int>>(2, vector<int>(k + 1, -1)));
-    return fmemo(0, 0, 0, prices, dp);
+int maximumProfit(vector<int>& prices, int n, int k) {
+    // Creating a 3D DP array of size [n][2][k+1]
+    vector<vector<vector<int>>> dp(n,
+                                    vector<vector<int>>(2, vector<int>(k + 1, -1)));
+
+    return getAns(prices, n, 0, 0, k, dp);
 }
 ___________________________________________
 
