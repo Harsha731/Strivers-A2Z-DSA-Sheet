@@ -27,6 +27,8 @@ COMPLEXITY ANALYSIS:
 
 CODE:
 */
+// If you sell the stock, then be calm for 1 day.
+
 int getAns(vector<int> Arr, int ind, int buy, int n, vector<vector<int>> &dp) {
     // Base case: If we've reached the end of the array, return 0 profit.
     if (ind >= n) return 0;
