@@ -50,6 +50,14 @@ int getAns(vector<int> Arr, int ind, int buy, int n, vector<vector<int>> &dp) {
     // Store the result in the DP array and return
     return dp[ind][buy] = profit;
 }
+
+int stockProfit(vector<int> &Arr) {
+    int n = Arr.size();
+    vector<vector<int>> dp(n, vector<int>(2, -1));
+    
+    int ans = getAns(Arr, 0, 0, n, dp);
+    return ans;
+}
 __________________________
 
 int stockProfit(vector<int> &Arr) {
