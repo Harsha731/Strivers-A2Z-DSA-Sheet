@@ -34,31 +34,91 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
-int f;
-int fmemo(int i, int hold, vector<int>& prices, vector<vector<int>>& dp){
-    if(i == prices.size()) return 0;
+// When we are selling, do subtract a fee from it
 
-    if(dp[i][hold] != -1) return dp[i][hold];
-
-    if(hold){
-        // sell 
-        int a = prices[i] - f + fmemo(i + 1, 0, prices, dp);
-        // not sell
-        int b = fmemo(i + 1, 1, prices, dp);
-        return dp[i][hold] = max(a, b);
+int getAns(vector<int> &Arr, int ind, int buy, int n, int fee, vector<vector<int>> &dp) {
+    // Base case: If we've reached the end of the array, return 0 profit.
+    if (ind == n) return 0;
+    
+    // Check if the result is already computed
+    if (dp[ind][buy] != -1)
+        return dp[ind][buy];
+        
+    int profit;
+    
+    if (buy == 0) { // We can buy the stock
+        profit = max(0 + getAns(Arr, ind + 1, 0, n, fee, dp), -Arr[ind] + getAns(Arr, ind + 1, 1, n, fee, dp));
     }
-    else{
-        // buy
-        int a = -prices[i] + fmemo(i + 1, 1, prices, dp);
-        // not buy
-        int b = fmemo(i + 1, 0, prices, dp);
-        return dp[i][hold] = max(a, b);
+    
+    if (buy == 1) { // We can sell the stock
+        profit = max(0 + getAns(Arr, ind + 1, 1, n, fee, dp), Arr[ind] - fee + getAns(Arr, ind + 1, 0, n, fee, dp));
     }
+    
+    // Store the computed profit in the DP array
+    return dp[ind][buy] = profit;
 }
 
-int maxProfit(vector<int>& prices, int fee) {
-    int n = prices.size();
-    f = fee;
+int maximumProfit(int n, int fee, vector<int> &Arr) {
     vector<vector<int>> dp(n, vector<int>(2, -1));
-    return fmemo(0, 0, prices, dp);
+    
+    if (n == 0) return 0; // Edge case: No stocks to trade.
+    
+    int ans = getAns(Arr, 0, 0, n, fee, dp);
+    return ans;
+}
+_______________________________
+
+int maximumProfit(int n, int fee, vector<int>& Arr) {
+    if (n == 0) return 0; // Edge case: No stocks to trade.
+
+    // Create a 2D DP array with dimensions (n+1) x 2, initialized to 0
+    vector<vector<int>> dp(n + 1, vector<int>(2, 0));
+
+    // Loop through the stock prices from the end to the beginning
+    for (int ind = n - 1; ind >= 0; ind--) {
+        for (int buy = 0; buy <= 1; buy++) {
+            int profit;
+
+            if (buy == 0) { // We can buy the stock
+                profit = max(0 + dp[ind + 1][0], -Arr[ind] + dp[ind + 1][1]);
+            }
+
+            if (buy == 1) { // We can sell the stock
+                profit = max(0 + dp[ind + 1][1], Arr[ind] - fee + dp[ind + 1][0]);
+            }
+
+            dp[ind][buy] = profit;
+        }
+    }
+
+    return dp[0][0]; // Return the maximum profit for buying.
+}
+___________________________
+
+int maximumProfit(int n, int fee, vector<int>& Arr) {
+    if (n == 0) return 0; // Edge case: No stocks to trade.
+
+    vector<long> ahead(2, 0); // To track maximum profit one step ahead
+    vector<long> cur(2, 0);   // To track current maximum profit
+
+    // Initialize both ahead[0] and ahead[1] to 0 as the base condition
+    ahead[0] = ahead[1] = 0;
+
+    long profit;
+
+    for (int ind = n - 1; ind >= 0; ind--) {
+        for (int buy = 0; buy <= 1; buy++) {
+            if (buy == 0) { // We can buy the stock
+                profit = max(0 + ahead[0], -Arr[ind] + ahead[1]);
+            }
+
+            if (buy == 1) { // We can sell the stock
+                profit = max(0 + ahead[1], Arr[ind] - fee + ahead[0]);
+            }
+            cur[buy] = profit;
+        }
+
+        ahead = cur;
+    }
+    return cur[0]; // Return the maximum profit for buying.
 }
