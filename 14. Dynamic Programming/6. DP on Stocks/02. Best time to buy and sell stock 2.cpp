@@ -30,6 +30,21 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+/*
+Buy on 1 day, sell on another day, but only one at a time can be holded
+Use a n*2 DP vector for 0 : not holding and 1 : holding
+
+** We are interested in making this problem into subproblems, and the small sub problem is at the end (n-1)
+And we need answer at the top level. It is at the start for both recursion / tabulation
+
+** 1 means we are holding a stock, so we can sell if we want
+
+1) Memoization :
+TC: O(N*2) : There are N*2 states therefore at max ‘N*2’ new problems will be solved and we are running 
+ a for loop for ‘N’ times to calculate the total sum
+SC: O(N*2) + O(N) : We are using a recursion stack space(O(N)) and a 2D array ( O(N*2)).
+*/
+
 int fmemo(int i, int hold, vector<int>& prices, vector<vector<int>>& dp){
     if(i == prices.size()) return 0;
 
@@ -55,4 +70,52 @@ int maxProfit(vector<int>& prices) {
     int n = prices.size();
     vector<vector<int>> dp(n, vector<int>(2, -1));
     return fmemo(0, 0, prices, dp);
+}
+_________________________________________________
+
+// Tabulation
+
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    vector<vector<int>> dp(n + 1, vector<int>(2, 0)); 
+    // dp[i][0] = max profit at i when not holding, dp[i][1] = max profit when holding
+
+    // Bottom-up calculation
+    for (int i = n - 1; i >= 0; --i) {
+        for (int hold = 0; hold <= 1; ++hold) {
+            if (hold == 1) {
+                // If holding a stock, we can sell or skip
+                dp[i][hold] = max(prices[i] + dp[i + 1][0], dp[i + 1][1]);
+            } else {
+                // If not holding a stock, we can buy or skip
+                dp[i][hold] = max(-prices[i] + dp[i + 1][1], dp[i + 1][0]);
+            }
+        }
+    }
+
+    return dp[0][0]; // Starting at index 0 with no stock in hand
+}
+_____________________________
+
+// Space Optimization
+
+int maxProfit(vector<int>& prices) {
+    int n = prices.size();
+    vector<int> ahead(2, 0), curr(2, 0); // Space-optimized arrays
+
+    // Bottom-up calculation
+    for (int i = n - 1; i >= 0; --i) {
+        for (int hold = 0; hold <= 1; ++hold) {
+            if (hold == 1) {
+                // If holding a stock, we can sell or skip
+                curr[hold] = max(prices[i] + ahead[0], ahead[1]);
+            } else {
+                // If not holding a stock, we can buy or skip
+                curr[hold] = max(-prices[i] + ahead[1], ahead[0]);
+            }
+        }
+        ahead = curr; // Update ahead for the next iteration
+    }
+
+    return ahead[0]; // Starting at index 0 with no stock in hand
 }
