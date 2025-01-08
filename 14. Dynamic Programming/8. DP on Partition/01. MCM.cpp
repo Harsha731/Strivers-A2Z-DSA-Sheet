@@ -29,23 +29,63 @@ COMPLEXITY ANALYSIS:
 
 CODE:-
 */
+/*
+i starts from 1, as 0 is meaningless
 
-int fmemo(int i, int j, int arr[], vector<vector<int>>& dp){
-    if(i==j) return 0;
+If i==j, it means we are interested in a single matrix and no operation is required to multiply it so we return 0.
 
-    if(dp[i][j] != -1) return dp[i][j];
+here, 1 refers to the 0,1
+2 refers to 1,2
+i.e, it refers to the single matrix
 
-    int mini = INT_MAX;
-    for(int k=i; k<j; k++){
-        int cost = arr[i-1]*arr[k]*arr[j] + fmemo(i,k,arr,dp) + fmemo(k+1,j,arr,dp);
-        mini = min(cost,mini);
+The for loops runs for { (1,1) (2,5) }, { (1,2) (3,5) }, { (1,3) (4,5) }, { (1,4) (5,5) }
+
+For Tabulation, smaller subproblems are of length 2 first, then length 3, ...
+
+There won't be space optimization code as it needs values from whole table, unlike only from the last row in some problems
+*/
+
+int calculateCost(vector<int> &arr, int i, int j, vector<vector<int>> &dp) {
+    if (i >= j) {
+        return 0;
     }
-    return dp[i][j] = mini;
+
+    if (dp[i][j] != -1) {
+        return dp[i][j];
+    }
+
+    int ans = INT_MAX;
+
+    for (int k = i; k < j; k++) {
+        int temp = calculateCost(arr, i, k, dp) + calculateCost(arr, k + 1, j, dp) + (arr[k] * arr[i - 1] * arr[j]);
+        ans = min(ans, temp);
+    }
+
+    dp[i][j] = ans;
+    return ans;
 }
 
-int matrixMultiplication(int N, int arr[]){
-    int i=1, j = N-1;
-    vector<vector<int>> dp(N,vector<int>(N,-1));
-    return fmemo(i,j,arr,dp);
+int matrixMultiplication(vector<int> &arr, int N) {
+    vector<vector<int>> dp(N, vector<int>(N, -1));
+    return calculateCost(arr, 1, N - 1, dp);
 }
 
+_____________________________________
+
+int matrixMultiplication(vector<int> &arr, int N) {
+    vector<vector<int>> dp(N, vector<int>(N, 0));
+
+    for (int l = 2; l < N; l++) {
+        for (int i = 1; i < N - l + 1; i++) {
+            int j = i + l - 1;
+            dp[i][j] = INT_MAX;
+
+            for (int k = i; k <= j - 1; k++) {
+                int temp = dp[i][k] + dp[k + 1][j] + arr[i - 1] * arr[k] * arr[j];
+                dp[i][j] = min(dp[i][j], temp);
+            }
+        }
+    }
+
+    return dp[1][N - 1];
+}
