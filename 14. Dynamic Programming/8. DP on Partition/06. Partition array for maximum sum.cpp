@@ -25,24 +25,72 @@ COMPLEXITY ANALYSIS:
 
 CODE:
 */
+___________________________________________
+/*
+In memorization, 
+'maxi' means the maximum element in that subarray of size at most k, 
+'maxAns' is the maximum sum of all by considering the all possibilities of partitioning 
 
-int fmemo(int i, int k, vector<int>& arr, vector<int>& dp){
-    if(i == arr.size()) return 0;
+TC is O(N*K)
+SC is O(N) + O(N)
+for dp array and for stack space
 
-    if(dp[i] != -1) return dp[i];
+arr = [1,15,7,9,2,5,10], k = 3
+[1, 15, 7 | 9 | 2, 5, 10]. 
+[15,15,15,9,10,10,10] 
+sum is 84
 
-    int n = arr.size();
-    int maxi = 0, ans = 0;
-    for(int j = i; j < min(i + k, n); j++){
-        maxi = max(maxi, arr[j]);
-        int maxSum = maxi * (j - i + 1) + fmemo(j + 1, k, arr, dp);
-        ans = max(ans, maxSum);
+This is similar to the Palindrome partitioing II
+*/
+
+int f(int ind, vector<int> &num, int k, vector<int> &dp) {
+    int n = num.size();
+
+    if (ind == n) return 0;
+
+    if (dp[ind] != -1) return dp[ind];
+
+    int len = 0;
+    int maxi = INT_MIN;
+    int maxAns = INT_MIN;
+
+    // Loop through the array starting from the current index.
+    for (int j = ind; j < min(ind + k, n); j++) {
+        len++;
+        maxi = max(maxi, num[j]);
+        int sum = len * maxi + f(j + 1, num, k, dp);
+        maxAns = max(maxAns, sum);
     }
-    return dp[i] = ans;
+    return dp[ind] = maxAns;
 }
 
-int maxSumAfterPartitioning(vector<int>& arr, int k) {
-    int n = arr.size();
+int maxSumAfterPartitioning(vector<int>& num, int k) {
+    int n = num.size();
     vector<int> dp(n, -1);
-    return fmemo(0, k, arr, dp);
+    return f(0, num, k, dp);
+}
+_____________________________________
+
+int maxSumAfterPartitioning(vector<int>& num, int k) {
+    int n = num.size();
+    
+    vector<int> dp(n + 1, 0);
+    
+    // Iterate through the array from right to left.
+    for (int ind = n - 1; ind >= 0; ind--) {
+        int len = 0;
+        int maxi = INT_MIN;
+        int maxAns = INT_MIN;
+        
+        // Loop through the next k elements (or remaining elements if k is smaller).
+        for (int j = ind; j < min(ind + k, n); j++) {
+            len++;
+            maxi = max(maxi, num[j]);
+            int sum = len * maxi + dp[j + 1];
+            maxAns = max(maxAns, sum);
+        }
+        dp[ind] = maxAns;
+    }
+    
+    return dp[0];
 }
