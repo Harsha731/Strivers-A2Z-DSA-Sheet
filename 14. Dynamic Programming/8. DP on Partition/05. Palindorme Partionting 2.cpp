@@ -23,32 +23,93 @@ COMPLEXITY ANALYSIS:
 
 CODE:
 */
+__________________________________________
+/*
+The approach we are using is called as front partition
 
-bool isPalindrome(int i, int j, string& s){
-    while(i < j){
-        if(s[i] != s[j]) return false;
-        i++; j--;
+An extra partition is made at the end like a | b | c | d | <-
+So, our actual answer will be (partitions - 1).
+
+There are N characters and for each i to N-1 are called in for loop
+So, O(N^2) TC and 
+O(N) + O(N) SC for dp array and for stack space too
+
+Tabulation :
+1) First of all, we handle the base case. If (i == n) we return 0. To cover this case we can initialize the entire dp array with 0.
+2) Here, as we are checking dp[j+1]  every time, the function will give a runtime error if j = n-1. To avoid this, we will take the array size as n+1 instead of n.
+3) Next, memoization is a top-down approach, whereas tabulation is bottom-up. Our changing parameter i will change in opposite directions, i.e i will change from n-1->0.
+4) Next, we copy down the recursive logic(recurrence) inside the loop.
+
+https://takeuforward.org/data-structure/palindrome-partitioning-ii-front-partition-dp-53/
+
+check out the memorization and tabulation codes
+
+Given a string s, partition s such that every substring of the partition is a palindrome. Return the minimum cuts needed for a palindrome partitioning of s.
+s = "bababcbadcede"
+bab | abcba | d | c | ede
+answer is 4
+
+We are taking the min of all possible values for various j for each i
+Answer exists for sure, as each letter can be seperate and n-1 is max answer
+*/
+_____________________________________________________________________
+
+bool isPalindrome(int i, int j, string &s) {
+    while (i < j) {
+        if (s[i] != s[j]) return false;
+        i++;
+        j--;
     }
     return true;
 }
 
-int fmemo(int i, string& s, vector<int>& dp){
-    if(i == s.size()) return 0;
+int minPartitions(int i, int n, string &str, vector<int> &dp) {
+    if (i == n) return 0;
 
-    if(dp[i] != -1) return dp[i];
-
-    int ans = 1e9;
-    for(int j = i; j < s.size(); j++){
-        if(isPalindrome(i, j, s)){
-            int cost = 1 + fmemo(j + 1, s, dp);
-            ans = min(ans, cost);
+    if (dp[i] != -1) return dp[i];
+    int minCost = INT_MAX;
+    for (int j = i; j < n; j++) {
+        if (isPalindrome(i, j, str)) {
+            int cost = 1 + minPartitions(j + 1, n, str, dp);
+            minCost = min(minCost, cost);
         }
     }
-    return dp[i] = ans;
+    return dp[i] = minCost;
 }
 
-int minCut(string s) {
-    int n = s.size();
+// Don't remove this
+int palindromePartitioning(string str) {
+    int n = str.size();
     vector<int> dp(n, -1);
-    return fmemo(0, s, dp) - 1;
+    // Subtract 1 as it counts partitions, not cuts.
+    return minPartitions(0, n, str, dp) - 1;
+}
+___________________________________________________
+
+bool isPalindrome(int i, int j, string &s) {
+    while (i < j) {
+        if (s[i] != s[j]) return false;
+        i++;
+        j--;
+    }
+    return true;
+}
+
+int palindromePartitioning(string str) {
+    int n = str.size();
+    vector<int> dp(n + 1, 0);
+    dp[n] = 0;
+
+    // Loop through the string in reverse order.
+    for (int i = n - 1; i >= 0; i--) {
+        int minCost = INT_MAX;
+        for (int j = i; j < n; j++) {
+            if (isPalindrome(i, j, str)) {
+                int cost = 1 + dp[j + 1];
+                minCost = min(minCost, cost);
+            }
+        }
+        dp[i] = minCost;
+    }
+    return dp[0] - 1;
 }
