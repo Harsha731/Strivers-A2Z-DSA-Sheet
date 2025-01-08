@@ -34,22 +34,88 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
-int ftab(int m, int n, vector<vector<int>>& matrix){
-    vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
-    int ans = 0;
-    for(int i = 1; i <= m; i++){
-        for(int j = 1; j <= n; j++){
-            if(matrix[i-1][j-1] == 1){
-                int temp = min(dp[i-1][j], dp[i-1][j-1]);
-                dp[i][j] = min(dp[i][j-1], temp) + 1;
-                ans += dp[i][j];
+// dp[i][j] will signify for how many squares the rightmost bottom cell is (i, j).
+
+// Memoization
+int countSquaresHelper(int i, int j, vector<vector<int>> &arr, vector<vector<int>> &dp) {
+    if (i < 0 || j < 0) return 0; 
+    if (dp[i][j] != -1) return dp[i][j]; 
+    if (arr[i][j] == 0) return dp[i][j] = 0; 
+
+    return dp[i][j] = 1 + min({countSquaresHelper(i - 1, j, arr, dp),
+                               countSquaresHelper(i, j - 1, arr, dp),
+                               countSquaresHelper(i - 1, j - 1, arr, dp)});
+}
+
+int countSquares(int n, int m, vector<vector<int>> &arr) {
+    vector<vector<int>> dp(n, vector<int>(m, -1)); 
+    int totalCount = 0;
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            totalCount += countSquaresHelper(i, j, arr, dp);
+        }
+    }
+
+    return totalCount;
+}
+________________________________________________________
+
+// Tabulation
+int countSquares(int n, int m, vector<vector<int>> &arr) {
+    vector<vector<int>> dp(n, vector<int>(m, 0));
+
+    for (int j = 0; j < m; j++) dp[0][j] = arr[0][j];
+    for (int i = 0; i < n; i++) dp[i][0] = arr[i][0];
+
+    for (int i = 1; i < n; i++) {
+        for (int j = 1; j < m; j++) {
+            if (arr[i][j] == 0) dp[i][j] = 0;
+            else {
+                dp[i][j] = 1 + min(dp[i - 1][j],
+                                   min(dp[i - 1][j - 1], dp[i][j - 1]));
             }
         }
     }
-    return ans;
-}
 
-int countSquares(vector<vector<int>>& matrix) {
-    int m = matrix.size(), n = matrix[0].size();
-    return ftab(m, n, matrix);
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            sum += dp[i][j];
+        }
+    }
+    return sum;
+}
+_____________________________________
+
+// Space Optimization
+int countSquares(int n, int m, vector<vector<int>> &arr) {
+    vector<int> prev(m, 0), curr(m, 0);
+    int sum = 0;
+
+    // Initialize the first row
+    for (int j = 0; j < m; j++) {
+        prev[j] = arr[0][j];
+        sum += prev[j];
+    }
+
+    // Traverse the rest of the rows
+    for (int i = 1; i < n; i++) {
+        curr[0] = arr[i][0]; // Initialize the first column of the current row
+        sum += curr[0];
+
+        for (int j = 1; j < m; j++) {
+            if (arr[i][j] == 0) {
+                curr[j] = 0;
+            } else {
+                curr[j] = 1 + min({prev[j], prev[j - 1], curr[j - 1]});
+            }
+            sum += curr[j];
+        }
+
+        // Update `prev` for the next row
+        prev = curr;
+    }
+
+    return sum;
 }
