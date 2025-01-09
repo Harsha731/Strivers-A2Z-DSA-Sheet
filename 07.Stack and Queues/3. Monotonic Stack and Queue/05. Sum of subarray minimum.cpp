@@ -15,6 +15,39 @@ To find the sum of the minimums of all subarrays, we can use the concept of prev
 4. Return the final value of `ans` as the sum of minimums of all subarrays modulo `1e9 + 7`.
 
 CODE:*/
+
+// TC : O(N^2) and SC : O(1)
+// We calculate the min of all subarrrays and add it to answer
+
+class Solution {
+public:
+    int sumSubarrayMins(vector<int>& arr) {
+        int n = arr.size();
+        long long ans = 0;
+        int mod = 1e9 + 7;
+
+        for (int i = 0; i < n; i++) {
+            int minVal = arr[i];
+            for (int j = i; j < n; j++) {
+                minVal = min(minVal, arr[j]); // Update the minimum in the subarray [i, j]
+                ans = (ans + minVal) % mod;   // Add the minimum to the answer
+            }
+        }
+
+        return (int)ans;
+    }
+};
+__________________________________________________
+
+/*
+We calculate the prevSmaller and nextSmaller vectors
+The current element will be minimum in ( prevSmaller+1, nextSmaller-1 )
+
+leftElements = i - prevS[i];
+rightElements = nextS[i] - i;
+ans += (leftElements * rightElements * arr[i])
+*/
+
 vector<int> prevSmaller(vector<int>& arr){
     stack<int> st;
     vector<int> ans(arr.size(), -1);
@@ -64,23 +97,3 @@ COMPLEXITY ANALYSIS:
 */
 
 
-// TC : O(N^2) and SC : O(1)
-
-class Solution {
-public:
-    int sumSubarrayMins(vector<int>& arr) {
-        int n = arr.size();
-        long long ans = 0;
-        int mod = 1e9 + 7;
-
-        for (int i = 0; i < n; i++) {
-            int minVal = arr[i];
-            for (int j = i; j < n; j++) {
-                minVal = min(minVal, arr[j]); // Update the minimum in the subarray [i, j]
-                ans = (ans + minVal) % mod;   // Add the minimum to the answer
-            }
-        }
-
-        return (int)ans;
-    }
-};
