@@ -26,6 +26,9 @@ To calculate the trapped water, we can use the two-pointer approach. We initiali
 CODE:*/
 
 // TC : O(N^2) and SC : O(1) 
+// For each element, find its max on left, max on right. Take the min of the both. 
+// ans += min(leftMax, rightMax) - elementValue
+
 int trap(vector<int>& arr) {
     int n = arr.size();
     int waterTrapped = 0;
@@ -52,7 +55,10 @@ int trap(vector<int>& arr) {
 }
 ______________________________________
 
-//  TC : O(3N) and SC : O(N)
+//  TC : O(3N) and SC : O(2N)
+// Do one traversal to find the max on left side, same for max on right side
+// Then one more traversal for ans += min(leftMax, rightMax) - elementValue
+	
 int trap(vector<int>& arr) {
     int n = arr.size();
     if (n == 0) return 0; // Handle edge case
