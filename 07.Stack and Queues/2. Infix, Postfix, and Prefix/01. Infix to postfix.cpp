@@ -27,40 +27,45 @@ We do ^ first compared to +, so if the precedence is increasing we keep in the s
 CODE:
 */
 
-int precedence(char ch) {
-    if (ch == '^')    	return 3;
-    if (ch == '*' || ch == '/')    	return 2;
-    if (ch == '+' || ch == '-')    	return 1;
-    return -1;
+int prec(char c) {
+  if (c == '^') return 3;
+  if (c == '/' || c == '*') return 2;
+  if (c == '+' || c == '-') return 1;
+  return -1;
 }
 
-string INFIX_POSTFIX(const string &s) {
-    stack<char> st;
-    string ans;
+void infixToPostfix(string s) {
+  stack<char> st;
+  string result;
 
-    for (char ch : s) {
-        if (isalnum(ch)) {  // check if alphanumeric
-            ans += ch;
-        } else if (ch == '(') {
-            st.push(ch);
-        } else if (ch == ')') {
-            while (st.top() != '(') {
-                ans += st.top(); st.pop();
-            }
-            st.pop();
-        } else {
-            while (!st.empty() && precedence(ch) <= precedence(st.top())) {
-                ans += st.top(); st.pop();
-            }
-            st.push(ch);
-        }
+  for (int i = 0; i < s.length(); i++) {
+    char c = s[i];
+
+    if (isalnum(c)) {
+      result += c;
+    } else if (c == '(') {
+      st.push('(');
+    } else if (c == ')') {
+      while (st.top() != '(') {
+        result += st.top();
+        st.pop();
+      }
+      st.pop();
+    } else {
+      while (!st.empty() && prec(s[i]) <= prec(st.top())) {
+        result += st.top();
+        st.pop();
+      }
+      st.push(c);
     }
+  }
 
-    while (!st.empty()) {
-        ans += st.top(); st.pop();
-    }
+  while (!st.empty()) {
+    result += st.top();
+    st.pop();
+  }
 
-    return ans;
+  cout << "Prefix expression: " << result << endl;
 }
 
 
