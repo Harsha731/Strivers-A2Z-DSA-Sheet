@@ -13,10 +13,11 @@ Explanation: Remove the three digits 4, 3, and 2 to form the new number 1219 whi
 APPROACH:
 The idea is to use a stack to build the smallest number by removing larger digits.
 We iterate through each digit in num and compare it with the digits in the stack.
-If the current digit is smaller than the top of the stack, we pop elements from the stack
+If the current digit is smaller than the top of the stack, we pop elements from the stack and keep the smaller element only in stack. It will be maxHeap kind
 until either the stack is empty or the top of the stack is smaller than or equal to the current digit.
-After processing all the digits, we remove any remaining digits from the stack to satisfy the required k digits to remove.
+After processing all the digits, we remove any remaining digits from the stack to satisfy the required k digits to remove. Here, the top ones will be of more valued. So, remove them
 Finally, we construct the result by popping elements from the stack and reverse it to get the correct order.
+We remove the leading zeroes. If the answer is now empty, then return 0 -- base case
 */
 
 string removeKdigits(string num, int k) {
