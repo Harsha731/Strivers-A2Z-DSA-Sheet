@@ -24,6 +24,78 @@ To calculate the trapped water, we can use the two-pointer approach. We initiali
 -> left will be pointing 
 
 CODE:*/
+
+// TC : O(N^2) and SC : O(1) 
+int trap(vector<int>& arr) {
+    int n = arr.size();
+    int waterTrapped = 0;
+
+    // Iterate through each bar
+    for (int i = 0; i < n; i++) {
+        int leftMax = 0, rightMax = 0;
+
+        // Find the maximum height to the left of the current bar
+        for (int j = i; j >= 0; j--) {
+            leftMax = max(leftMax, arr[j]);
+        }
+
+        // Find the maximum height to the right of the current bar
+        for (int j = i; j < n; j++) {
+            rightMax = max(rightMax, arr[j]);
+        }
+
+        // Calculate the water trapped at the current bar
+        waterTrapped += min(leftMax, rightMax) - arr[i];
+    }
+
+    return waterTrapped;
+}
+______________________________________
+
+//  TC : O(3N) and SC : O(N)
+int trap(vector<int>& arr) {
+    int n = arr.size();
+    if (n == 0) return 0; // Handle edge case
+
+    // Arrays to store the maximum heights
+    vector<int> prefix(n), suffix(n);
+
+    // Calculate the prefix maximum heights
+    prefix[0] = arr[0];
+    for (int i = 1; i < n; i++) {
+        prefix[i] = max(prefix[i - 1], arr[i]);
+    }
+
+    // Calculate the suffix maximum heights
+    suffix[n - 1] = arr[n - 1];
+    for (int i = n - 2; i >= 0; i--) {
+        suffix[i] = max(suffix[i + 1], arr[i]);
+    }
+
+    // Calculate the total water trapped
+    int waterTrapped = 0;
+    for (int i = 0; i < n; i++) {
+        waterTrapped += min(prefix[i], suffix[i]) - arr[i];
+    }
+
+    return waterTrapped;
+}
+______________________________________
+
+// 2 pointer approach - O(N) TC and O(1) SC
+
+/*  Content is there at the top too
+left = 0, right = n-1, leftMax = rightMax = INT_MIN, ans = 0
+if ( height[left] < height[right] )
+	if ( height [left] <= leftMax ) here storage happens. i.e, ans += leftMax - height[left];
+	else here updation of leftMax happens by decreasing its value
+Do left++
+Same with right pointer too
+
+If we are moving left++, it means the right is at peak till now, height[right] = rightMax
+So, the addition of water depends on leftMax as leftMax < rightMax, else left++ won't occur at all
+*/
+
 int trap(vector<int>& height) {
     int leftMax = INT_MIN;
     int rightMax = INT_MIN;
