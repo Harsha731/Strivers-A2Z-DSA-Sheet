@@ -16,7 +16,7 @@ Infix to postfix :
 
 Infix to prefix :
 
-a + b + c => ab+c+ is postfix,		abc++ is prefix
+a + b + c => ab+c+ is postfix,		++abc is prefix
 So, when we do reverse and pstfix for the prefix, we need to pop only higher precedence and not the ones with same precedence
 The difference is due to the fact that (ab+) + c gives abc+c+.
 But the other one, (+ab)+c gives ++abc
