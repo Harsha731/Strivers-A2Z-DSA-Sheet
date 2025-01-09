@@ -42,23 +42,28 @@ public:
         int n = ast.size();
         stack<int> s;
         for(int i = 0; i < n; i++) {
+            // Case 1: If current asteroid is moving right or stack is empty, push it
             if(ast[i] > 0 || s.empty()) {
                 s.push(ast[i]);
             }
             else {
+                // Case 2: If stack has a positive asteroid and current is a bigger negative asteroid, pop the stack
                 while(!s.empty() and s.top() > 0 and s.top() < abs(ast[i])) {
                     s.pop();
                 }
+                // Special case: If both are equal, pop the stack and don't push the new asteroid
                 if(!s.empty() and s.top() == abs(ast[i])) {
                     s.pop();
                 }
                 else {
+                    // Case 3: If stack is empty or the top is negative, push the current asteroid
                     if(s.empty() || s.top() < 0) {
                         s.push(ast[i]);
                     }
                 }
             }
         }
+        // Construct the result vector by popping elements from the stack
         vector<int> res(s.size());
         for(int i = (int)s.size() - 1; i >= 0; i--) {
             res[i] = s.top();
