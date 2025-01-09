@@ -12,43 +12,78 @@ Approach:
 
 Code:
 */
-
-class Queue {
-private:
-    std::stack<int> input;
-    std::stack<int> output;
-
+/*
+input Stack: Used to store elements as they are pushed.
+output Stack: Used to reverse the order of elements from input to simulate queue behavior (FIFO).
+We reverse the elements and keep in output stack, such that the first element inserted will now be at top in the stack
+So, when ever the output stack becomes empty, we insert all the elements in left stack to right stack
+*/
+class MyQueue {
 public:
-    void enqueue(int x);
-    int dequeue();
-};
-
-void Queue::enqueue(int x) {
-    input.push(x);
-}
-
-int Queue::dequeue() {
-    if (input.empty() && output.empty())
-        return -1;
-
-    if (output.empty()) {
-        while (!input.empty()) {
-            int temp = input.top();
-            input.pop();
-            output.push(temp);
-        }
+    stack<int> input, output;
+    MyQueue() {}
+    
+    void push(int x) {
+        input.push(x);
     }
 
-    int dequeued = output.top();
-    output.pop();
+    int pop(void) {
+        int t = peek();
+        output.pop();
+        return t;
+    }
 
-    return dequeued;
-}
+    // Get the front element.
+    int peek(void) {
+        if (output.empty())
+            while (input.size())
+                output.push(input.top()), input.pop();
+        return output.top();
+    }
 
-/*
-Complexity Analysis:
-- The `enqueue()` operation has a time complexity of O(1) since we only need to push an element into the `input` stack.
-- The `dequeue()` operation has a time complexity of O(1) by amortized analysis.
-- The space complexity is O(N), where N is the total number of elements stored in the two stacks.
-*/
+    // Return whether the queue is empty.
+    bool empty(void) {
+        return input.empty() && output.empty();
+    }
+};
 
+_________________________________________________
+
+// Using 1 stack and recursion
+class Queue {
+public:
+    stack<int> s;
+    
+    // Push element x to the back of queue.
+    void push(int x) {
+        pushHelper(x);
+    }
+    void pushHelper(int x){
+        if(s.size()==0){
+            s.push(x);
+            return;
+        }
+        int data;
+        data = s.top();
+        s.pop();
+        pushHelper(x);
+        s.push(data);
+        return;
+        
+    }
+
+    // Removes the element from in front of queue.
+    void pop(void) {
+        s.pop();
+    }
+
+    // Get the front element.
+    int peek(void) {
+        return s.top();
+    }
+
+    // Return whether the queue is empty.
+    bool empty(void) {
+        return (s.size()==0);
+    }
+};
