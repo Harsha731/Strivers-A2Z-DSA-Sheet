@@ -21,7 +21,34 @@ To find the sum of all subarray ranges, we can use the concept of previous small
 
 CODE:*/
 
+// TC : O(N^2) and SC : O(1)
+
+class Solution {
+public:
+    long long subArrayRanges(vector<int>& nums) {
+        long long ans = 0;
+        int n = nums.size();
+
+        for (int i = 0; i < n; i++) {
+            int mx = nums[i], mn = nums[i];
+            for (int j = i + 1; j < n; j++) {
+                mx = max(mx, nums[j]);
+                mn = min(mn, nums[j]);
+                ans += (mx - mn);
+            }
+        }
+        return ans;
+    }
+};
+________________________________________________________
+
 // NOTE:- The code could be more concise if done in double traversal but I find this more intuitive
+
+/* 
+We need to add all (max-min) of every sub arrays
+This can be divided into 2 questions of ( Sum of subarray maximum - Sum of subarray minimum )
+Brute force is also same as above
+*/
 vector<int> prevSmaller(vector<int>& arr){
     stack<int> st;
     vector<int> ans(arr.size(), -1);
@@ -96,26 +123,4 @@ COMPLEXITY ANALYSIS:
 - The time complexity of this approach is O(N), where N is the number of elements in the array `arr`. We iterate through the array multiple times to calculate the previous smaller, next smaller, previous greater, and next greater elements.
 - The space complexity is O(N) as we use additional space to store the previous smaller, next smaller, previous greater, and next greater elements.
 */
-
-// TC : O(N^2) and SC : O(1)
-
-class Solution {
-public:
-    long long subArrayRanges(vector<int>& nums) {
-        long long ans = 0;
-        int n = nums.size();
-
-        for (int i = 0; i < n; i++) {
-            int mx = nums[i], mn = nums[i];
-            for (int j = i + 1; j < n; j++) {
-                mx = max(mx, nums[j]);
-                mn = min(mn, nums[j]);
-                ans += (mx - mn);
-            }
-        }
-        return ans;
-    }
-};
-
-
 
