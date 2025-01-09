@@ -21,7 +21,12 @@ APPROACH:
 
 CODE:
 */
-
+/*
+If opening bracket, push it
+If closing and st is empty, return false
+If top is not corresponding open bracket, return false
+If at the end, st is not empty, return false. else return true
+*/
 bool isValid(string& s) {
     stack<char> st;
     
