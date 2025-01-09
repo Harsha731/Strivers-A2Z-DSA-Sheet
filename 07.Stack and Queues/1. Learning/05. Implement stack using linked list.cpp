@@ -12,38 +12,28 @@ Code:
 */
 
 class MyStack {
-private:
-    struct StackNode {
-        int data;
-        StackNode* next;
-
-        StackNode(int x) : data(x), next(NULL) {}
-    };
-
-    StackNode* top;
-
-public:
-    MyStack() : top(NULL) {}
-    void push(int x);
-    int pop();
+  private:
+    StackNode *top;
+  public:
+    void push(int x) {   
+            StackNode* newNode = new StackNode(x); // creating the node
+            newNode -> next = top;
+            top = newNode;
+    }
+    int pop() {
+        
+        if(top == nullptr)  {
+            return -1;
+        } else  {
+            StackNode* currNode = top;
+            top = top->next;
+            int elem = currNode->data;
+            delete currNode;
+            return elem;
+        }
+    }
+    MyStack() { top = NULL; }
 };
-
-void MyStack::push(int x) {
-    StackNode* temp = new StackNode(x);
-    temp->next = top;
-    top = temp;
-}
-
-int MyStack::pop() {
-    if (!top)
-        return -1;
-
-    int popped = top->data;
-    StackNode* temp = top;
-    top = top->next;
-
-    return popped;
-}
 
 /*
 Complexity Analysis:
