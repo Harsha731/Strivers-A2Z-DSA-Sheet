@@ -1,4 +1,9 @@
 /*
+-> Why pop_front() ?
+The keys in the list are ordered by the time they were added (FIFO order for elements with the same frequency).
+If multiple keys share the same frequency (minFreq), the least recently used key (i.e., the oldest one) must be evicted first.
+In a list, the oldest element is always at the front of the list
+
 1. Cache Initialization
 When the cache is created, it initializes:
     capacity: The maximum number of key-value pairs it can hold.
