@@ -20,6 +20,14 @@ Explanation: The maximal rectangle is shown in the above picture.
 CODE:
 */
 
+/*
+There are other methods in DP as well
+We convert this question into Largest Rectangle in Histogram by storing each row values along with the top row
+Here, we use prev and next Smaller arrays
+TC : O(n*m) as we iterate through each element 
+SC : O(m) -> O(1) if we modify the input array
+*/
+
 // Helper function to calculate the previous smaller element index for each element in an array
 vector<int> prevSmaller(vector<int>& arr) {
     stack<int> st;
@@ -85,6 +93,7 @@ int maximalRectangle(vector<vector<char>>& matrix) {
 
     return maxArea;
 }
+
 
 /*
 COMPLEXITY ANALYSIS:
