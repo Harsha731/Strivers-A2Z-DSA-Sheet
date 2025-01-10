@@ -23,30 +23,19 @@ CODE:
 
 class StockSpanner {
 public:
-    stack<pair<int, int>> st;
-    int cnt;
+    stack<pair<int, int>> st; // Stack to store price and index
+    int cnt = 0;             // Counter for indices
 
-    StockSpanner() {
-        cnt = 0;
-    }
-    
     int next(int price) {
         while (!st.empty() && st.top().first <= price)
             st.pop();
-        
-        int ans = 1;
-        
-        if (!st.empty())
-            ans = cnt - st.top().second;
-        else
-            ans = cnt + 1;
-        
-        st.push({price, cnt});
-        cnt++;
-        
-        return ans;
+
+        int span = st.empty() ? cnt + 1 : cnt - st.top().second;
+        st.push({price, cnt++});
+        return span;
     }
 };
+
 
 /*
 COMPLEXITY ANALYSIS:
