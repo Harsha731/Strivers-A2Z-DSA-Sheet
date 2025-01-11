@@ -1,0 +1,99 @@
+-> Contains Duplicate II 
+Return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+use an ump to store if already visited and just check the condition
+
+-> Number of Sub-arrays of Size K and Average Greater than or Equal to Threshold
+Have an fixed window and simply check the condition and simply do cnt++
+
+-> Frequency of the Most Frequent Element
+In one operation, you can choose an index of nums and increment the element at that index by 1. Return the maximum possible frequency of an element after performing at most k operations.
+while ((j - i + 1) * A[j] - sum > k) sum -= A[i++];
+
+-> Maximum Number of Vowels in a Substring of Given Length
+simply keep updating the maximum in the fixed window size
+
+-> Minimum Size Subarray Sum
+Minimal length of a subarray whose sum is greater than or equal to target
+shrinkable / non shrinkable are there
+We also have binary search approach with O(nlogn)
+
+-> Get Equal Substrings Within Budget :
+Have  cost += abs(s[j] - t[j]);
+and normal 2 methods can be used
+
+-> Subarray Product Less Than K
+count question - non shrinkable can't be used here
+If the subarray product needs to be k, then we can use atMost(k+1) - atMost(k)
+It is fine to write again j=0 (in the for loop)
+while (i <= j && prod >= k)        // here i<=j, the element can be greater than k, so i=j+1 and ans += 0;
+ans += j - i + 1;       // we are adding all the possible answers having ending at j. i.e, (i, j) (i+1, j) ...(j, j)
+
+-> Length of Longest Subarray With at Most K Frequency
+Separate function is not needed
+i<=j is not needed, because k can't be 0, so at least 1 element has to be there
+
+-> Minimum Number of Operations to Make Array Continuous 
+We sort and remove the duplicat elements at start
+We move the j from start 0 to n-1
+We keep i=0 at start and if any (i, j) is not able to satisfy in [1, n] we shift the i
+Here, we can get the possible window size for that particular j
+Then, N-ans is the operations to be done to get continous array
+
+-> Minimum Operations to Reduce X to Zero
+We are removing elements from front, back and we need to find the minimum elements to remove to get sum x
+find max length sliding window with sum = total-x
+
+-> Count Subarrays Where Max Element Appears at Least K Times 
+i) Maintain a minimum sliding window for each j, do add ans = ans + i
+ii) Instead of using 2 pointers, we can store the occurence using hashmap in place of i (see 2nd approach) 1 2 3 4 5 6 7 8 k=5, cnt=8, cnt-k+1 = 4. So, at mp[4]+1 are possible sub arrays with ending at i
+
+-> Sliding Window Maximum
+Use a deque and pop out all the elements less than current from back 
+push the current element
+If the front needs to be removed (q.front() = i-k), do pop_front
+At last, push the q.front() value to the answer vector
+
+We can push the indices as well as values to the deque, indices are unique, while the values are not unique
+The only difference come during    
+while (q.size() && A[q.back()] <= A[i]) q.pop_back();	// important
+if (q.front() == i - k) q.pop_front();
+
+while (q.size() && A[q.back()] < A[i]) q.pop_back();	// important
+if (i >= k && q.size() && q.front() == A[i - k]) q.pop_front();
+
+Because in 2nd step of 2nd appraoch, we need to keep duplicates as if we pop_front, the element corresponding to that index needs to be popped, it should not affect the other. For index, it won't be problem, but during values, it will affect	
+
+-> Permutation in String
+i) We can use 2 hashmaps to count the frequencies of s1 and s2. and we update hashmap of s2 while we are traversing
+and we check both hashmaps are equal or not with O(26) everytime until we found
+ii) We can optimize this by using a variable matchCount. When we are traversing, the new value can increase the matchCount or decrease the matchCount or reamin as it is
+So, we write statements accordingly 
+if (h[right] == w[right])
+else if (h[right] == w[right] + 1) 
+__________________________________________
+
+Binary Subarrays With Sum
+
+i) We can use atMost approach
+ii) Prefix State Map - slow approach
+We can use map to store the occurences of this particular sum
+Start with mp[0]=1, then do
+ans += m.count(sum - S) ? m[sum - S] : 0;
+ans += j - i;
+iii) Using k variable along with i, j and use cnt1 and cnt2
+__________________________________________
+
+Count Number of Nice Subarrays
+
+This is same as above, here we need to findthe count of sub arrays with k odd nubmers, while above we need to find k 1's. 
+i) Use the atMost approach
+ii) Prefix State Map - slow approach
+__________________________________________
+
+Count Vowel Substrings of a String
+
+Use atMost(5) - atMost(4) and seperate isVowel() function
+Have a unique count to increase at 1st ccurence of any vowel, Also decrease it while we are moving 
+the left pointer for while (uniqueCount > goal)
+When we come across any nonVowel, then reset the hashMap, also i=j+1, uniqueCount=0
+At the end, do ans += j-i+1, as substrings ending at j starting from i, i+1, i+2, ... , j
