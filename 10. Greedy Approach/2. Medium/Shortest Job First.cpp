@@ -4,6 +4,24 @@ Ready  Run   Complete
    WT      BT
 
 WT + BT = TAT = CT - AT
+
+1. Input:
+   List of processes, each with:
+      pid (Process ID)
+      burst (Burst Time)
+      arrival (Arrival Time)
+2. Sort Processes:
+   First by arrival time (earliest process arrives first).
+   If arrival times are the same, by burst time (shortest burst first).
+3. Scheduling:
+   For each process:
+      If currentTime is less than the process's arrival time, update it to the process's arrival time.
+      Add the burst time of the process to currentTime.
+   Compute:
+      Completion Time (CT) = currentTime
+      Turnaround Time (TAT) = CT - arrival
+      Waiting Time (WT) = TAT - burst
+4. Calculate the average turnaround time and average waiting time
 */
 
 struct Process {
