@@ -1,6 +1,8 @@
 /*
 Question:
-Given a set of N jobs where each job 'i' has a deadline and profit associated with it. Each job takes 1 unit of time to complete, and only one job can be scheduled at a time. We earn the profit associated with a job if and only if the job is completed by its deadline. Find the number of jobs done and the maximum profit.
+Given a set of N jobs where each job 'i' has a deadline and profit associated with it. Each job takes 1 unit of time to complete, 
+and only one job can be scheduled at a time. We earn the profit associated with a job if and only if the job is completed by its 
+deadline. Find the number of jobs done and the maximum profit.
 
 Example:
 Input:
