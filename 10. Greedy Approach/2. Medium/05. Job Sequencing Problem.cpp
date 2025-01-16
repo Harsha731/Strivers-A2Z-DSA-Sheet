@@ -14,47 +14,76 @@ Explanation:
 Job1 and Job3 can be done with a maximum profit of 60 (20+40).
 
 Approach:
-- We create a vector of pairs 'jobs' to store the profit and deadline of each job.
-- We sort the 'jobs' vector in non-increasing order of profits.
-- We initialize a vector 'deadline' of size 'n+1' and set all elements to -1.
-- We also initialize variables 'ans' and 'cnt' to 0.
-- We iterate over the 'jobs' vector.
-  - For each job, we get the deadline and profit.
-  - We check from the deadline to 1 (in reverse order) if there is any slot available to schedule the job.
-  - If we find an available slot, we mark it as scheduled by setting 'deadline[dead]' to 1, increment 'cnt' and add the profit to 'ans'.
-- Finally, we return a vector containing 'cnt' and 'ans' as the number of jobs done and the maximum profit.
+
+1. Sort Jobs:
+   Sort all jobs in descending order of profit to prioritize higher-profit jobs.
+2. Allocate Slots:
+   Initialize an array (slot) to track available time slots (size n).
+3. Iterate through the sorted jobs:
+   For each job, find the latest available time slot (≤ its deadline).
+   If a free slot is found, assign the job to that slot and mark it as filled.
+4. Calculate Total Profit:
+   Accumulate the profit of all scheduled jobs.
 
 Complexity Analysis:
 - The time complexity of this approach is O(NlogN), where N is the number of jobs.
 - This is due to the sorting operation on the 'jobs' vector based on profits.
 - The space complexity is O(N) as we use additional vectors to store the jobs and deadlines.
 
+
+Notes :-
+We sort all the jobs based on profit, here each task takes 1 unit of time
+We can keep the task in the places from 0 to min(n, deadline) - 1. We try to keep any task in the max possible time
+So, that other tasks having faster deadlines can be done can be benefitted by this task
+We can remove result vector if we don't want to know which task is assigned at what time
+Here, we check from deadline-1 to 0. It is because if the deadline is 9, it means we can assign the task at t=8 and not at t=9
 Code:
 */
 
-static bool comp(pair<int,int> a, pair<int,int> b) {
-    return a.first > b.first;
+
+// Structure to represent a job
+struct Job {
+    int id;       // Job ID
+    int deadline; // Deadline for the job
+    int profit;   // Profit if the job is completed
+};
+
+// Comparator function to sort jobs by profit in descending order
+bool compare(Job a, Job b) {
+    return a.profit > b.profit;
 }
 
-vector<int> JobScheduling(Job arr[], int n) {
-    vector<pair<int,int>> jobs;
-    for(int i = 0; i < n; i++) {
-        jobs.push_back({arr[i].profit, arr[i].dead});
-    }
-    sort(jobs.begin(), jobs.end(), comp);
-    vector<int> deadline(n+1, -1);
-    int ans = 0, cnt = 0;
-    for(int i = 0; i < n; i++) {
-        int dead = jobs[i].second;
-        int profit = jobs[i].first;
-        while(dead >= 1 && deadline[dead] != -1) {
-            dead--;
+// Function to find the maximum profit job sequence
+void jobSequencing(vector<Job> &jobs, int n) {
+    // Step 1: Sort all jobs by profit in descending order
+    sort(jobs.begin(), jobs.end(), compare);
+
+    // Step 2: Create an array to store the result (sequence of jobs)
+    vector<int> result(n, -1); // -1 indicates the slot is free
+    vector<bool> slot(n, false); // Slot availability tracker
+
+    int totalProfit = 0;
+
+    // Step 3: Iterate over sorted jobs
+    for (int i = 0; i < jobs.size(); i++) {
+        // Try to schedule the job in the last possible free slot (<= deadline)
+        for (int j = min(n, jobs[i].deadline) - 1; j >= 0; j--) {
+            if (!slot[j]) { // If the slot is free
+                result[j] = jobs[i].id; // Assign the job ID to the slot
+                slot[j] = true;         // Mark the slot as filled
+                totalProfit += jobs[i].profit; // Add the profit
+                break;
+            }
         }
-        if(dead >= 1) {
-            deadline[dead] = 1;
-            cnt++;
-            ans += profit;
+    }
+
+    // Step 4: Print the job sequence
+    cout << "Scheduled Jobs: ";
+    for (int i = 0; i < n; i++) {
+        if (result[i] != -1) {
+            cout << result[i] << " ";
         }
     }
-    return {cnt, ans};
+    cout << "\nTotal Profit: " << totalProfit << endl;
 }
+
