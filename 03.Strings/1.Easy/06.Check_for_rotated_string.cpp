@@ -28,6 +28,6 @@ bool rotateString(string s, string goal) {
 }
 
 /*
-Time Complexity: The time complexity of this approach is O(N), where N is the length of the input strings `s` and `goal`. 
+Time Complexity: The time complexity of this approach is O(N+M), Here, N = M. IT does by Rabin Karp or KMP
 Space Complexity: The space complexity is O(N), where N is the length of the input string `s`. This is because we create a new string `concat` by concatenating `s` with itself.
 */
