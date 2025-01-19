@@ -77,6 +77,14 @@ Now, we start from M, we divide n / values[i], we have many cases
 q = 0, q <= 3, q = 4, q = 5, q <= 8, q = 9
 ________________________________________
 
+Implement atoi
+
+Iterate till the white space is ignored
+Get the sign, + or -
+Use a while / for loop and edge cases are number > INT_MAX and number < INT_MIN
+
+________________________________________
+
 Sum of Beauty of All Substrings
 
 Generate each substring with O(N^2) TC and writing a seperate function to calculate the Max-Min
@@ -87,7 +95,6 @@ Longest Palindromic Substring (without DP)
 For odd length and even length
         expandFromCenter(s, i, i, ans_start, ans_end, maxLen);
         expandFromCenter(s, i - 1, i, ans_start, ans_end, maxLen);
-The ans_Start, ans_end, maxLen will be global variables or can be written using '&'
 At the end, (maxLen == 0) ? "" : s.substr(ans_start, ans_end - ans_start + 1);
 ______________________________________
 
