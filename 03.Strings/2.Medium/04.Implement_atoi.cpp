@@ -75,10 +75,10 @@ int myAtoi(string s) {
         if (ans > INT_MAX && sign)
             return INT_MAX;
         else if (ans > INT_MAX)
-            return INT_MIN;
+            return INT_MIN;             // Both edge cases are giving correct answer, show by example of number more than by 1
         i++;
     }
-    ans = sign ? ans : -1 * ans;
+    ans = sign ? ans : -1 * ans;        
     return (int) ans;
 }
 
