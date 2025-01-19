@@ -1,6 +1,6 @@
 /*
 Question:
-Given a VPS represented as a string s, return the nesting depth of s.
+Given a VPS (valid parentheses string) represented as a string s, return the nesting depth of s.
 
 Approach:
 1. Initialize `opened` as 0 and `ans` as 0 to keep track of the number of opened parentheses and the maximum nesting depth respectively.
