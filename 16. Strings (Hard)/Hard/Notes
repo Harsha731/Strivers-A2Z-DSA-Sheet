@@ -113,12 +113,23 @@ ______________________________________
 
 Longest happy prefix
 
+A string is called a happy prefix if it is a non-empty prefix that is also a suffix (excluding itself).
+Input : ababab
+Output : abab
+
+Direct KMP algo
 Calculate the LPS and return s.substr(0, length);
 where length is lps[n-1]
 ______________________________________
 
 Shortest Palindrome
 
+We can add letters at the front only
+In the worst case, we need to add n-1 letters at the front
+KMP algo, do precomputation of LPS array
+
+aacecaaa$aaacecaa	The last a gives LPS[] = 7. So, the first 7 letters are in palindrome, The next are not. 
+So, do s.substr(7) and keep that at front by reversing
 a b a a c $ c a a b a
 We append the reverse of the str with $ in between 
 We get the prefix which is palindrome, here a b a  is satisfying as palindrome
