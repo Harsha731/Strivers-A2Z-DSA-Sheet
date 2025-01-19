@@ -2,7 +2,8 @@
 
 The beauty of a string is the difference in frequencies between the most frequent and least frequent characters.
 
-Given a string `s`, you need to calculate the sum of beauty for all of its substrings. The beauty of a substring is defined as the difference between the highest and lowest frequency of any character in the substring.
+Given a string `s`, you need to calculate the sum of beauty for all of its substrings. The beauty of a substring is 
+defined as the difference between the highest and lowest frequency of any character in the substring.
 
 Write a function `beautySum` that takes a string `s` as input and returns the sum of beauty for all substrings.
 
@@ -17,41 +18,56 @@ Output: 17
 
 Approach:
 
-1. Initialize a variable `ans` to store the total beauty sum.
-2. Iterate over the string `s` with the first loop, starting from index `i`.
-   - Initialize a frequency array `freq` of size 26, initialized with zeros.
-   - Iterate over the string `s` with the second loop, starting from index `j` equal to `i`.
-      - Increment the frequency of the character `s[j]` in the `freq` array.
-      - Calculate the difference between the highest and lowest frequencies in the `freq` array and add it to `ans`.
-3. Return the value of `ans` as the final result.
+Initialize ans = 0 to store the total beauty sum.
+Loop i from 0 to n-1 (start of substrings):
+   Initialize char_count[26] to track character frequencies.
+Loop j from i to n-1 (end of substrings):
+   Update char_count[s[j] - 'a'].
+   Find max and min non-zero values in char_count.
+   Add max - min to ans.
+Return ans.
+
+We can't do the same for max for 1,2,2,2,2 after doing 2 to 3, we compare last max and the element increased
+But for min, we need to check all the vector once
 
 CODE:-
 */
-int get_maxmin(vector<int>& freq){
-    int maxi = INT_MIN, mini = INT_MAX;
-    for(auto it:freq){
-        maxi = max(maxi,it);
-        if(it!=0)
-            mini = min(mini,it);
-    }
-    return (mini==INT_MAX)?0:maxi-mini;
-}    
+class Solution {
+public:
+    int beautySum(string s) {
+        int n = s.length();
+        int ans = 0;
 
-int beautySum(string s) {
-    int ans = 0;
-    // 2 loops to generate all substrings
-    for(int i=0; i<s.size(); i++){
-        vector<int>freq(26,0);
-        for(int j=i; j<s.size(); j++){
-            freq[s[j]-'a']++;
-            int maxmin = get_maxmin(freq);
-            ans += maxmin;
+        for (int i = 0; i < n; i++) {
+            vector<int> char_count(26, 0);
+            int max_freq = 0;
+
+            for (int j = i; j < n; j++) {
+                // Update frequency of the current character
+                char_count[s[j] - 'a']++;
+
+                // Update max frequency
+                max_freq = max(max_freq, char_count[s[j] - 'a']);
+
+                // Find min frequency (non-zero) on the fly
+                int min_freq = INT_MAX;
+                for (int k = 0; k < 26; k++) {
+                    if (char_count[k] > 0) {
+                        min_freq = min(min_freq, char_count[k]);
+                    }
+                }
+
+                // Add beauty (max - min) to the result
+                ans += max_freq - min_freq;
+            }
         }
+
+        return ans;
     }
-    return ans;
-}
+};
+
 
 /*
-Time complexity :- for generating all substrings is O(n^2), where n is the length of the string `s`. For each substring, we calculate the difference between the highest and lowest frequencies, which takes O(26) or O(1) time since there are 26 lowercase alphabets. Therefore, the overall time complexity is O(n^2).
-Space complexity :- O(26) or O(1) since we use a constant-sized frequency array to store the counts of characters.
+Time complexity :- for generating all substrings is O(n^2)
+Space complexity :- O(1)
 */
