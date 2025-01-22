@@ -1,0 +1,160 @@
+Part 1
+
+Implement MinHeap
+These are heapify codes
+
+Check if array is Heap
+Recursive function
+  int left = (2 * node) + 1;
+  int right = (2 * node) + 2;
+  return (solve(a, left, n) && solve(a, right, n) && (a[node] > a[left] && a[node] > a[right]));
+
+Convert MinHeap to MaxHeap
+Ignore that initially it is MinHeap
+From N/2-1 to 0, use heapify
+_________________________________________
+
+Part 2
+
+QuickSelect
+
+Choose a random pivot, send it to the end and have 2 pointers i=L, j=L
+increase j from L to R-1, If the current element < pivot, swap with A[i] and do i++
+If it is more, simply ignore. i.e, i remains at same place and j increases
+At last, swap the R with i, so we will have all the left elements which are lesser than pivot
+
+main function => M = k-1. return, else do L=M+1 or R=M-1
+________________________________________
+
+Kth Largest Element in an Array
+
+i) Quick select appraoch
+This is same as "K closest points to origin" question
+But here, we need to sort based on descending order
+i.e,             if (A[j] > pivot) swap(A[i++], A[j]);
+
+ii) Use minHeap with O(NlogK)
+If we want to do the same with maxHeap, then k=n-k+1
+________________________________________
+
+Find the Kth Largest Integer in the Array
+
+NlogN approach - sorting 
+static bool cmp(string &a,string &b) {
+    if (a.size() == b.size()) return a < b;
+    return a.size() < b.size();
+ 
+-> Keeping a max Heap and if we keep removing the top element (if a[i] < st.top) then at the end,
+we get k elements which are smallest of all and the top has, kth smallest
+
+-> The kth largest is (n-k-1)th smallest. So, min heap for (n-k-1) instead of k
+1 2 3 4 5 6
+___________________________________
+
+Merge K sorted arrays
+
+Add all the first element of arrays to PQ and push into ans vector, then push the next element of the same array
+We are maintaining k elements at max in the PQ, so that logK will be the TC everytime
+_____________________________
+
+Merge K sorted Lists
+
+Linked List question
+____________________________
+
+Replace each array element by its corresponding rank
+
+Don't use sort, instead use PQ with (value, index) and pop one by one and keep value in index
+______________________________
+
+Task Scheduler
+
+Check the image
+i) Characters are more       ii) Block size is more
+_____________________________
+
+Hand of Straights
+
+add all the elements into ump and start from the first one and check that next k elements are there or not
+if not there at any moment, return false
+else do ump[]--
+_____________________________
+
+Part 3
+
+Design twitter
+
+postTweet(userId, tweetId): Allows a user to post a new tweet.
+getNewsFeed(userId): Retrieves the 10 most recent tweets from a user's feed, including the user's own tweets and tweets from users they follow.
+follow(followerId, followeeId): Enables one user to follow another.
+unfollow(followerId, followeeId): Enables one user to unfollow another.
+
+Followee : hero and Follower : us
+
+erase on an unordered map in C++ will not give an error if the element you are trying to erase is not present. 
+similarly insert does not insert duplicate if already present
+we used unordered_set for using insert and erase
+
+getNewsFeed have O(Feed)
+
+for (int i = posts.size() - 1; i >= 0 && count < 10; i--) 
+   if (posts[i].first == userId || follows[userId].count(posts[i].first)) 
+
+if the post is posted by user himself or if the user of the post is hero of user. i.e, in the following list of user, hero should be there. We do this using 'count'
+______________________________________
+
+Minimum Cost to join n ropes
+
+use while(pq.size() > 1) and pop the top 2 and push the sum
+_____________________________
+
+Kth largest element in stream
+
+Use a min Heap and pop each time the size exceeds k
+_____________________________
+
+Maximum K sum combinations
+
+First sort the 2 arrays
+push all the (0, n-1) (1, n-1) (2, n-1) .. (m-1, n-1)
+If we are able to (i, j) then push (i, j-1) into the PQ. Maintain m elements at max inside the PQ to have logM TC
+_____________________________
+
+Median in a stream
+
+Use 2 heaps - maxHeap(1 2 3 4 5) and minHeap(9 8 7 6)
+5 is at the top of maxHeap and 6 is at the top of minHeap
+first one is first half and second is second half. Balance each time
+If even, then   return (static_cast<double>(maxpq.top() + minpq.top()) / 2);
+else the one with more elements
+_____________________________
+
+Top K frequent elements
+
+Use ump and get the frequencies of all
+Insert them into PQ and have only the top k and insert them all into answer vector
+___________________________
+
+Heapify codes
+
+left : 2i+1, right : 2i+2, parent : i-1/2 
+maxHeapify ensures that the subtree rooted at the given index "only" satisfies the heap property.
+We check the large one in left, right and if it is more than the parent, we swap and we do recursion. Else stop
+
+buildMaxHeap
+start from n/2-1 to 0. Use maxHeapify
+
+insertToMaxHeap
+Inserting an element into a heap involves adding the element at the end and then fixing the heap property by moving up.
+
+Delete from Heap (Max-Heap Example)
+Deleting the root from a max-heap involves swapping the root with the last element, removing the last element, and then restoring the heap property.
+Deletion and extracting the Max from maxHeap and Min from minHeap are same
+We do using void for delete generally and int for extract
+
+Increase Key (For Max-Heap)
+Increasing the value of an element and then maintaining the heap property by moving up.
+We do decrease key for minHeap and we move up 
+
+Heap Sort (Using Max-Heap)
+Heap sort is performed by building a max-heap and then repeatedly moving the root to the end of the array.
