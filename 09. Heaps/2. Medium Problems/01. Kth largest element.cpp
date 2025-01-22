@@ -16,6 +16,9 @@ The time complexity of the findKthLargest function is O(N log k), where N is the
 
 SPACE COMPLEXITY:
 The space complexity is O(k) as we need to store k elements in the min-heap.
+
+** Keeping a min Heap and if we keep removing the top element (if a[i] > st.top) then at the end,
+we get k elements which are largest of all and the top has, kth largest
 */
 
 int findKthLargest(vector<int>& nums, int k) {
