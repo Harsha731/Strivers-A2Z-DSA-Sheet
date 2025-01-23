@@ -53,3 +53,41 @@ int minCost(int n, vector<int>& cuts) {
     int i = 1, j = cuts.size();
     return fmemo(i, j, cut, dp);
 }
+__________________________________________
+
+// Tabulation
+// Space optimization won't be possible here
+
+int minimumCost(int n, int c, vector<int> &cuts) {
+    // Modify the cuts array by adding 0 at the beginning and 'n' at the end.
+    cuts.push_back(n);
+    cuts.insert(cuts.begin(), 0);
+    sort(cuts.begin(), cuts.end());
+
+    vector<vector<int>> dp(c + 2, vector<int>(c + 2, 0));
+
+    for (int i = c; i >= 1; i--) {
+        for (int j = i; j <= c; j++) {
+
+            int mini = INT_MAX;
+
+            for (int ind = i; ind <= j; ind++) {
+                // Calculate the cost for making a cut at position 'ind'.
+                int ans = cuts[j + 1] - cuts[i - 1] + dp[i][ind - 1] + dp[ind + 1][j];
+
+                mini = min(mini, ans);
+            }
+
+            dp[i][j] = mini;
+        }
+    }
+
+    return dp[1][c];
+}
+/*
+Time Complexity: O(N*N*N)
+Reason: There are 2 variables i and j, therefore, N*N states and we explicitly run a loop inside the function which 
+will run for N times, therefore at max ‘N*N*N’ new problems will be solved.
+Space Complexity: O(N*N) 
+Reason: We are using a 2D array ( O(N*N)).
+*/
