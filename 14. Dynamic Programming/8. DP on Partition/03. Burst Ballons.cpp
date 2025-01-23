@@ -58,6 +58,8 @@ ___________________________________________________
 // We assume the 'ind' ballon is burst at the end, so we do these 2 first - dp(i, ind-1) and dp(ind+1, j)
 // We calculate like this for every (i, j) pair
 
+
+
 int maxCoins(vector<int> &nums) {
     int n = nums.size();
     
@@ -87,3 +89,5 @@ int maxCoins(vector<int> &nums) {
     return dp[1][n];
 }
 
+// Time Complexity: O(N3), There are total N2 no. of states. And for each state, we are running a partitioning loop roughly for N times.
+// Space Complexity: O(N2), N2 for the dp array we are using
