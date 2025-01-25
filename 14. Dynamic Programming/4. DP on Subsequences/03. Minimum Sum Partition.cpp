@@ -27,36 +27,104 @@ COMPLEXITY ANALYSIS:
 CODE:
 */
 
+// Memoization
+/*
+Time Complexity (TC): The TC is O(n . totalSum), where n is the number of elements and totalSum is the sum of all
+elements, as we solve n · totalSum subproblems.
 
-bool ftab(int n, int tar, int arr[], vector<vector<int>>& dp){
-    for(int i = 0; i < n; i++){
-        for(int sum = 0; sum <= tar; sum++){
-            if(sum == 0){
-                dp[i][sum] = true;
-                continue;
-            }
-            if(i == 0){
-                dp[i][sum] = (sum == arr[i]);
-                continue;
-            }
-            bool t = false;
-            if(arr[i] <= sum) t = dp[i-1][sum - arr[i]];
-            bool nt = dp[i-1][sum];
-            dp[i][sum] = (t || nt);
-        }
+Space Complexity (SC): The SC is O(n . totalSum), due to the memoization table storing results for all subproblems. The
+recursion stack uses O(n) space, which is dominated by the memoization table.
+*/
+int solve(int i, int sumA, int sumB, vector<int>& nums, vector<vector<int>>& dp) {
+    // Base case: If all elements are processed, return the absolute difference
+    if (i == nums.size()) {
+        return abs(sumA - sumB);
     }
-    return dp[n-1][tar];
+
+    if (dp[i][sumA] != -1) {
+        return dp[i][sumA];
+    }
+
+    // Include the current element in subset A
+    int includeInA = solve(i + 1, sumA + nums[i], sumB, nums, dp);
+
+    // Include the current element in subset B
+    int includeInB = solve(i + 1, sumA, sumB + nums[i], nums, dp);
+
+    return dp[i][sumA] = min(includeInA, includeInB);
 }
 
-int minDifference(int arr[], int n){
+int minSubsetSumDifference(vector<int>& nums, int n) {
+    int totalSum = accumulate(nums.begin(), nums.end(), 0);
+    vector<vector<int>> dp(n, vector<int>(totalSum + 1, -1));
+    return solve(0, 0, 0, nums, dp);
+}
+_________________________________________
+
+// Tabulation
+
+int minSubsetSumDifference(vector<int>& arr, int n) {
     int totalSum = 0;
-    for(int i = 0; i < n; i++) totalSum += arr[i];
-    vector<vector<int>> dp(n, vector<int>(totalSum + 1));
-    ftab(n, totalSum, arr, dp);
-    int ans = INT_MAX;
-    for(int i = 0; i <= totalSum; i++){
-        if(dp[n-1][i])
-            ans = min(ans, abs(i - (totalSum - i)));
+    for (int num : arr) {
+        totalSum += num;
     }
-    return ans;
+
+    // Initialize DP array
+    vector<bool> dp(totalSum + 1, false);
+    dp[0] = true;
+
+    // Fill the DP array
+    for (int i = 0; i < n; i++) {
+        for (int j = totalSum; j >= arr[i]; j--) {
+            dp[j] = dp[j] || dp[j - arr[i]];
+        }
+    }
+
+    // Find the largest j <= totalSum / 2 for which dp[j] is true
+    int minDiff = INT_MAX;
+    for (int j = totalSum / 2; j >= 0; j--) {
+        if (dp[j]) {
+            minDiff = totalSum - 2 * j;
+            break;
+        }
+    }
+
+    return minDiff;
+}
+_________________________________________
+
+// Space Optimization
+
+int minSubsetSumDifference(vector<int>& arr, int n) {
+    int totalSum = accumulate(arr.begin(), arr.end(), 0);
+
+    // Initialize DP arrays
+    vector<bool> prev(totalSum + 1, false);
+    vector<bool> curr(totalSum + 1, false);
+    prev[0] = true; // A sum of 0 is always possible with 0 elements
+
+    // Fill the DP arrays
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j <= totalSum; j++) {
+            // Exclude the current element
+            curr[j] = prev[j];
+            // Include the current element
+            if (j >= arr[i]) {
+                curr[j] = curr[j] || prev[j - arr[i]];
+            }
+        }
+        // Swap prev and curr for the next iteration
+        swap(prev, curr);
+    }
+
+    // Find the largest j <= totalSum / 2 for which prev[j] is true
+    int minDiff = INT_MAX;
+    for (int j = totalSum / 2; j >= 0; j--) {
+        if (prev[j]) {
+            minDiff = totalSum - 2 * j;
+            break;
+        }
+    }
+
+    return minDiff;
 }
