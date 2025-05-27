@@ -28,65 +28,26 @@ To find all elements that appear more than ⌊ n/3 ⌋ times, we can use the Boy
 
 */
 
-vector<int> majorityElement(vector<int> &nums)
-{
-    int c1 = 0, c2 = 0, vote1 = 0, vote2 = 0;
-
-    // Finding potential candidates
-    for (int i = 0; i < nums.size(); i++)
-    {
-        if (c1 == nums[i])
-        {
-            vote1++;
-        }
-        else if (c2 == nums[i])
-        {
-            vote2++;
-        }
-        else if (vote1 == 0)
-        {
-            c1 = nums[i];
-            vote1 = 1;
-        }
-        else if (vote2 == 0)
-        {
-            c2 = nums[i];
-            vote2 = 1;
-        }
-        else
-        {
-            vote1--;
-            vote2--;
-        }
+vector<int> majorityElement(vector<int>& nums) {
+    int c1 = 0, c2 = 1, v1 = 0, v2 = 0;
+    for (int num : nums) {
+        if (num == c1) v1++;
+        else if (num == c2) v2++;
+        else if (v1 == 0) c1 = num, v1 = 1;
+        else if (v2 == 0) c2 = num, v2 = 1;
+        else v1--, v2--;
     }
 
-    vector<int> ans;
-    int cnt1 = 0, cnt2 = 0;
-
-    // Counting occurrences of potential candidates
-    for (auto it : nums)
-    {
-        if (it == c1)
-        {
-            cnt1++;
-        }
-        if (it == c2)
-        {
-            cnt2++;
-        }
+    v1 = v2 = 0;
+    for (int num : nums) {
+        if (num == c1) v1++;
+        else if (num == c2) v2++;
     }
 
-    // Checking if candidates appear more than ⌊ n/3 ⌋ times
-    if (cnt1 > nums.size() / 3)
-    {
-        ans.push_back(c1);
-    }
-    if (cnt2 > nums.size() / 3 && c2 != c1)
-    {
-        ans.push_back(c2);
-    }
-
-    return ans;
+    vector<int> res;
+    if (v1 > nums.size() / 3) res.push_back(c1);
+    if (v2 > nums.size() / 3) res.push_back(c2);
+    return res;
 }
 
 // TIME COMPLEXITY: O(n), where n is the size of the input array.
