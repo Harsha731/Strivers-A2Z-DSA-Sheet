@@ -1,3 +1,47 @@
+Word break 1 : In DP-2, Backtracking-1
+Word break 2 : In backtracking - 2
+
+Check if There is a Valid Partition For The Array : 2 equal / 3 equal / 3 consecutive
+Perfect Squares : least number of perfect square numbers which sum up to n
+
+combination sum 4 : target sum is given, number can be taken any no. of times, so number of combinations ?	[DP question]
+Paint house : n*3, no 2 same colour
+
+Count Ways To Build Good Strings : 0 'zero' times, 1 'one' times
+
+New 21 Game : [1, W] possibilities, done till K value, prob she have <= n at the end (k <= n)
+
+Stone game 1 : Even piles, alex first, collect from start or end, most stones at end wins
+Stone game 2 : A player can take up to 2M piles from start only, where M starts at 1 and becomes max(M, X) after each move (X is number of piles taken).
+Stone game 3 : A player takes 1/2/3 from start and most stones wins
+Stone game 4 : A player removes any non-zero square number of stones in the pile. If he/she remove can't then they lose
+___________
+
+Minimum Path Sum : From top left to bottom right
+Last Stone Weight II : take 2 and keep x-y, else both are destroyed
+Longest Increasing Path In a Matrix : From any cell to anywhere
+
+Ones and Zeroes : strs = ["10","0001","111001","1","0"], m = 5, n = 3. Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.
+Number of Dice Rolls With Target Sum : d dice's, f faces from 1 to f, no. of ways to reach target t
+Longest Ideal Subsequence : select subsequence 't' from 's' such that every 2 adjacent characters have difference < k
+
+Regular expression matching : '*' Matches zero or more of the preceding element.
+Wildcard matching : '*' Matches any character 0 or more times
+
+Number of Ways to Rearrange Sticks With K Sticks Visible :- n lengths : 1 to n : k sticks have to be visible from left
+Flip String to Monotone Increasing : It involves 0's and 1's
+Number of Music Playlists : n songs, we want l (l > n) songs, every song played atleast once and new one after k other songs only
+Number of Ways to Form a Target String Given a Dictionary : Same length words, ways to create target word from those words
+Profitable schemes : n people can be used at most, ith crime needs group[i] people and profit[i] is earned from that, ways to earn >= minProfit
+Painting the Walls : free takes 1 unit of time, paid needs time[i] and needs cost[i] amount
+Minimum Difficulty of a Job Schedule : 'd' days and jobDifficulty[] is given, difficulty of a day is max jobDifficulty[i] of that day. So, minimum difficulty of a job schedule. To work on the i-th job, you have to finish all the jobs j where 0 <= j < i).
+Cherry Pickup II : 2 robots
+
+Minimum Falling Path Sum : can be direct down
+Minimum Falling Path Sum 2 : can't be direct down
+K Inverse Pairs Array : This is different from "Reverse Pairs" in Arrays - 1, as here 1 to n numbers, we do DP directly
+___________________________________
+
 Binary Search
 
 * Guess Number Higher or Lower : -1, 0, +1 will be outputed
