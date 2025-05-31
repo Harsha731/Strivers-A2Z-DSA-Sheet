@@ -1,0 +1,97 @@
+Binary Search
+
+* Guess Number Higher or Lower : -1, 0, +1 will be outputed
+* Successful Pairs of Spells and Potions : spells = [5,1,3], potions = [1,2,3,4,5], success = 7. So, 5 * [1,2,3,4,5] = [5,10,15,20,25]. 4 pairs are successful. Return [4, 0, 3]
+* Time Based Key-Value Store : set(key, value, timestamp) and get(key, timestamp)
+* Search Suggestions System : 3 words
+* Maximum Number of Removable Characters : s = "abcacb", p = "ab", removable = [3,1,0]. check p is still a subsequence or not
+___________________
+
+Sliding Window
+
+Contains Duplicate II : 2 identical numbers in array with absolute difference between i and j is at most k. True / False.
+Frequency of the Most Frequent Element : We first sort, increase element by 1. Return the maximum possible frequency of an element after performing at most k operations.
+Permutation in String : check if s is present in t or not as substring
+Minimum Size Subarray Sum : return the minimal length of a subarray whose sum is greater than or equal to target
+Find K Closest Elements : return the k closest integers to x in the array. 
+Minimum Operations to Reduce X to Zero : remove element from front or back and subtract that from X, finally we need 0 value for x
+Length of Longest Subarray With at Most K Frequency : every element in the subarray have to be <= k frequency
+Get Equal Substrings Within Budget : s[i] to t[j] cost ascii value difference and we have budget as maxCost
+Count Subarrays Where Max Element Appears at Least K Times : max element of whole array, not just the subarray
+Sliding Window Maximum : Move the window and return the max at each window
+Minimum Number of Operations to Make Array Continuous : [1,10,100,1000] -> [1, 2, 3, 4]. Any number can be changed to any number. no need to be asc order, but the max and min have to be n-1 length and all numbers are unique
+___________________
+
+Linked List
+
+Merge In Between Linked Lists : remove ath node to bth node and keep list2 in that place
+Reorder List : L0 → L1 → … → Ln - 1 → Ln   to  	 L0 → Ln → L1 → Ln - 1 → L2 → Ln - 2 → …
+Swapping Nodes in a Linked List : swap kth from front and kth from back
+Design Linked List : get(index), addAtHead(val), addAtTail(val), addAtIndex(index, val), deleteAtIndex(index)
+Design Browser History : BrowserHistory(string homepage), void visit(string url), string back(int steps), string forward(int steps)\
+Swap Nodes in Pairs : swap 1, 2 and 3, 4 and 5, 6 ...
+Sort List : Asc order
+Partition List : All nodes less than x should come before and more comes after x
+Reverse Linked List II : Reverse from [L, R] in the linkedlist
+Design Circular Queue : MyCircularQueue(k) Front Rear enQueue(value) deQueue() isEmpty() isFull() 
+Insertion Sort List : sort using isnertion sort algorithm
+Split Linked List in Parts : into k parts, sizes should be as near as possible, earlier parts should have >= size than after
+_____________________________
+
+Stacks
+
+Baseball Game : +, Double, Invalidate
+Make The String Great : "leEeetcode" -> "leetcode", if 2 adjacent are same but one is small and other is cap
+Reverse Polish notation : Postorder
+Removing Stars From a String : * and left character were to be removed
+Validate Stack Sequences : pushed and popped stack are present
+Stock Span : [100], [80], [60], [70], [60], [75], [85] -> [100], [80], [60], [70], [60], [75], [85].	Current and past how many days this value is <= to it
+Daily Temperatures : How many days we have to wait to her warmer temperature than today
+Car Fleet : Cars going together at the speed of lower car
+Simplify Path : ".." means to go up, // means /, "." means current directory
+Decode String : 3[a2[c]] means "accaccacc"
+Remove All Adjacent Duplicates in String II : s = "deeedbbcccbdaa", k = 3, Output: "aa", delete k times, check for the newer strings too
+132 pattern : Return true if there is a 132 pattern in nums atleast
+Maximum Frequency Stack : int pop() removes and returns the most frequent element in the stack. If there is a tie for the most frequent element, the element closest to the stack's top is removed and returned.
+Flatten Nested List Iterator : [[1,1],2,[1,1]]  -->  [1,1,2,1,1].  It has bool hasNext() and int next() functions
+___________________________________
+
+Heaps
+
+Kth Largest Element in a Stream : We add new element and return the kth largest
+Last Stone Weight : destroy both is x=y, else put x-y back
+Last Stone Weight 2 : DP question
+Furthest Building You Can Reach : 1 ladder is enough and fixed stones are required at each stage
+Number of Flowers in Full Bloom : flowers[i] = [starti, endi], people[i] is the time that the ith person will arrive to see the flowers. Return answer[i]
+Minimum Cost to Hire K Workers : need to be paid atleast their minimum and salary is in ratio of their quality
+IPO : do k projects each for capital[i] and it gives profit[i] and return final profit
+Maximum Performance of a Team : Performance of team = sum of their engineers' speeds * min efficiency among their engineers. 
+
+Car Pooling : capacity and trips[i] = [numPassengersi, fromi, toi]. Return possible or not
+Find the Kth Largest Integer in the Array : Return the 'string' that represents the kth largest integer in nums. Duplicate counted distinctly
+Longest Happy String : atmost a a's, b b's, c c's and 3 a's, b's, c's should not be together. Return longest possible
+Reorganize String : no 2 adjacent need to be same, if not possible return ""
+Process Tasks Using Servers : servers[n] = weight of server, tasks[m] = time needed. Assign to the smaller weight server, smaller index if weights are tie. Return ans[j] is the index of the server the j​​​​​​th task will be assigned to.
+
+Maximum Subsequence Score : (nums1[i0] + nums1[i1] +...+ nums1[ik - 1]) * min(nums2[i0] , nums2[i1], ... ,nums2[ik - 1]) : This has to be maximum
+Single-Threaded CPU : tasks[i] = [enqueueTimei, processingTimei]. Return the order of tasks CPU will take to do
+Seat Reservation Manager : int reserve() : return smallest unreserved seat and void unreserve(int seatNumber) 
+Minimize Deviation in Array : Take any element, if it is even, divide it by 2, if odd, multiply by 2, and decrease the deviation at the end, [max - min] value
+_____________________________
+
+Backtracking
+
+Permutations : Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.
+Permutations 2 : Given a collection of numbers, nums, that might contain duplicates, return all possible unique permutations in any order.
+Restore IP Addresses : 25525511135 to ["255.255.11.135","255.255.111.35"]
+Letter Combinations of a Phone Number : "23" to ["ad","ae","af","bd","be","bf","cd","ce","cf"]
+Matchsticks to Square : matchsticks[i] is given, true / false to form square
+Partition to K Equal Sum Subsets : same as Matchsticks to Square, but k instead of 4
+Find Unique Binary String : return a binary string of length n that does not appear in nums = ["01","10"]
+Word Break II : s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]. Output: ["cats and dog","cat sand dog"]
+Word Break : s = "leetcode", wordDict = ["leet","code"]. Whether it can be formed or not. True / False.
+N Queens 2 : Just return the count
+N Queens : Return all the solutions using [ Q / . ] method
+
+
+ 
