@@ -68,7 +68,8 @@ vector <int> dijkstra(int V, vector<vector<int>> adj[], int S) {
             int edgW = it[1]; 
             
             if(dis + edgW < dist[adjNode]) {
-                if(dist[adjNode] != 1e9)  st.erase({dist[adjNode], adjNode});  // Not needed actually, as anyways in the next 2nd line
+                if(dist[adjNode] != 1e9)  st.erase({dist[adjNode], adjNode});  // Not needed actually, as anyways in the next 2nd line is wrong
+                // It is needed as the tree won't be destructed in middle
                 dist[adjNode] = dis + edgW; 
                 st.insert({dist[adjNode], adjNode}); 
             }
