@@ -100,6 +100,10 @@ Same with right pointer too
 
 If we are moving left++, it means the right is at peak till now, height[right] = rightMax
 So, the addition of water depends on leftMax as leftMax < rightMax, else left++ won't occur at all
+
+If leftMax got updated means, there is nothing more than that height on its left. So, it can't store rain water
+If left++ is getting updated it means, left_cur < right_cur and leftMax is the max height from i=0 to current
+
 */
 
 int trap(vector<int>& height) {
