@@ -103,6 +103,7 @@ So, the addition of water depends on leftMax as leftMax < rightMax, else left++ 
 
 If leftMax got updated means, there is nothing more than that height on its left. So, it can't store rain water
 If left++ is getting updated it means, left_cur < right_cur and leftMax is the max height from i=0 to current
+rightMax is max from end to right, It may not be at right
 
 */
 
