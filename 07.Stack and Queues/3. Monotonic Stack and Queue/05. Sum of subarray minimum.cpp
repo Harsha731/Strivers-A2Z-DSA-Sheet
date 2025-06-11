@@ -46,13 +46,14 @@ The current element will be minimum in ( prevSmaller+1, nextSmaller-1 )
 leftElements = i - prevS[i];
 rightElements = nextS[i] - i;
 ans += (leftElements * rightElements * arr[i])
+
 */
 
 vector<int> prevSmaller(vector<int>& arr){
     stack<int> st;
     vector<int> ans(arr.size(), -1);
     for(int i = 0; i < arr.size(); i++){
-        while(!st.empty() && arr[st.top()] > arr[i])
+        while(!st.empty() && arr[st.top()] > arr[i])      // Only one side > and other side >=
             st.pop();
         if(!st.empty())
             ans[i] = st.top();
@@ -81,7 +82,7 @@ int sumSubarrayMins(vector<int>& arr) {
     int mod = 1e9 + 7;
 
     for(int i = 0; i < arr.size(); i++){
-        long long leftElements = i - prevS[i];
+        long long leftElements = i - prevS[i];      // leftElements = i - prevS[i]; There is no +1 here
         long long rightElements = nextS[i] - i;
         // this formula is arrived by mathematical calculation
         ans += ((leftElements % mod) * (rightElements % mod) * (arr[i] % mod)) % mod;
