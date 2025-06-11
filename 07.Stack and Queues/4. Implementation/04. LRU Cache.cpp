@@ -135,6 +135,11 @@ Delete the corresponding node from its current position in the linked list using
 If the cache is full (i.e., m.size() == cap), it removes the least recently used node from the cache by erasing the key-value pair from the m map and deleting the node from the end of the linked list using deleteNode.
 After handling the eviction (if needed), it creates a new node using new Node(key, value) and adds it to the front of the linked list using addNode.
 Finally, it updates the m map to store the key with the newly added node.
+
+** list<pair<int, int>>::iterator:
+The value type in the map is an iterator pointing to an element in a list of key-value pairs (pair<int, int>).
+** Head and tail both are dummy here, so we use head->next, tail->prev for pointing to the correct ones
+
 */
 
 class LRUCache {
