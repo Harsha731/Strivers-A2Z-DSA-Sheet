@@ -63,8 +63,16 @@ ____________________
 
 // Efficiency:
 
-// Time Complexity: O(N * log(K)), where N is the total number of nodes and K is the number of lists.
-// Space Complexity: O(log(K)) due to recursion stack.
+// Space Complexity: O(1) 
+
+/* Time Complexity: 
+T = (N1 + N2) + (N1 + N2 + N3) + .... + (N1 + N2 + N3 + .... + Nk)
+For simplification let's assume the length of each linked list to be proportional to N,
+T = N + 2N + 3N + 4N + 5N + .... + kN
+T = N (1 + 2 + 3 + 4 + ... + k)
+The sum of lengths of the lists can be calculated using the formula for the sum of the first N natural numbers:
+T = N (k(k+1))/2
+Hence, the time complexity is O( N*k(k+1)/2) ~ O(N*k^2)*/
 
 class Solution {
 public:
