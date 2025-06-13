@@ -7,6 +7,8 @@
 
 // Iteration
 
+// Node<int>* means a pointer to a Node object that holds an int (integer) type value.
+
 Node<int>* sortTwoLists(Node<int>* list1, Node<int>* list2) {
     Node<int>* t1 = list1;
     Node<int>* t2 = list2;
