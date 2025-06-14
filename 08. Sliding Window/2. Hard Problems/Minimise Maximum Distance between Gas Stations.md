@@ -1,4 +1,4 @@
-Heap method
+# 1. Heap method
 ```cpp
 First, we will declare an array ‘howMany[]’ of size n-1, to keep track of the number of placed gas stations and a priority queue that uses max heap.
 We will insert the first n-1 indices with the respective distance value, arrr[i+1]-arr[i] for every index.
