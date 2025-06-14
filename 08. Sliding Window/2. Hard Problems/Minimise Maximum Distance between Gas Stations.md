@@ -1,3 +1,59 @@
+Heap method
+```cpp
+First, we will declare an array ‘howMany[]’ of size n-1, to keep track of the number of placed gas stations and a priority queue that uses max heap.
+We will insert the first n-1 indices with the respective distance value, arrr[i+1]-arr[i] for every index.
+Next, using a loop we will pick k gas stations one at a time.
+Then we will pick the first element of the priority queue as this is the element with the maximum distance. Let’s call the index ‘secInd’.
+Now we will place the current gas station at ‘secInd’(howMany[secInd]++) and calculate the new section length,
+new_section_length = initial_section_length / (number_of_stations_ inserted+1)
+            = (arr[secInd+1] - arr[secInd]) / (howMany[i] + 1)
+```
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+long double minimiseMaxDistance(vector<int> &arr, int k) {
+    int n = arr.size(); //size of array.
+    vector<int> howMany(n - 1, 0);          // Game Changer
+    priority_queue<pair<long double, int>> pq;
+
+    //insert the first n-1 elements into pq
+    //with respective distance values:
+    for (int i = 0; i < n - 1; i++) {
+        pq.push({arr[i + 1] - arr[i], i});
+    }
+
+    //Pick and place k gas stations:
+    for (int gasStations = 1; gasStations <= k; gasStations++) {
+        //Find the maximum section
+        //and insert the gas station:
+        auto tp = pq.top();
+        pq.pop();
+        int secInd = tp.second;
+
+        //insert the current gas station:
+        howMany[secInd]++;
+
+        long double inidiff = arr[secInd + 1] - arr[secInd];
+        long double newSecLen = inidiff / (long double)(howMany[secInd] + 1);
+        pq.push({newSecLen, secInd});
+    }
+
+    return pq.top().first;
+}
+
+int main()
+{
+    vector<int> arr = {1, 2, 3, 4, 5};
+    int k = 4;
+    long double ans = minimiseMaxDistance(arr, k);
+    cout << "The answer is: " << ans << "\n";
+    return 0;
+}
+```
+
+Binary Search method
 ```cpp
 Min possible distance: 0 (all stations at one point).
 Max possible distance: max gap between consecutive stations.
