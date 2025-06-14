@@ -53,7 +53,7 @@ int main()
 }
 ```
 
-Binary Search method
+# 2. Binary Search method
 ```cpp
 Min possible distance: 0 (all stations at one point).
 Max possible distance: max gap between consecutive stations.
