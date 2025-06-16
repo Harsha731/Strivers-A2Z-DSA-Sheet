@@ -24,49 +24,31 @@ To find all triplets that sum up to zero, we can follow these steps:
 6. Return the resulting triplets.
 */
 
-vector<vector<int>> threeSum(vector<int> &nums)
-{
-    vector<vector<int>> ans;
+vector<vector<int>> threeSum(vector<int>& nums) {
+    vector<vector<int>> res;
     sort(nums.begin(), nums.end());
 
-    for (int k = 0; k < nums.size(); k++)
-    {
-        int i = k + 1;
-        int j = nums.size() - 1;
-        int target = -nums[k];
+    for (int k = 0; k < nums.size(); ++k) {
+        if (k > 0 && nums[k] == nums[k - 1]) continue; // Skip duplicates for k
 
-        while (i < j)
-        {
+        int target = -nums[k], i = k + 1, j = nums.size() - 1;
+
+        while (i < j) {
             int sum = nums[i] + nums[j];
+            if (sum == target) {
+                res.push_back({nums[k], nums[i++], nums[j--]});
 
-            if (sum == target)
-            {
-                ans.push_back({nums[k], nums[i], nums[j]});
-                i++;
-                j--;
-
-                // Skip duplicate elements
-                while (i < j && nums[i] == nums[i - 1])
-                    i++;
-                while (i < j && nums[j] == nums[j + 1])
-                    j--;
-            }
-            else if (sum < target)
-            {
-                i++;
-            }
-            else
-            {
-                j--;
+                while (i < j && nums[i] == nums[i - 1]) ++i; // Skip duplicates
+                while (i < j && nums[j] == nums[j + 1]) --j;
+            } else if (sum < target) {
+                ++i;
+            } else {
+                --j;
             }
         }
-
-        // Skip duplicate elements
-        while (k + 1 < nums.size() && nums[k + 1] == nums[k])
-            k++;
     }
 
-    return ans;
+    return res;
 }
 
 /*
