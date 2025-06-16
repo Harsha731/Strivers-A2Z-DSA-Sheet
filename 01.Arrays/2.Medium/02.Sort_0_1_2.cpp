@@ -32,11 +32,9 @@ At the end of the algorithm, the array will be sorted in the desired order.
 */
 
 // CODE:-
-void sortColors(vector<int> &nums)
-{
+void sortColors(vector<int> &nums) {
     int low = 0, mid = 0, high = nums.size() - 1;
-    while (mid <= high)
-    {
+    while (mid <= high) {
         if (nums[mid] == 0)
             swap(nums[mid++], nums[low++]);
         else if (nums[mid] == 1)
