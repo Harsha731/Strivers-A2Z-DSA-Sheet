@@ -38,7 +38,8 @@ int solve(vector<int>& a) {
     for (int i = 0; i < a.size(); i++) {
         sum += a[i];
         if (sum == 0) maxLen = i + 1;
-        else if (sumIndexMap.find(sum) != sumIndexMap.end()) maxLen = max(maxLen, i - sumIndexMap[sum]);
+        else if (sumIndexMap.find(sum) != sumIndexMap.end()) maxLen = max(maxLen, i - sumIndexMap[sum]);  
+            // We take the [prev+1, i] and don't take the prev actually
         else sumIndexMap[sum] = i;
     }
     return maxLen;
