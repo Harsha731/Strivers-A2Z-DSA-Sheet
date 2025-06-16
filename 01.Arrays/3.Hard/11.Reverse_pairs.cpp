@@ -24,6 +24,14 @@ To solve this problem, we can use the merge sort algorithm. While merging the tw
 CODE:
 */
 
+/* NOTE :-
+mid is present with left section
+we go from left=0 to mid, in this process if right satisfies, we do m++ till it can
+This number for sure satisfies in the next left index too, so no worries
+In the last problem, we do directly left_size-i directly, but here it is not possible
+As the comparison we are doing is left[i] <> right[i], but we are supposed to do left[i] <> 2 * right[i]
+*/
+
 int rev_pair = 0;
 
 void merge(int start, int mid, int end, vector<int>& nums){
@@ -39,7 +47,7 @@ void merge(int start, int mid, int end, vector<int>& nums){
         right[i] = nums[mid + 1 + i];
     }
 
-    // main logic resides here
+    // main logic resides here - seperate code unlike the prev problem
     int m = 0;
     for(int i = 0; i < left_size; i++){
         while(m < right_size && left[i] > (long long)2 * right[m]){
