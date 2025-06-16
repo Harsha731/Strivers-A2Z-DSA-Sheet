@@ -13,12 +13,13 @@ The result of the merge is [1,2,2,3,5,6] with the underlined elements coming fro
 CODE:
 */
 
-
+/*
 optimal 1) 
 The idea was arr1 max <= arr2 min
 It was not given that it should be *sorted* in the end. Elements will be in desc order in arr2
 If arr1[left] > arr2[right]: We will swap the elements and move the pointers to the next positions.
 If arr1[left] <= arr2[right]: We will stop moving the pointers as arr1[] and arr2[] are containing correct elements. 
+*/
 
 void merge(long long arr1[], long long arr2[], int n, int m) {
 
@@ -42,11 +43,11 @@ void merge(long long arr1[], long long arr2[], int n, int m) {
     sort(arr1, arr1 + n);
     sort(arr2, arr2 + m);
 }
-
+/*
 Time Complexity: O(min(n, m)) + O(n*logn) + O(m*logm), where n and m are the sizes of the given arrays.
 Reason: O(min(n, m)) is for swapping the array elements. And O(n*logn) and O(m*logm) are for sorting the two arrays.
 
-Space Complexity: O(1) as we are not using any extra space.
+Space Complexity: O(1) as we are not using any extra space.  */
 _________________________________________
 
 optimal 2) Gap method or shell sort
@@ -91,10 +92,11 @@ void merge(long long arr1[], long long arr2[], int n, int m) {
         gap = (gap / 2) + (gap % 2);
     }
 }
-
+/*
 Time Complexity: O((n+m)*log(n+m)), where n and m are the sizes of the given arrays.
 Reason: The gap is ranging from n+m to 1 and every time the gap gets divided by 2. So, the time complexity of the outer loop will be O(log(n+m)). 
 Now, for each value of the gap, the inner loop can at most run for (n+m) times. So, the time complexity of the inner loop will be O(n+m). 
 So, the overall time complexity will be O((n+m)*log(n+m)).
 
 Space Complexity: O(1) as we are not using any extra space.
+*/
