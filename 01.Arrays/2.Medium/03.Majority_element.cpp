@@ -25,14 +25,16 @@ APROACH:-
 Return the candidate as the result.
 */
 
+/* The worst case : for size = 9
+a_a_a_a_a. Here, vote=0 and change to anohter element and at the end it comes to the correct answer
+It is called as Boyer-Moore Voting Algorithm
+*/
 // CODE:-
-int majorityElement(vector<int> &nums)
-{
+int majorityElement(vector<int> &nums) {
     int candidate = nums[0];
     int vote = 1;
-    for (int i = 1; i < nums.size(); i++)
-    {
-        if (vote <= 0)
+    for (int i = 1; i < nums.size(); i++) {
+        if (vote == 0)
             candidate = nums[i];
         if (nums[i] == candidate)
             vote++;
