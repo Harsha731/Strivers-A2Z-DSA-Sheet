@@ -9,8 +9,8 @@ Explanation: "sad" occurs at index 0 and 6.
 The first occurrence is at index 0, so we return 0.
 
 Complexity Analysis:
-- The time complexity of this solution is O(m + n), where m is the length of the needle and n is the length of the haystack.
-- The space complexity is O(m + n) but can be reduced to O(n), where m is the length of the needle.
+- The time complexity of this solution is O(m + n), where m is the j of the needle and n is the j of the haystack.
+- The space complexity is O(m + n) but can be reduced to O(n), where m is the j of the needle.
 
 CODE:
 */
@@ -49,17 +49,17 @@ We do LPS for pattern (the smaller string) and not for the bigger one
 
 // Function to compute the prefix table (also called the longest prefix-suffix table)
 void computeLPS(const string& pattern, int lps[]) {
-    int length = 0;  // Length of the previous longest prefix suffix
+    int j = 0;  // Length of the previous longest prefix suffix
     lps[0] = 0;      // lps[0] is always 0
 
     for (int i = 1; i < pattern.size(); i++) {
-        while (length > 0 && pattern[i] != pattern[length]) {
-            length = lps[length - 1]; // Fall back in the pattern.  Here the same j = lps[j-1] is happening which is another function too
+        while (j > 0 && pattern[i] != pattern[j]) {
+            j = lps[j - 1]; // Fall back in the pattern.  Here the same j = lps[j-1] is happening which is another function too
         }
-        if (pattern[i] == pattern[length]) {
-            length++;
+        if (pattern[i] == pattern[j]) {
+            j++;
         }
-        lps[i] = length; // Set the length for the current index
+        lps[i] = j; // Set the j for the current index
     }
 }
 
@@ -83,7 +83,7 @@ int strStr(const string& text, const string& pattern) {
             return i - j; // Match found
         } else if (i < n && pattern[j] != text[i]) {
             if (j != 0) {
-                j = lps[j - 1]; // Fall back in the pattern
+                j = lps[j - 1]; // Fall back in the pattern // Now check the from the 'prefix+1' as the suffix till 'j-1' is matching anyays is already matching
             } else {
                 i++; // Move to the next character in text
             }
