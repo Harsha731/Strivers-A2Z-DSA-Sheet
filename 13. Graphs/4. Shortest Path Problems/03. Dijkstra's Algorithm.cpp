@@ -54,14 +54,14 @@ vector <int> dijkstra(int V, vector<vector<int>> adj[], int S) {
     set<pair<int,int>> st; 
     vector<int> dist(V, 1e9); 
     
-    st.insert({0, S}); 
+    st.insert({0, S});                 // push => insert
     dist[S] = 0;
     
     while(!st.empty()) {
-        auto it = *(st.begin()); 
+        auto it = *(st.begin());        // accessed like this
         int node = it.second; 
         int dis = it.first; 
-        st.erase(it); 
+        st.erase(it);                     // pop => erase
         
         for(auto it : adj[node]) {
             int adjNode = it[0]; 
@@ -69,9 +69,9 @@ vector <int> dijkstra(int V, vector<vector<int>> adj[], int S) {
             
             if(dis + edgW < dist[adjNode]) {
                 if(dist[adjNode] != 1e9)  st.erase({dist[adjNode], adjNode});  // Not needed actually, as anyways in the next 2nd line is wrong
-                // It is needed as the tree won't be destructed in middle
+                // Here, both old one and new one co exist, if we don't erase the old one
                 dist[adjNode] = dis + edgW; 
-                st.insert({dist[adjNode], adjNode}); 
+                st.insert({dist[adjNode], adjNode});         
             }
         }
     }
