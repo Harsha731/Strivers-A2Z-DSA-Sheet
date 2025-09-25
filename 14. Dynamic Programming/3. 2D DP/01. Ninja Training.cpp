@@ -39,28 +39,30 @@ Complexity Analysis:
 */
 
 //Memoization
-int fmemo(int n, int prev, vector<vector<int>>& points, vector<vector<int>>& memo) {
-    if (n < 0)
-        return 0;
+// Normal forward recursion with memoization
+int solve(int day, int prev, vector<vector<int>>& points, vector<vector<int>>& dp) {
+    int n = points.size();
 
-    if (prev != -1 && memo[n][prev] != -1) {
-        return memo[n][prev];
-    }
+    if (day == n) return 0;  // Base case: all days completed
+
+    if (dp[day][prev] != -1) return dp[day][prev];
 
     int ans = 0;
-    for (int i = 0; i < 3; i++) {
-        if (i != prev) {
-            int temp = points[n][i] + fmemo(n - 1, i, points, memo);
+    for (int task = 0; task < 3; task++) {
+        if (task != prev) {
+            int temp = points[day][task] + solve(day + 1, task, points, dp);
             ans = max(ans, temp);
         }
     }
 
-    if (prev != -1) {
-        memo[n][prev] = ans;
-    }
-
-    return ans;
+    return dp[day][prev] = ans;
 }
+
+int ninjaTraining(int n, vector<vector<int>>& points) {
+    vector<vector<int>> dp(n, vector<int>(4, -1));
+    return solve(0, 3, points, dp);  // prev=3 means no task chosen yet
+}
+
 
 //Tabulation
 int ftab(int n, vector<vector<int>>& points) {
