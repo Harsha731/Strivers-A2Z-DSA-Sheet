@@ -63,66 +63,70 @@ _________________________________________
 
 // Tabulation
 
-int minSubsetSumDifference(vector<int>& arr, int n) {
-    int totalSum = 0;
-    for (int num : arr) {
-        totalSum += num;
-    }
+int minSubsetSumDifference(vector<int>& nums, int n) {
+    int totalSum = accumulate(nums.begin(), nums.end(), 0); // Total sum of all elements
 
-    // Initialize DP array
-    vector<bool> dp(totalSum + 1, false);
-    dp[0] = true;
+    // dp[i][j] = true if sum j can be formed using first i elements
+    vector<vector<bool>> dp(n + 1, vector<bool>(totalSum + 1, false));
 
-    // Fill the DP array
-    for (int i = 0; i < n; i++) {
-        for (int j = totalSum; j >= arr[i]; j--) {
-            dp[j] = dp[j] || dp[j - arr[i]];
+    // Base case: sum 0 is always possible with 0 elements
+    for (int i = 0; i <= n; i++) dp[i][0] = true;
+
+    // Fill DP table
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= totalSum; j++) {
+            if (nums[i - 1] <= j) {
+                // Include or exclude current element
+                dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i - 1]];
+            } else {
+                // Cannot include current element, just take previous state
+                dp[i][j] = dp[i - 1][j];
+            }
         }
     }
 
-    // Find the largest j <= totalSum / 2 for which dp[j] is true
+    // Find minimum difference by checking all possible subset sums ≤ totalSum/2
     int minDiff = INT_MAX;
-    for (int j = totalSum / 2; j >= 0; j--) {
-        if (dp[j]) {
-            minDiff = totalSum - 2 * j;
-            break;
+    for (int s1 = 0; s1 <= totalSum / 2; s1++) {
+        if (dp[n][s1]) { // If sum s1 is possible
+            int s2 = totalSum - s1;          // Other subset sum
+            minDiff = min(minDiff, abs(s2 - s1)); // Update min difference
         }
     }
 
     return minDiff;
 }
+/
 _________________________________________
 
 // Space Optimization
 
-int minSubsetSumDifference(vector<int>& arr, int n) {
-    int totalSum = accumulate(arr.begin(), arr.end(), 0);
+int minSubsetSumDifference(vector<int>& nums, int n) {
+    int totalSum = accumulate(nums.begin(), nums.end(), 0);
 
-    // Initialize DP arrays
+    // prev[j] = whether sum j is possible using processed elements so far
     vector<bool> prev(totalSum + 1, false);
-    vector<bool> curr(totalSum + 1, false);
-    prev[0] = true; // A sum of 0 is always possible with 0 elements
+    prev[0] = true;  // sum 0 is always possible
 
-    // Fill the DP arrays
+    // Fill DP array
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j <= totalSum; j++) {
-            // Exclude the current element
-            curr[j] = prev[j];
-            // Include the current element
-            if (j >= arr[i]) {
-                curr[j] = curr[j] || prev[j - arr[i]];
-            }
+        vector<bool> curr(totalSum + 1, false);
+        curr[0] = true; // sum 0 is always possible
+        for (int j = 1; j <= totalSum; j++) {
+            if (nums[i] <= j)
+                curr[j] = prev[j] || prev[j - nums[i]]; // include or exclude
+            else
+                curr[j] = prev[j];                     // cannot include
         }
-        // Swap prev and curr for the next iteration
-        swap(prev, curr);
+        prev = curr; // move to next element
     }
 
-    // Find the largest j <= totalSum / 2 for which prev[j] is true
+    // Find minimum difference
     int minDiff = INT_MAX;
-    for (int j = totalSum / 2; j >= 0; j--) {
-        if (prev[j]) {
-            minDiff = totalSum - 2 * j;
-            break;
+    for (int s1 = 0; s1 <= totalSum / 2; s1++) {
+        if (prev[s1]) {          // if sum s1 is possible
+            int s2 = totalSum - s1;
+            minDiff = min(minDiff, abs(s2 - s1));
         }
     }
 
