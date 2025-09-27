@@ -14,6 +14,35 @@ Output: 2
 Explanation: Row 2 contains 4 1's (0-based indexing).
 */
 
+// Approach 1 : TC : O(N*logM)
+int rowWithMax1s(vector<vector<int>> arr, int n, int m) {
+    int ans = -1;
+    int maxOnes = 0;
+
+    for (int i = 0; i < n; i++) {
+        // Binary search for first 1 in this row
+        int l = 0, r = m - 1, firstOne = m; // default = m (no 1 found)
+        while (l <= r) {
+            int mid = (l + r) / 2;
+            if (arr[i][mid] == 1) {
+                firstOne = mid;   // candidate
+                r = mid - 1;      // look for earlier 1
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        int countOnes = m - firstOne;
+        if (countOnes > maxOnes) {
+            maxOnes = countOnes;
+            ans = i;
+        }
+    }
+
+    return ans;
+}
+
+
 /*
 APPROACH:-
 -> We can use two pointer i and j which indicates current row and col
@@ -30,7 +59,7 @@ out of matrix  *{*1,  1,  1,  1} ---> ans
 
 */
 
-// CODE:-
+// TC : O(N+M)
 int rowWithMax1s(vector<vector<int>> arr, int n, int m)
 {
     int j = m - 1;
