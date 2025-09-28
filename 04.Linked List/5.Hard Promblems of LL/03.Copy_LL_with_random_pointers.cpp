@@ -62,7 +62,7 @@ The space complexity is also O(n) because we create a new node for each node in 
 
 CODE:
 */
-
+// TC : O(3N)
 class Solution {
 public:
     void insertCopyInBetween(Node* head) {
