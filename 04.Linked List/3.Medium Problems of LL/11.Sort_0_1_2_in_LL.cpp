@@ -90,6 +90,7 @@ public:
             temp = temp->next; // Move to the next node
         }
 
+        // Here, zero, one, two pointers are never null as they are actally dumym nodes created for this error not to arise
         // Connect the three lists
         zero->next = (oneHead->next) ? (oneHead->next) : (twoHead->next);
         one->next = twoHead->next;
