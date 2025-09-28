@@ -40,7 +40,7 @@ node* intersectionPresent(node* head1,node* head2) {
 
 }
 
-// Solution 3: Difference in length
+// Solution 3: Difference in length  [not much needed]
 
 // Find the length of both lists.
 // Find the positive difference between these lengths.
