@@ -23,30 +23,7 @@ SPACE COMPLEXITY: O(1).
 
 */
 
-// The curr is at starting of next group each time
 
-ListNode* reverseKGroup(ListNode* head, int k) {
-    ListNode* ptr = head;
-    for (int i = 0; i < k; i++) {
-        if (!ptr)
-            return head; // Return head if there are less than k nodes remaining
-        ptr = ptr->next;
-    }
-    int count = k;
-    ListNode* prev = NULL;
-    ListNode* curr = head;
-    ListNode* frwd = NULL;
-    while (count && curr) {
-        frwd = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = frwd;
-        count--;
-    }
-    if (frwd)
-        head->next = reverseKGroup(frwd, k); // Recursive call for the remaining linked list
-    return prev; // Return the new head of the reversed group
-}
 // __________________________________________
 
 // The curr is at starting of next group each time
@@ -91,3 +68,29 @@ Node* reverseKGroupIterative(Node* head, int k) {
 
     return dummy->next;
 }
+// _______________________________________
+
+// The curr is at starting of next group each time
+
+ListNode* reverseKGroup(ListNode* head, int k) {
+    ListNode* ptr = head;
+    for (int i = 0; i < k; i++) {
+        if (!ptr)
+            return head; // Return head if there are less than k nodes remaining
+        ptr = ptr->next;
+    }
+    int count = k;
+    ListNode* prev = NULL;
+    ListNode* curr = head;
+    ListNode* frwd = NULL;
+    while (count && curr) {
+        frwd = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = frwd;
+        count--;
+    }
+    if (frwd)
+        head->next = reverseKGroup(frwd, k); // Recursive call for the remaining linked list
+    return prev; // Return the new head of the reversed group
+}t        
